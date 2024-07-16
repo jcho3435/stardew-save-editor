@@ -1,29 +1,41 @@
 import PySimpleGUI as sg
+import os, sys, datetime
+import functions.program_lock as program_lock
+import functions.functions as functions
 
-values = [["", "", "", ""], ["", "", "", ""], ["", "", "", ""], ["", "", "", ""]]
-table = sg.Table(
-    values=values,
-    auto_size_columns=False,
-)
+functions.init_directories()
+
+if program_lock.is_running():
+    program_lock.log_closed_run()
+    sys.exit(1)
+
 layout = [
-    [sg.Push(), sg.Text("2048!", font=("Times New Roman", 30), text_color="Black"), sg.Push()],
-    [sg.Push(), sg.Text("Score:"), sg.Text("0", key="score")],
-    [table]
+    [sg.Push(), sg.Text("Stardew Valley Save Editor!", font=("Times New Roman", 30), text_color="Black"), sg.Push()],
+    [sg.Text("Folder:"), sg.Input(expand_x=True, key="_folder", enable_events=True, disabled=True), sg.FolderBrowse("Select Save Folder")],
+    [sg.Text("Note: Save folders are found in C:\\Users\\[USER]\\AppData\\Roaming\\StardewValley\\Saves\\[SaveName]_#########", text_color="black", justification="center", expand_x=True)],
 ]
 
 # Create the Window
-window = sg.Window('Hello World!', layout)
+window = sg.Window('Hello World!', layout, size=(1280, 720))
 
 # Event Loop to process "events" and get the "values" of the inputs
-while True:
-    event, values = window.read()
+try:
+    while True:
+        event, values = window.read()
 
-    print(f"Events: {event}\nValues: {values}")
-    # if user closes window or clicks cancel
-    if event == sg.WIN_CLOSED:
-        break
+        print(f"Events: {event}\nValues: {values}")
+        # if user closes window or clicks cancel
+        if event == sg.WIN_CLOSED:
+            break
 
-    if event == "Submit":
-        window["update"].update(window["update"].get() + values["Name"])
+        if event == "Submit":
+            window["update"].update(window["update"].get() + values["Name"])
 
-window.close()
+    window.close()
+except Exception as e:
+    functions.log_exceptions(e)
+finally:
+    program_lock.clean_up()
+
+if window.NumOpenWindows > 0:
+    window.close()
