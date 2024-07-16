@@ -20,11 +20,15 @@ window = sg.Window('Hello World!', layout, size=(1280, 720))
 
 # Event Loop to process "events" and get the "values" of the inputs
 try:
+    time = datetime.datetime.now()
+    fname = f"EventLog_{time.year}-{time.month}-{time.day}.log"
+    f = open(f"logs\\{fname}", "a")
+    f.write(f"Run {time} - - - - - - - - -\n\n")
     while True:
         event, values = window.read()
 
-        print(f"Events: {event}\nValues: {values}")
-        # if user closes window or clicks cancel
+        f.write(f"Event: {event}\nValues: {values}\n\n")
+        # if user closes window
         if event == sg.WIN_CLOSED:
             break
 
@@ -35,6 +39,8 @@ try:
 except Exception as e:
     functions.log_exceptions(e)
 finally:
+    f.write("\n")
+    f.close()
     program_lock.clean_up()
 
 if window.NumOpenWindows > 0:
