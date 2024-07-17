@@ -1,6 +1,6 @@
-import os
-import datetime
-import shutil
+import os, datetime, shutil
+import PySimpleGUI as sg
+from components.views import View
 
 def init_directories():
     if not os.path.isdir("backups"):
@@ -30,3 +30,23 @@ def create_backup(folderpath) -> str:
 
     event_string += "\n"
     return event_string
+
+def hide_rows(window: sg.Window, keys: list):
+    for key in keys:
+        window[key].hide_row()
+
+def unhide_rows(window: sg.Window, keys: list):
+    for key in keys:
+        window[key].unhide_row()
+
+def set_visibility(window: sg.Window, keys: list, isVisible):
+    for key in keys:
+        window[key].update(visible = isVisible)
+
+def switch_view(window: sg.Window, view: View):
+    if view == View.LOAD:
+        window["-EDITOR-"].hide_row()
+        window["-LOAD-"].unhide_row()
+    elif view == View.EDITOR:
+        window["-LOAD-"].hide_row()
+        window["-EDITOR-"].unhide_row()

@@ -2,25 +2,44 @@ import PySimpleGUI as sg
 import os, sys, datetime
 import functions.program_lock as program_lock
 import functions.log_functions as log_functions
-from functions.functions import get_current_time, init_directories, create_backup
-import constants
+from functions.functions import get_current_time, init_directories, create_backup, switch_view, hide_rows, unhide_rows, set_visibility
+import components.constants as constants
+from components.views import View
 import re
 
 init_directories()
 
 if program_lock.is_running():
     program_lock.log_closed_run()
-    sys.exit(1)
+    sys.exit(123)
 
-layout = [
-    [sg.Push(), sg.Text("Stardew Valley Save Editor!", font=("Times New Roman", 30), text_color="Black"), sg.Push()],
-    [sg.Text("Folder:", size=5), sg.Input(expand_x=True, key="_Folder", enable_events=True, disabled=True), sg.FolderBrowse("Select Save Folder")],
-    [sg.Text("Note: By default, save folders are located at C:\\Users\\[USER]\\AppData\\Roaming\\StardewValley\\Saves\\[SaveName]_#########", text_color="black", justification="center", expand_x=True)],
-    [sg.Text("", size=5), sg.Text("", key="-VALID-", text_color="red")]
-]
+layout = []
+window = None
+try:
+    load_layout = [
+        [sg.Push(), sg.Text("Stardew Valley Save Editor!", font=("Times New Roman", 30), text_color="Black"), sg.Push()],
+        [sg.Text("Folder:", size=5), sg.Input(expand_x=True, key="-FOLDER-", enable_events=True, disabled=True), sg.FolderBrowse("Select Save Folder")],
+        [sg.Text("Note: By default, save folders are located at C:\\Users\\[USER]\\AppData\\Roaming\\StardewValley\\Saves\\[SaveName]_#########", text_color="black", justification="center", expand_x=True)],
+        [sg.Column([[sg.Text("", size=4), sg.Text("Invalid folder selected.", text_color="red")]], visible=False, key="-INVALID-")]
+    ]
 
-# Create the Window
-window = sg.Window('Hello World!', layout, size=(1280, 720))
+    editor_layout = [
+        [sg.Button("Load Save"), sg.Button("Save Changes")]
+        #Figure out how to save - this comes later
+        # Track whether there have been changes since last save
+    ]
+
+    layout = [
+        [sg.Column(load_layout, key="-LOAD-", expand_x=True)],
+        [sg.Column(editor_layout, key="-EDITOR-", expand_x=True, visible=False)],
+        [sg.Text("Random")]
+    ]
+
+    # Create the Window
+    window = sg.Window('Hello World!', layout, size=(1280, 720))
+    hide_rows(window, ["-EDITOR-", "-INVALID-"])
+except Exception as e:
+    program_lock.clean_up(e)
 
 time = datetime.datetime.now()
 
@@ -39,15 +58,19 @@ try:
         if event == sg.WIN_CLOSED:
             break
 
-        if event == "_Folder":
-            folderpath = values["_Folder"]
+        if event == "-FOLDER-":
+            folderpath = values["-FOLDER-"]
             foldername = os.path.basename(folderpath)
             if re.match(constants._SaveFolderRE, foldername): # Valid folder name 
-                window["-VALID-"].update(f"")
+                set_visibility(window, ["-INVALID-"], False)
+                hide_rows(window, ["-INVALID-"])
                 event_string += create_backup(folderpath)
+                switch_view(window, View.EDITOR)
             else:                           # Invalid folder name
-                window["-VALID-"].update(f"Invalid folder selected.")
+                set_visibility(window, ["-INVALID-"], True)
+                unhide_rows(window, ["-INVALID-"])
                 event_string += f"[{get_current_time()}] Invalid folder selection: {folderpath}\n\n"
+                
 
 
     window.close()

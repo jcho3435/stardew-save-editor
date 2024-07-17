@@ -12,8 +12,10 @@ def is_running():
         open(_lock_file, 'w').close()  # Create the lock file
         return False
 
-def clean_up():
+def clean_up(e: Exception = None):
     os.remove(_lock_file)
+    if e != None:
+        raise Exception(e)
 
 def log_closed_run():
     time = datetime.datetime.now()
