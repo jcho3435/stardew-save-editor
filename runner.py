@@ -21,9 +21,11 @@ layout = [
 
 # Create the Window
 window = sg.Window('Hello World!', layout, size=(1280, 720))
+
 time = datetime.datetime.now()
 
 event_string = ""
+
 # Event Loop to process "events" and get the "values" of the inputs
 try:
     event_string += f"Run {time} - - - - - - - - -\n\n"
@@ -32,20 +34,21 @@ try:
         event, values = window.read()
     
         event_string += f"[{get_current_time()}] Event: {event}\n[{get_current_time()}] Values: {values}\n\n"
-        # if user closes window
+        print(f"[{get_current_time()}] Event: {event}\n[{get_current_time()}] Values: {values}\n\n") # TODO: DELETE THIS LINE WHEN DONE DEBUGGING/TESTING
+        # if user closes window, exit
         if event == sg.WIN_CLOSED:
             break
 
         if event == "_Folder":
             folderpath = values["_Folder"]
             foldername = os.path.basename(folderpath)
-            if re.match(constants._SaveFolderRE, foldername):
-                create_backup(folderpath)
-            else:
+            if re.match(constants._SaveFolderRE, foldername): # Valid folder name 
+                window["-VALID-"].update(f"")
+                event_string += create_backup(folderpath)
+            else:                           # Invalid folder name
                 window["-VALID-"].update(f"Invalid folder selected.")
                 event_string += f"[{get_current_time()}] Invalid folder selection: {folderpath}\n\n"
 
-            # window["update"].update(window["update"].get() + values["Name"])
 
     window.close()
 except Exception as e:
