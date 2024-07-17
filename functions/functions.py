@@ -1,5 +1,6 @@
-import os, datetime
-import traceback
+import os
+import datetime
+import shutil
 
 def init_directories():
     if not os.path.isdir("backups"):
@@ -7,15 +8,25 @@ def init_directories():
     if not os.path.isdir("logs"):
         os.mkdir("logs")
 
-def log_exceptions(e: Exception):
+def get_current_time(include_microseconds = False):
+    return datetime.datetime.now().time() if include_microseconds else datetime.datetime.now().time().replace(microsecond=0)
+
+def create_backup(folderpath) -> str:
+    name = os.path.basename(folderpath)
     time = datetime.datetime.now()
-    file_name = f"y{time.year}_m{time.month}_d{time.day}_h{time.hour}_m{time.minute}_s{time.second}_ms{time.microsecond//1000}_{type(e).__name__}.log"
-    f = open(f"logs\\{file_name}", "w")
-    f.write("An exception has occurred!")
-    f.write(f"Last run: {str(time)}\n\n")
-    f.write(f"Exception type: {type(e).__name__}\n")
-    f.write(f"Exception message: {e}\n")
-    f.write(f"Exception args: {e.args}\n\n")
-    f.write(f"Stack trace: {e.__traceback__}\n")
-    f.write(f"{traceback.format_tb(e.__traceback__)}".replace("\\n", "\n"))
-    f.close()
+
+    event_string = ""
+
+    backup_dir = f"backups\\{name}_backups\\{name}_{int(time.timestamp())}"
+    os.makedirs(backup_dir, exist_ok=True)
+       
+    for filename in os.listdir(folderpath):
+        src_path = os.path.join(folderpath, filename)
+        dst_path = os.path.join(backup_dir, filename)
+
+        shutil.copy(src_path, dst_path)
+
+        event_string += f"[{get_current_time()}] Copied {filename} from {folderpath} to {backup_dir}\n"
+
+    event_string += "\n"
+    return event_string
