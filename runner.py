@@ -12,30 +12,9 @@ if program_lock.is_running():
     program_lock.log_closed_run()
     sys.exit(123)
 
-layout = []
 window = None
 try:
-    load_tab = [
-        [sg.Push(), sg.Text("Stardew Valley Save Editor!", font=("Times New Roman", 30), text_color="Black"), sg.Push()],
-        [sg.Text("Folder:", size=5), sg.Input(expand_x=True, key=Keys._FolderInput, enable_events=True, disabled=True), sg.FolderBrowse("Select Save Folder", key=Keys._FolderBrowser)],
-        [sg.Text("Note: By default, save folders are located at C:\\Users\\[USER]\\AppData\\Roaming\\StardewValley\\Saves\\[SaveName]_#########", text_color="black", justification="center", expand_x=True)],
-        [sg.Column([[sg.Text("", size=4), sg.Text("", key=Keys._ValidateFolder)]])]
-    ]
-
-    farmer_tab = [
-        [sg.Text("Change Farmer Data", font=("Times New Roman", 15))],
-        [sg.Text("Farmer Name:"), sg.Input(key=Keys._FarmerName)],
-        [sg.Button("Save Changes")]
-        #Figure out how to save - this comes later
-        # Track whether there have been changes since last save
-    ]
-
-    layout = [
-        [sg.TabGroup([[
-            sg.Tab("Load", load_tab), 
-            sg.Tab(Keys._FarmerTab, farmer_tab, visible=False)
-            ]], expand_x=True, expand_y=True)]
-    ]
+    from components.ui_layout import layout
 
     # Create the Window
     window = sg.Window('Hello World!', layout, use_ttk_buttons=True, size=(1280, 720))

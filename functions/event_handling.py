@@ -20,11 +20,12 @@ def _Folder_Selection_Event(window: sg.Window, values) -> str:
         
         event_string += create_backup(folderpath)
         window[Keys._ValidateFolder].update(value="Save folder loaded.", text_color="black")
+        window[Keys._SaveWarning].update("Make sure to save all changes before loading a new save or closing the window.")
 
         window[Keys._FolderBrowser].update(disabled=True, button_color="gray")
         event_string += load_save_data(window, folderpath)
-        set_visibility(window, "Farmer", True)
-        window["Farmer"].select()
+        set_visibility(window, Keys._EditorTabs, True)
+        window[Keys._FarmersTab].select()
     else:                                           # Invalid folder name
         window[Keys._ValidateFolder].update(value="Invalid folder selected.", text_color="red")
         event_string = f"[{get_current_time()}] Invalid folder selection: {folderpath}\n\n"
@@ -35,8 +36,12 @@ def _Save_Changes_Event(window: sg.Window, values: dict) -> str:
     event_string = ""
     event_string += save_functions.save_farmer_data_to_tree(window)
 
-
     character_data, world_data = get_xml_roots()
+
+    folderpath = values[Keys._FolderInput]
+    basename = os.path.basename(folderpath)
+    character_save_file = os.path.join(folderpath, "SaveGameInfo")
+    world_save_file = os.path.join(folderpath, basename)
 
     character_save_file = "save_data/SaveGameInfo" #TODO: CHANGE THIS SHIT TO NOT BE HARDCODED
     world_save_file = "save_data/ChingChong_363368866"
@@ -66,7 +71,10 @@ def _Save_Changes_Event(window: sg.Window, values: dict) -> str:
         file.write(world_save_string)
 
         event_string += f"[{get_current_time()}] World save XML tree saved to character save file.\n\n"
-        
+    
+    window["Load"].select()
+    window[Keys._ValidateFolder].update("Changes have been saved.")
+    window[Keys._FolderBrowser].update(disabled=False, button_color="#283B5B")
 
     return event_string
 

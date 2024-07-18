@@ -32,7 +32,7 @@ def _load_profile_data(window: sg.Window) -> str:
     event_string = ""
     character_save, _ = get_xml_roots()
     farmer_name = character_save.xpath(CharacterSavePaths._FarmerName)[0].text
-    window[Keys._FarmerName].update(farmer_name)
+    window[Keys._FarmerNames[0]].update(farmer_name) #TODO FIX THIS
 
     event_string = f"[{get_current_time}] Profile data loaded.\n\n"
 

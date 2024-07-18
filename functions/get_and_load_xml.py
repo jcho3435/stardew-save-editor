@@ -1,5 +1,6 @@
 from lxml import etree
 from functions.functions import get_current_time
+import os
 
 _character_data = None
 _world_data = None
@@ -11,6 +12,11 @@ def load_xml_roots(folderpath) -> str:
         return f"[{get_current_time()}] Unnecessary call to load_xml_roots(). XML already loaded.\n\n"
     
     event_string = ""
+
+    basename = os.path.basename(folderpath)
+    character_save_file = os.path.join(folderpath, "SaveGameInfo")
+    world_save_file = os.path.join(folderpath, basename)
+
     character_save_file = "save_data/SaveGameInfo" # TODO: MODIFY THIS TO BE THE CORRECT FOLDER LATER
     world_save_file = "save_data/ChingChong_363368866"
 
