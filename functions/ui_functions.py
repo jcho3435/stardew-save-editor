@@ -44,7 +44,7 @@ def _load_profile_data(window: sg.Window) -> str:
         enable_farmer_frame(window, name, index)
         index += 1
 
-    event_string = f"[{get_current_time}] Profile data loaded.\n\n"
+    event_string = f"[{get_current_time()}] Profile data loaded.\n\n"
 
     return event_string
 
