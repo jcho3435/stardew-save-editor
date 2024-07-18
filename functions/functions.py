@@ -45,32 +45,3 @@ def has_save_files(folderpath) -> bool:
         return False, f"[{get_current_time}] One or more save files are missing. Looking for files '{basename}' and 'SaveGameInfo'.\n\n", f"One or more save files are missing. Looking for files '{basename}' and 'SaveGameInfo'."
     
     return True, None, None
-
-def get_xml_roots(folderpath):
-    event_string = ""
-    character_save_file = "save_data/SaveGameInfo" # TODO: MODIFY THIS TO BE THE CORRECT FOLDER LATER
-    world_save_file = "save_data/ChingChong_363368866"
-
-    with open(character_save_file, "rb") as f: 
-        data = f.read()
-
-    # REMOVE BOM CHARACTERS
-    if data.startswith(b'\xef\xbb\xbf'):
-        data = data[3:]
-
-    character_data = etree.fromstring(data)
-
-    event_string += f"[{get_current_time()}] Finished reading character data into tree format.\n"
-
-    with open(world_save_file, "rb") as f: 
-        data = f.read()
-
-    # REMOVE BOM CHARACTERS
-    if data.startswith(b'\xef\xbb\xbf'):
-        data = data[3:]
-
-    world_data = etree.fromstring(data)
-
-    event_string += f"[{get_current_time()}] Finished reading world data into tree format.\n"
-
-    return character_data, world_data, event_string
