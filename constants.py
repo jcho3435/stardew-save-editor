@@ -1,1 +1,0 @@
-_SaveFolderRE = r"^.*_[0-9]+$"

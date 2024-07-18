@@ -1,26 +1,25 @@
 import PySimpleGUI as sg
-import os, sys, datetime
+import sys, datetime
 import functions.program_lock as program_lock
 import functions.log_functions as log_functions
-from functions.functions import get_current_time, init_directories, create_backup
-import constants
-import re
+from functions.functions import get_current_time, init_directories
+from functions.event_handling import handle_event
+from components.constants import Keys
 
 init_directories()
 
 if program_lock.is_running():
     program_lock.log_closed_run()
-    sys.exit(1)
+    sys.exit(123)
 
-layout = [
-    [sg.Push(), sg.Text("Stardew Valley Save Editor!", font=("Times New Roman", 30), text_color="Black"), sg.Push()],
-    [sg.Text("Folder:", size=5), sg.Input(expand_x=True, key="_Folder", enable_events=True, disabled=True), sg.FolderBrowse("Select Save Folder")],
-    [sg.Text("Note: By default, save folders are located at C:\\Users\\[USER]\\AppData\\Roaming\\StardewValley\\Saves\\[SaveName]_#########", text_color="black", justification="center", expand_x=True)],
-    [sg.Text("", size=5), sg.Text("", key="-VALID-", text_color="red")]
-]
+window = None
+try:
+    from components.ui_layout import layout
 
-# Create the Window
-window = sg.Window('Hello World!', layout, size=(1280, 720))
+    # Create the Window
+    window = sg.Window('Hello World!', layout, use_ttk_buttons=True, size=(1280, 720))
+except Exception as e:
+    program_lock.clean_up(e)
 
 time = datetime.datetime.now()
 
@@ -35,19 +34,12 @@ try:
     
         event_string += f"[{get_current_time()}] Event: {event}\n[{get_current_time()}] Values: {values}\n\n"
         print(f"[{get_current_time()}] Event: {event}\n[{get_current_time()}] Values: {values}\n\n") # TODO: DELETE THIS LINE WHEN DONE DEBUGGING/TESTING
+
         # if user closes window, exit
         if event == sg.WIN_CLOSED:
             break
-
-        if event == "_Folder":
-            folderpath = values["_Folder"]
-            foldername = os.path.basename(folderpath)
-            if re.match(constants._SaveFolderRE, foldername): # Valid folder name 
-                window["-VALID-"].update(f"")
-                event_string += create_backup(folderpath)
-            else:                           # Invalid folder name
-                window["-VALID-"].update(f"Invalid folder selected.")
-                event_string += f"[{get_current_time()}] Invalid folder selection: {folderpath}\n\n"
+        else:
+            event_string += handle_event(window, event, values)
 
 
     window.close()

@@ -1,6 +1,6 @@
-import os
-import datetime
-import shutil
+import os, datetime, shutil
+import PySimpleGUI as sg
+from lxml import etree
 
 def init_directories():
     if not os.path.isdir("backups"):
@@ -30,3 +30,18 @@ def create_backup(folderpath) -> str:
 
     event_string += "\n"
     return event_string
+
+def has_save_files(folderpath) -> bool:
+    basename = os.path.basename(folderpath)
+    expected_files = [basename, f"{basename}_old", "SaveGameInfo", "SaveGameInfo_old"]
+
+    for file in os.listdir(folderpath):
+        fullpath = os.path.join(folderpath, file)
+        if not os.path.isfile(fullpath) or file not in expected_files:
+            return False, f"[{get_current_time}] Invalid save folder {folderpath}. {file} should not be in save folder.\n\n", f"Invalid save folder {folderpath}. {file} should not be in save folder."
+        expected_files.remove(file)
+    
+    if basename in expected_files or "SaveGameInfo" in expected_files:
+        return False, f"[{get_current_time}] One or more save files are missing. Looking for files '{basename}' and 'SaveGameInfo'.\n\n", f"One or more save files are missing. Looking for files '{basename}' and 'SaveGameInfo'."
+    
+    return True, None, None
