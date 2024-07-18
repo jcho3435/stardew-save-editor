@@ -1,6 +1,5 @@
 import os, datetime, shutil
 import PySimpleGUI as sg
-from components.views import View
 
 def init_directories():
     if not os.path.isdir("backups"):
@@ -31,22 +30,38 @@ def create_backup(folderpath) -> str:
     event_string += "\n"
     return event_string
 
-def hide_rows(window: sg.Window, keys: list):
-    for key in keys:
-        window[key].hide_row()
+def has_save_files(folderpath) -> bool:
+    basename = os.path.basename(folderpath)
+    expected_files = [basename, f"{basename}_old", "SaveGameInfo", "SaveGameInfo_old"]
 
-def unhide_rows(window: sg.Window, keys: list):
-    for key in keys:
-        window[key].unhide_row()
+    for file in os.listdir(folderpath):
+        fullpath = os.path.join(folderpath, file)
+        if not os.path.isfile(fullpath) or file not in expected_files:
+            return False, f"[{get_current_time}] Invalid save folder {folderpath}. {file} should not be in save folder.\n\n", f"Invalid save folder {folderpath}. {file} should not be in save folder."
+        expected_files.remove(file)
+    
+    if basename in expected_files or "SaveGameInfo" in expected_files:
+        return False, f"[{get_current_time}] One or more save files are missing. Looking for files '{basename}' and 'SaveGameInfo'.\n\n", f"One or more save files are missing. Looking for files '{basename}' and 'SaveGameInfo'."
+    
+    return True, None, None
 
-def set_visibility(window: sg.Window, keys: list, isVisible):
-    for key in keys:
-        window[key].update(visible = isVisible)
+def hide_rows(window: sg.Window, keys: list | str):
+    if type(keys) == str:
+        window[keys].hide_row()
+    else:
+        for key in keys:
+            window[key].hide_row()
 
-def switch_view(window: sg.Window, view: View):
-    if view == View.LOAD:
-        window["-EDITOR-"].hide_row()
-        window["-LOAD-"].unhide_row()
-    elif view == View.EDITOR:
-        window["-LOAD-"].hide_row()
-        window["-EDITOR-"].unhide_row()
+def unhide_rows(window: sg.Window, keys: list | str):
+    if type(keys) == str:
+        window[keys].unhide_row()
+    else:
+        for key in keys:
+            window[key].unhide_row()
+
+def set_visibility(window: sg.Window, keys: list | str, isVisible: bool):
+    if type(keys) == str:
+        window[keys].update(visible = isVisible)
+    else:
+        for key in keys:
+            window[key].update(visible = isVisible)
