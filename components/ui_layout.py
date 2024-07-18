@@ -3,8 +3,11 @@ from components.constants import Keys
 
 def generateFarmersFrames(farmers_tab_layout: list):
     for i in range(8):
-        frame_layout = [[sg.Text("Farmer Name:"), sg.Input(key=Keys._FarmerNames[i])]]
-        farmers_tab_layout.append([sg.Frame(f"Farmer {i+1} Profile", frame_layout, key=Keys._FarmerFrames[i], pad=(5, (3, 40)), expand_x=True, visible=False)])
+        frame_layout = [[sg.Text("Farmer Name:"), sg.Input(key=Keys._FarmerNames[i], disabled=True)]]
+        title = f"Farmer {i+1} Profile"
+        if i == 0:
+            title += " (World host)"
+        farmers_tab_layout.append([sg.Frame(title, frame_layout, key=Keys._FarmerFrames[i], pad=(5, (3, 12)), expand_x=True, visible=False)])
 
 def scrollableColumnWrapper(layout):
     return [[sg.Column(layout, scrollable=True, vertical_scroll_only=True, expand_x=True, expand_y=True)]]
@@ -36,3 +39,14 @@ layout = [
         sg.Tab(Keys._SaveTab, save_tab_layout, visible=False)
         ]], expand_x=True, expand_y=True)]
 ]
+
+
+
+
+
+
+
+# Importable functions
+def enable_farmer_frame(window: sg.Window, farmerName, index):
+    window[Keys._FarmerNames[index]].update(farmerName, disabled=False)
+    window[Keys._FarmerFrames[index]].update(visible=True)

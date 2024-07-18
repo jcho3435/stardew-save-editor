@@ -1,7 +1,7 @@
 from lxml import etree
 import sys
 
-with open("save_data/SaveGameInfo", "rb") as f:
+with open("save_data2/MoreRice_363478863", "rb") as f:
     data = f.read()
 
 # REMOVE BOM CHARACTERS
@@ -13,4 +13,4 @@ print(type(character_data))
 
 print(sys.getsizeof(data), "\n", sys.getsizeof(character_data))
 
-print(character_data.xpath("/Farmer/questLog/Quest[position() < 4]/_currentObjective")[2].text)
+print(character_data.xpath("/SaveGame/farmhands/Farmer/questLog/Quest"))

@@ -22,3 +22,4 @@ class CharacterSavePaths:
 
 class WorldSavePaths:
     _FarmerName = "/SaveGame/player/name[1]"
+    _FarmhandsNames = "/SaveGame/farmhands/Farmer/name"
