@@ -1,5 +1,6 @@
 import os, datetime, shutil
 import PySimpleGUI as sg
+from lxml import etree
 
 def init_directories():
     if not os.path.isdir("backups"):
@@ -45,23 +46,31 @@ def has_save_files(folderpath) -> bool:
     
     return True, None, None
 
-def hide_rows(window: sg.Window, keys: list | str):
-    if type(keys) == str:
-        window[keys].hide_row()
-    else:
-        for key in keys:
-            window[key].hide_row()
+def get_xml_roots(folderpath):
+    event_string = ""
+    character_save_file = "save_data/SaveGameInfo" # TODO: MODIFY THIS TO BE THE CORRECT FOLDER LATER
+    world_save_file = "save_data/ChingChong_363368866"
 
-def unhide_rows(window: sg.Window, keys: list | str):
-    if type(keys) == str:
-        window[keys].unhide_row()
-    else:
-        for key in keys:
-            window[key].unhide_row()
+    with open(character_save_file, "rb") as f: 
+        data = f.read()
 
-def set_visibility(window: sg.Window, keys: list | str, isVisible: bool):
-    if type(keys) == str:
-        window[keys].update(visible = isVisible)
-    else:
-        for key in keys:
-            window[key].update(visible = isVisible)
+    # REMOVE BOM CHARACTERS
+    if data.startswith(b'\xef\xbb\xbf'):
+        data = data[3:]
+
+    character_data = etree.fromstring(data)
+
+    event_string += f"[{get_current_time()}] Finished reading character data into tree format.\n"
+
+    with open(world_save_file, "rb") as f: 
+        data = f.read()
+
+    # REMOVE BOM CHARACTERS
+    if data.startswith(b'\xef\xbb\xbf'):
+        data = data[3:]
+
+    world_data = etree.fromstring(data)
+
+    event_string += f"[{get_current_time()}] Finished reading world data into tree format.\n"
+
+    return character_data, world_data, event_string

@@ -19,20 +19,21 @@ try:
         [sg.Push(), sg.Text("Stardew Valley Save Editor!", font=("Times New Roman", 30), text_color="Black"), sg.Push()],
         [sg.Text("Folder:", size=5), sg.Input(expand_x=True, key=Keys._FolderInput, enable_events=True, disabled=True), sg.FolderBrowse("Select Save Folder")],
         [sg.Text("Note: By default, save folders are located at C:\\Users\\[USER]\\AppData\\Roaming\\StardewValley\\Saves\\[SaveName]_#########", text_color="black", justification="center", expand_x=True)],
-        [sg.Column([[sg.Text("", size=4), sg.Text("", key=Keys._ValidateFolder)]])],
+        [sg.Column([[sg.Text("", size=4), sg.Text("", key=Keys._ValidateFolder)]])]
     ]
 
     editor_layout = [
+        [sg.Text("Change Profile Data", font=("Times New Roman", 15))],
+        [sg.Input(key=Keys._FarmerName)],
         [sg.Button("Save Changes")]
         #Figure out how to save - this comes later
         # Track whether there have been changes since last save
-        # need to use tabs  - replace all visibility things with tab groups instead
     ]
 
     layout = [
         [sg.TabGroup([[
             sg.Tab("Load", load_layout), 
-            sg.Tab("Edit", editor_layout, visible=False)
+            sg.Tab("Profile", editor_layout, visible=False)
             ]], expand_x=True, expand_y=True)]
     ]
 
