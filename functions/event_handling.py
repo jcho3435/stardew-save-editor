@@ -7,6 +7,7 @@ import components.constants as constants
 from components.constants import Keys
 import functions.save_functions as save_functions
 from lxml import etree
+import webbrowser
 
 def _Folder_Selection_Event(window: sg.Window, values) -> str:
     event_string = ""
@@ -78,8 +79,16 @@ def _Save_Changes_Event(window: sg.Window, values: dict) -> str:
 
     return event_string
 
+def _Url_Event(event):
+    url = event.split(' ')[1]
+    webbrowser.open(url)
+
+    return f"[{get_current_time()}] Opened page {url} in web browser.\n\n"
+
 def handle_event(window: sg.Window, event: str, values: dict) -> str:
     if event == Keys._FolderInput:
         return _Folder_Selection_Event(window, values)
     elif event == "Save Changes":
         return _Save_Changes_Event(window, values)
+    elif event.startswith("URL "):
+        return _Url_Event(event)

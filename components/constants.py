@@ -1,5 +1,9 @@
 _SaveFolderRE = r"^.*_[0-9]+$"
 _XML_DECLARATION = "<?xml version=\"1.0\" encoding=\"utf-8\"?>"
+_Links = {
+    "github": "https://github.com/jcho3435/stardew-save-editor",
+    "docs": ""
+}
 
 class Keys:
     _FolderInput = "-FOLDER-"
@@ -14,7 +18,9 @@ class Keys:
     #Tabs
     _FarmersTab = "Farmers"
     _SaveTab = "Save"
-    _EditorTabs = [_FarmersTab, _SaveTab]
+    _AboutTab = "About"
+    _EditorTabs = [_FarmersTab, _SaveTab] #used for setting visibility after load event
+    
 
 class CharacterSavePaths:
     _FarmerName = "/Farmer/name[1]"

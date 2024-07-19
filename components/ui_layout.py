@@ -1,9 +1,15 @@
 import PySimpleGUI as sg
-from components.constants import Keys
+from components.constants import Keys, _Links
 
 def generateFarmersFrames(farmers_tab_layout: list):
     for i in range(8):
-        frame_layout = [[sg.Text("Farmer Name:"), sg.Input(key=Keys._FarmerNames[i], disabled=True)]]
+        frame_layout = [
+            [sg.Text("Farmer Name:"), sg.Input(key=Keys._FarmerNames[i], disabled=True)]
+            #Add more to frame- need to add skills and xp
+            #skill levels are ordered in xml as farming, mining, combat, foraging, fishing, luck
+            #skill exp points are ordered in farming/foraging, fishing, farming/foraging, mining, combat, luck(?)
+            # TODO: Figure out if luck is a value that should be modified
+        ]
         title = f"Farmer {i+1} Profile"
         if i == 0:
             title += " (World host)"
@@ -25,18 +31,26 @@ load_tab_layout = [
 farmers_tab_layout = [
     [sg.Text("Change Farmer Data", font=("Times New Roman", 15))],
 ]
-
 generateFarmersFrames(farmers_tab_layout)
 
 save_tab_layout = [
     [sg.Button("Save Changes")]
 ]
 
+about_tab_layout = [
+    [sg.Text("About the editor:", text_color="black", font=("Times New Roman", 30), pad=(5, (3, 10)))],
+    [sg.Text("This application is a minimalist stardew valley save editor for windows. The code is fully open source and can be found", p=((5, 0), 6), text_color="black", font=("Arial", 14)), sg.Text("here.", tooltip=_Links["github"], p=(1, 6), enable_events=True, key=f"URL {_Links["github"]}", text_color="dark gray", font=("Arial", 14, "underline"))],
+    
+]
+
 layout = [
     [sg.TabGroup([[
         sg.Tab("Load", load_tab_layout), 
         sg.Tab(Keys._FarmersTab, scrollableColumnWrapper(farmers_tab_layout), visible=False),
-        sg.Tab(Keys._SaveTab, save_tab_layout, visible=False)
+        sg.Tab(Keys._SaveTab, save_tab_layout, visible=False),
+
+
+        sg.Tab(Keys._AboutTab, about_tab_layout, )
         ]], expand_x=True, expand_y=True)]
 ]
 
