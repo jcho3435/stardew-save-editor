@@ -1,8 +1,10 @@
+import os
+
 _SaveFolderRE = r"^.*_[0-9]+$"
 _XML_DECLARATION = "<?xml version=\"1.0\" encoding=\"utf-8\"?>"
 _Links = {
     "github": "https://github.com/jcho3435/stardew-save-editor",
-    "docs": ""
+    "docs": "file:///" + os.path.abspath("docs/home.html").replace("\\", "/").replace(" ", "%20")
 }
 
 class Keys:

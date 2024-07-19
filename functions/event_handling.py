@@ -1,4 +1,4 @@
-import os, re
+import os, re, webbrowser
 import PySimpleGUI as sg
 from functions.functions import get_current_time, create_backup, has_save_files
 from functions.ui_functions import set_visibility, load_save_data
@@ -7,7 +7,6 @@ import components.constants as constants
 from components.constants import Keys
 import functions.save_functions as save_functions
 from lxml import etree
-import webbrowser
 
 def _Folder_Selection_Event(window: sg.Window, values) -> str:
     event_string = ""

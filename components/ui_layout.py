@@ -1,6 +1,8 @@
 import PySimpleGUI as sg
 from components.constants import Keys, _Links
+import textwrap
 
+# helpers --------------------------------------------------------------------------------
 def generateFarmersFrames(farmers_tab_layout: list):
     for i in range(8):
         frame_layout = [
@@ -18,8 +20,18 @@ def generateFarmersFrames(farmers_tab_layout: list):
 def scrollableColumnWrapper(layout):
     return [[sg.Column(layout, scrollable=True, vertical_scroll_only=True, expand_x=True, expand_y=True)]]
 
+def createAboutTabHeader(text):
+    return sg.Text(text, font=("Times New Roman", 16, "underline"), text_color="black", pad=5)
 
-# Layouts
+def createAboutTabDescription(*args):
+    text = ""
+    for arg in args:
+        text += textwrap.fill(arg, 170)
+        text += "\n\n"
+    #TODO: consider trimming the ending \n\n
+    return sg.Text(text, font=("Arial", 12), text_color="black", expand_x=True)
+
+# Layouts ---------------------------------------------------------------------------------
 load_tab_layout = [
         [sg.Push(), sg.Text("Stardew Valley Save Editor!", font=("Times New Roman", 30), text_color="Black"), sg.Push()],
         [sg.Text("Folder:", size=5), sg.Input(expand_x=True, key=Keys._FolderInput, enable_events=True, disabled=True), sg.FolderBrowse("Select Save Folder", key=Keys._FolderBrowser)],
@@ -29,7 +41,7 @@ load_tab_layout = [
     ]
 
 farmers_tab_layout = [
-    [sg.Text("Change Farmer Data", font=("Times New Roman", 15))],
+    [sg.Text("Change Farmer Data", font=("Times New Roman", 16))],
 ]
 generateFarmersFrames(farmers_tab_layout)
 
@@ -39,8 +51,18 @@ save_tab_layout = [
 
 about_tab_layout = [
     [sg.Text("About the editor:", text_color="black", font=("Times New Roman", 30), pad=(5, (3, 10)))],
-    [sg.Text("This application is a minimalist stardew valley save editor for windows. The code is fully open source and can be found", p=((5, 0), 6), text_color="black", font=("Arial", 14)), sg.Text("here.", tooltip=_Links["github"], p=(1, 6), enable_events=True, key=f"URL {_Links["github"]}", text_color="dark gray", font=("Arial", 14, "underline"))],
-    
+    [sg.Text("This application is a minimalist stardew valley save editor for windows. The code is fully open source and can be found", p=((5, 0), 3), text_color="black", font=("Arial", 12)), sg.Text("here.", tooltip=_Links["github"], p=(1, 3), enable_events=True, key=f"URL {_Links["github"]}", text_color="dark gray", font=("Arial", 12, "underline"))],
+    [sg.Text("For detailed docs and explanations on each tab's fields, click", p=((5, 0), 3), text_color="black", font=("Arial", 12)), sg.Text("here.", tooltip=_Links["docs"], p=(1, 3), enable_events=True, key=f"URL {_Links["docs"]}", text_color="dark gray", font=("Arial", 12, "underline"))],
+    [sg.Text("Warning: There is no input validation on any of the modifiable fields, so in order to avoid crashing due to bad save data, avoid inputting bad values. For example, for fields which should take a number, do not input and alphabetical characters.", p=((5, 0), (3, 22)), text_color="black", font=("Arial", 12))],
+    [createAboutTabHeader("Load Tab")],
+    [createAboutTabDescription(
+        "Load your save file here. Always make sure to save your current changes before loading a new file. The editor does not check for unsaved changes. If you load a new file before saving, you will lose your changes.",
+        "Save files are backed up every time they are loaded. You can find your save files in the backups directory. Backups are never automatically deleted."
+        )],
+    [createAboutTabHeader("Farmers Tab")],
+    [createAboutTabDescription(
+        "Change profile information for all players who have joined your world. This tab currently supports changing of each farmer's name, skill levels, and skill experience points."
+    )]
 ]
 
 layout = [
@@ -50,7 +72,7 @@ layout = [
         sg.Tab(Keys._SaveTab, save_tab_layout, visible=False),
 
 
-        sg.Tab(Keys._AboutTab, about_tab_layout, )
+        sg.Tab(Keys._AboutTab, scrollableColumnWrapper(about_tab_layout))
         ]], expand_x=True, expand_y=True)]
 ]
 
@@ -60,7 +82,7 @@ layout = [
 
 
 
-# Importable functions
+# Importable functions ------------------------------------------------------------------------------------
 def enable_farmer_frame(window: sg.Window, farmerName, index):
     window[Keys._FarmerNames[index]].update(farmerName, disabled=False)
     window[Keys._FarmerFrames[index]].update(visible=True)

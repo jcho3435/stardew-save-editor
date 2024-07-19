@@ -4,7 +4,6 @@ import functions.program_lock as program_lock
 import functions.log_functions as log_functions
 from functions.functions import get_current_time, init_directories
 from functions.event_handling import handle_event
-from components.constants import Keys
 
 init_directories()
 
