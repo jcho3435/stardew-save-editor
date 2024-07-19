@@ -17,7 +17,7 @@ try:
     from components.ui_layout import layout
 
     # Create the Window
-    window = sg.Window('Hello World!', layout, use_ttk_buttons=True, size=(1280, 720))
+    window = sg.Window('Hello World!', layout, use_ttk_buttons=True, size=(1280, 720), icon="app-icon.ico")
 except Exception as e:
     program_lock.clean_up(e)
 

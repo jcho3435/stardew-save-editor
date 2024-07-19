@@ -19,7 +19,7 @@ def _Folder_Selection_Event(window: sg.Window, values) -> str:
             return error_log
         
         event_string += create_backup(folderpath)
-        window[Keys._ValidateFolder].update(value="Save folder loaded.", text_color="black")
+        window[Keys._ValidateFolder].update(value="Save folder loaded. Backup created in backups folder", text_color="black")
         window[Keys._SaveWarning].update("Make sure to save all changes before loading a new save or closing the window.")
 
         window[Keys._FolderBrowser].update(disabled=True, button_color="gray")
