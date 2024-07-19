@@ -4,7 +4,7 @@ from functions.get_and_load_xml import get_xml_roots
 from functions.functions import get_current_time
 
 def save_name_to_tree(farmer: etree._Element, name: str):
-    farmer.xpath("./name[1]")[0].text = name
+    farmer.xpath("./name[1]")[0].text = name.strip()
 
 # def save_skills_to_tree(farmer, skill):
 #     pass
