@@ -14,3 +14,8 @@ print(type(character_data))
 print(sys.getsizeof(data), "\n", sys.getsizeof(character_data))
 
 print(character_data.xpath("/SaveGame/farmhands/Farmer/questLog/Quest"))
+
+farmhands = character_data.xpath("/SaveGame")
+
+print(character_data)
+print(farmhands)

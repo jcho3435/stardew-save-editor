@@ -5,12 +5,19 @@ import textwrap
 # helpers --------------------------------------------------------------------------------
 def generateFarmersFrames(farmers_tab_layout: list):
     for i in range(8):
+        farmerNames = Keys._FarmerNames
+        farmerSkillLevels = Keys._FarmerSkillLevels
         frame_layout = [
-            [sg.Text("Farmer Name:"), sg.Input(key=Keys._FarmerNames[i], disabled=True)]
+            [sg.Text("Farmer Name:"), sg.Input(key=farmerNames[i], disabled=True)],
+            [sg.Text("Farming"), sg.Text("Level"), sg.Input(key=farmerSkillLevels["farming"][i], disabled=True)],
+            [sg.Text("Mining"), sg.Text("Level"), sg.Input(key=farmerSkillLevels["mining"][i], disabled=True)],
+            [sg.Text("Foraging"), sg.Text("Level"), sg.Input(key=farmerSkillLevels["foraging"][i], disabled=True)],
+            [sg.Text("Fishing"), sg.Text("Level"), sg.Input(key=farmerSkillLevels["fishing"][i], disabled=True)],
+            [sg.Text("Combat"), sg.Text("Level"), sg.Input(key=farmerSkillLevels["combat"][i], disabled=True)]
             #Add more to frame- need to add skills and xp
             #skill levels are ordered in xml as farming, mining, combat, foraging, fishing, luck
             #skill exp points are ordered in farming/foraging, fishing, farming/foraging, mining, combat, luck(?)
-            # TODO: Figure out if luck is a value that should be modified
+            # TODO: Add pixel art in front of each skill
         ]
         title = f"Farmer {i+1} Profile"
         if i == 0:
@@ -75,14 +82,3 @@ layout = [
         sg.Tab(Keys._AboutTab, scrollableColumnWrapper(about_tab_layout))
         ]], expand_x=True, expand_y=True)]
 ]
-
-
-
-
-
-
-
-# Importable functions ------------------------------------------------------------------------------------
-def enable_farmer_frame(window: sg.Window, farmerName, index):
-    window[Keys._FarmerNames[index]].update(farmerName, disabled=False)
-    window[Keys._FarmerFrames[index]].update(visible=True)

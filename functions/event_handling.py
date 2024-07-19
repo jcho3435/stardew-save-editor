@@ -34,7 +34,7 @@ def _Folder_Selection_Event(window: sg.Window, values) -> str:
 
 def _Save_Changes_Event(window: sg.Window, values: dict) -> str:
     event_string = ""
-    event_string += save_functions.save_farmer_data_to_tree(window, values)
+    event_string += save_functions.save_farmer_data_to_tree(values)
 
     character_data, world_data = get_xml_roots()
 

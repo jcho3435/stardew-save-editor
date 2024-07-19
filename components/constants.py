@@ -1,5 +1,7 @@
 import os
 
+_MAXPLAYERS = 8
+
 _SaveFolderRE = r"^.*_[0-9]+$"
 _XML_DECLARATION = "<?xml version=\"1.0\" encoding=\"utf-8\"?>"
 _Links = {
@@ -12,10 +14,17 @@ class Keys:
     _FolderBrowser = "-FOLDERBROWSERBUTTON-"
     _ValidateFolder = "-VALIDATEFOLDER-"
     _SaveWarning = "-SAVEWARNING-"
-    _FarmerFrames = ["-FARMERFRAME0-", "-FARMERFRAME1-", "-FARMERFRAME2-", "-FARMERFRAME3-", "-FARMERFRAME4-", "-FARMERFRAME5-", "-FARMERFRAME6-", "-FARMERFRAME7-"]
+    _FarmerFrames = [f"-FARMERFRAME{i}-" for i in range(_MAXPLAYERS)]
 
     #Editable values
-    _FarmerNames = ["-FARMERNAME0-", "-FARMERNAME1-", "-FARMERNAME2-", "-FARMERNAME3-", "-FARMERNAME4-", "-FARMERNAME5-", "-FARMERNAME6-", "-FARMERNAME7-"]
+    _FarmerNames = [f"-FARMERNAME{i}-" for i in range(_MAXPLAYERS)]
+    _FarmerSkillLevels = {
+        "farming": [f"-FARMERFARMINGLVL{i}-" for i in range(_MAXPLAYERS)],
+        "mining": [f"-FARMERMININGLVL{i}-" for i in range(_MAXPLAYERS)],
+        "foraging": [f"-FARMERFORAGINGLVL{i}-" for i in range(_MAXPLAYERS)],
+        "fishing": [f"-FARMERFISHINGLVL{i}-" for i in range(_MAXPLAYERS)],
+        "combat": [f"-FARMERCOMBATLVL{i}-" for i in range(_MAXPLAYERS)]
+    }
 
     #Tabs
     _FarmersTab = "Farmers"
@@ -25,9 +34,15 @@ class Keys:
     
 
 class CharacterSavePaths:
-    _FarmerName = "/Farmer/name[1]"
+    _FarmerSkillLevels = {
+        "farming": "/Farmer/farmingLevel[1]", 
+        "mining": "/Farmer/miningLevel[1]", 
+        "foraging": "/Farmer/foragingLevel[1]", 
+        "fishing": "/Farmer/fishingLevel[1]", 
+        "combat": "/Farmer/combatLevel[1]"
+        }
 
 
 class WorldSavePaths:
-    _FarmerName = "/SaveGame/player/name[1]"
-    _FarmhandsNames = "/SaveGame/farmhands/Farmer/name"
+    _Farmer = "/SaveGame/player"
+    _Farmhands = "/SaveGame/farmhands/Farmer"

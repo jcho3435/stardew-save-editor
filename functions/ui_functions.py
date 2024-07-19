@@ -3,7 +3,6 @@ from components.constants import Keys, CharacterSavePaths, WorldSavePaths
 from functions.functions import get_current_time
 from functions.get_and_load_xml import load_xml_roots, get_xml_roots
 from lxml import etree
-from components.ui_layout import enable_farmer_frame
 
 def hide_rows(window: sg.Window, keys: list | str):
     if type(keys) == str:
@@ -26,7 +25,14 @@ def set_visibility(window: sg.Window, keys: list | str, isVisible: bool):
         for key in keys:
             window[key].update(visible = isVisible)
 
+def enable_and_fill_farmer_frame(window: sg.Window, index: int, farmer: etree._Element):
+    farmerName = farmer.xpath("./name[1]")[0].text
+    window[Keys._FarmerNames[index]].update(farmerName, disabled=False)
+    for skill, keys in Keys._FarmerSkillLevels.items():
+        skillLevel = farmer.xpath(f"./{skill}Level")[0].text
+        window[keys[index]].update(skillLevel, disabled=False)
 
+    window[Keys._FarmerFrames[index]].update(visible=True)
 
 #loading save data
 def _load_profile_data(window: sg.Window) -> str:
@@ -34,17 +40,16 @@ def _load_profile_data(window: sg.Window) -> str:
     character_save, world_save = get_xml_roots()
 
     #Load host farmer
-    farmer_name = character_save.xpath(CharacterSavePaths._FarmerName)[0].text
-    enable_farmer_frame(window, farmer_name, 0)
+    enable_and_fill_farmer_frame(window, 0, character_save)
 
-    farmhands_names = world_save.xpath(WorldSavePaths._FarmhandsNames) # returns a list of tags <name>
+    #Load farmhands
+    farmhands = world_save.xpath(WorldSavePaths._Farmhands) # returns a list of tags <Farmer>
     index = 1
-    for tag in farmhands_names:
-        name = tag.text
-        enable_farmer_frame(window, name, index)
+    for farmer in farmhands:
+        enable_and_fill_farmer_frame(window, index, farmer)
         index += 1
 
-    event_string = f"[{get_current_time()}] Profile data loaded.\n\n"
+    event_string = f"[{get_current_time()}] Farmers profile data loaded.\n\n"
 
     return event_string
 
