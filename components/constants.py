@@ -9,6 +9,16 @@ _Links = {
     "docs": "file:///" + os.path.abspath("docs/home.html").replace("\\", "/").replace(" ", "%20")
 }
 
+# This is for finding using xpath, which is 1 indexed
+_SkillNameToXMLExperienceIndexMap = {
+    "farming": 1,
+    "fishing": 2,
+    "foraging": 3,
+    "mining": 4,
+    "combat": 5,
+    "luck": 6 # luck is unused by stardew
+}
+
 class Keys:
     _FolderInput = "-FolderSelection-"
     _FolderBrowser = "-FolderBrowserButton-"

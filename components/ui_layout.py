@@ -4,18 +4,20 @@ import textwrap
 
 # helpers --------------------------------------------------------------------------------
 def generateFarmersTabFrames(farmers_tab_layout: list):
+    '''
+    Generates the frames for each farmer in the farmers tab, then appends it to the farmer tab's layout
+    '''
     farmerNames = Keys._FarmerNames
     farmerSkillLevels = Keys._FarmerSkillLevels
     farmerSkillExperience = Keys._FarmerSkillExperience
     for i in range(8):
         frame_layout = [
             [sg.Text("Farmer Name:", p=(5, (3, 8))), sg.Input(key=farmerNames[i], disabled=True, p=(0, (3, 8)))],
-            [sg.Text("Farming", p=((5, 0), 3)), sg.Image("icons/farming-icon.png", zoom=2, p=((1, 5), 3)), sg.Text("Level:"), sg.Input(key=farmerSkillLevels["farming"][i], disabled=True, p=((0, 5), 3), size=4), sg.Text("Experience:"), sg.Input(key=farmerSkillExperience["farming"][i])],
-            [sg.Text("Mining", p=((5, 0), 3)), sg.Image("icons/mining-icon.png", zoom=2, p=((1, 5), 3)), sg.Text("Level:"), sg.Input(key=farmerSkillLevels["mining"][i], disabled=True, p=((0, 5), 3), size=4), sg.Text("Experience:")],
-            [sg.Text("Foraging", p=((5, 0), 3)), sg.Image("icons/foraging-icon.png", p=((1, 5), 3)), sg.Text("Level:"), sg.Input(key=farmerSkillLevels["foraging"][i], disabled=True, p=((0, 5), 3), size=4), sg.Text("Experience:")],
-            [sg.Text("Fishing", p=((5, 0), 3)), sg.Image("icons/fishing-icon.png", p=((1, 5), 3)), sg.Text("Level:"), sg.Input(key=farmerSkillLevels["fishing"][i], disabled=True, p=((0, 5), 3), size=4), sg.Text("Experience:")],
-            [sg.Text("Combat", p=((5, 0), 3)), sg.Image("icons/combat-icon.png", p=((1, 5), 3)), sg.Text("Level:"), sg.Input(key=farmerSkillLevels["combat"][i], disabled=True, p=((0, 5), 3), size=4), sg.Text("Experience:")]
-            #skill exp points are ordered in farming, fishing, foraging, mining, combat, luck(?)
+            [sg.Text("Farming", p=((5, 0), 3)), sg.Image("icons/farming-icon.png", zoom=2, p=((1, 5), 3)), sg.Text("Level:"), sg.Input(key=farmerSkillLevels["farming"][i], disabled=True, p=((0, 5), 3), size=4), sg.Text("Experience:"), sg.Input(key=farmerSkillExperience["farming"][i], disabled=True, p=((0, 5), 3), size=12)],
+            [sg.Text("Mining", p=((5, 0), 3)), sg.Image("icons/mining-icon.png", zoom=2, p=((1, 5), 3)), sg.Text("Level:"), sg.Input(key=farmerSkillLevels["mining"][i], disabled=True, p=((0, 5), 3), size=4), sg.Text("Experience:"), sg.Input(key=farmerSkillExperience["mining"][i], disabled=True, p=((0, 5), 3), size=12)],
+            [sg.Text("Foraging", p=((5, 0), 3)), sg.Image("icons/foraging-icon.png", p=((1, 5), 3)), sg.Text("Level:"), sg.Input(key=farmerSkillLevels["foraging"][i], disabled=True, p=((0, 5), 3), size=4), sg.Text("Experience:"), sg.Input(key=farmerSkillExperience["foraging"][i], disabled=True, p=((0, 5), 3), size=12)],
+            [sg.Text("Fishing", p=((5, 0), 3)), sg.Image("icons/fishing-icon.png", p=((1, 5), 3)), sg.Text("Level:"), sg.Input(key=farmerSkillLevels["fishing"][i], disabled=True, p=((0, 5), 3), size=4), sg.Text("Experience:"), sg.Input(key=farmerSkillExperience["fishing"][i], disabled=True, p=((0, 5), 3), size=12)],
+            [sg.Text("Combat", p=((5, 0), 3)), sg.Image("icons/combat-icon.png", p=((1, 5), 3)), sg.Text("Level:"), sg.Input(key=farmerSkillLevels["combat"][i], disabled=True, p=((0, 5), 3), size=4), sg.Text("Experience:"), sg.Input(key=farmerSkillExperience["combat"][i], disabled=True, p=((0, 5), 3), size=12)]
         ]
         title = f"Farmer {i+1} Profile"
         if i == 0:

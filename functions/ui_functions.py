@@ -1,5 +1,6 @@
 import PySimpleGUI as sg
-from components.constants import Keys, CharacterSavePaths, WorldSavePaths
+from components.constants import Keys, WorldSavePaths
+import components.constants as constants
 from functions.functions import get_current_time
 from functions.get_and_load_xml import load_xml_roots, get_xml_roots
 from lxml import etree
@@ -28,9 +29,14 @@ def set_visibility(window: sg.Window, keys: list | str, isVisible: bool):
 def enable_and_fill_farmer_frame(window: sg.Window, index: int, farmer: etree._Element):
     farmerName = farmer.xpath("./name[1]")[0].text
     window[Keys._FarmerNames[index]].update(farmerName, disabled=False)
+
     for skill, keys in Keys._FarmerSkillLevels.items():
         skillLevel = farmer.xpath(f"./{skill}Level")[0].text
         window[keys[index]].update(skillLevel, disabled=False)
+    
+    for skill, keys in Keys._FarmerSkillExperience.items():
+        skillXp = farmer.xpath(f"./experiencePoints/int[{constants._SkillNameToXMLExperienceIndexMap[skill]}]")[0].text
+        window[keys[index]].update(skillXp, disabled=False)
 
     window[Keys._FarmersTabFrames[index]].update(visible=True)
 
