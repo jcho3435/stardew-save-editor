@@ -32,7 +32,7 @@ def enable_and_fill_farmer_frame(window: sg.Window, index: int, farmer: etree._E
         skillLevel = farmer.xpath(f"./{skill}Level")[0].text
         window[keys[index]].update(skillLevel, disabled=False)
 
-    window[Keys._FarmerFrames[index]].update(visible=True)
+    window[Keys._FarmersTabFrames[index]].update(visible=True)
 
 #loading save data
 def _load_profile_data(window: sg.Window) -> str:

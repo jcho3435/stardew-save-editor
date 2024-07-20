@@ -10,23 +10,30 @@ _Links = {
 }
 
 class Keys:
-    _FolderInput = "-FOLDER-"
-    _FolderBrowser = "-FOLDERBROWSERBUTTON-"
-    _ValidateFolder = "-VALIDATEFOLDER-"
-    _SaveWarning = "-SAVEWARNING-"
-    _FarmerFrames = [f"-FARMERFRAME{i}-" for i in range(_MAXPLAYERS)]
+    _FolderInput = "-FolderSelection-"
+    _FolderBrowser = "-FolderBrowserButton-"
+    _ValidateFolder = "-ValidateFolder-"
+    _SaveWarning = "-SaveWarning-"
+    _FarmersTabFrames = [f"-FarmersTabFrame{i}-" for i in range(_MAXPLAYERS)]
 
-    #Editable values
-    _FarmerNames = [f"-FARMERNAME{i}-" for i in range(_MAXPLAYERS)]
+    # Editable values ----------------------------------------------------------
+    _FarmerNames = [f"-FarmerName{i}-" for i in range(_MAXPLAYERS)]
     _FarmerSkillLevels = {
-        "farming": [f"-FARMERFARMINGLVL{i}-" for i in range(_MAXPLAYERS)],
-        "mining": [f"-FARMERMININGLVL{i}-" for i in range(_MAXPLAYERS)],
-        "foraging": [f"-FARMERFORAGINGLVL{i}-" for i in range(_MAXPLAYERS)],
-        "fishing": [f"-FARMERFISHINGLVL{i}-" for i in range(_MAXPLAYERS)],
-        "combat": [f"-FARMERCOMBATLVL{i}-" for i in range(_MAXPLAYERS)]
+        "farming": [f"-FarmerFarmingLVL{i}-" for i in range(_MAXPLAYERS)],
+        "mining": [f"-FarmerMiningLVL{i}-" for i in range(_MAXPLAYERS)],
+        "foraging": [f"-FarmerForagingLVL{i}-" for i in range(_MAXPLAYERS)],
+        "fishing": [f"-FarmerFishingLVL{i}-" for i in range(_MAXPLAYERS)],
+        "combat": [f"-FarmerCombatLVL{i}-" for i in range(_MAXPLAYERS)]
+    }
+    _FarmerSkillExperience = {
+        "farming": [f"-FarmerFarmingXP{i}-" for i in range(_MAXPLAYERS)],
+        "mining": [f"-FarmerMiningXP{i}-" for i in range(_MAXPLAYERS)],
+        "foraging": [f"-FarmerForagingXP{i}-" for i in range(_MAXPLAYERS)],
+        "fishing": [f"-FarmerFishingXP{i}-" for i in range(_MAXPLAYERS)],
+        "combat": [f"-FarmerCombatXP{i}-" for i in range(_MAXPLAYERS)]
     }
 
-    #Tabs
+    #Tabs ----------------------------------------------------------------------
     _FarmersTab = "Farmers"
     _SaveTab = "Save"
     _AboutTab = "About"

@@ -3,26 +3,24 @@ from components.constants import Keys, _Links
 import textwrap
 
 # helpers --------------------------------------------------------------------------------
-def generateFarmersFrames(farmers_tab_layout: list):
+def generateFarmersTabFrames(farmers_tab_layout: list):
+    farmerNames = Keys._FarmerNames
+    farmerSkillLevels = Keys._FarmerSkillLevels
+    farmerSkillExperience = Keys._FarmerSkillExperience
     for i in range(8):
-        farmerNames = Keys._FarmerNames
-        farmerSkillLevels = Keys._FarmerSkillLevels
         frame_layout = [
-            [sg.Text("Farmer Name:"), sg.Input(key=farmerNames[i], disabled=True)],
-            [sg.Text("Farming"), sg.Text("Level"), sg.Input(key=farmerSkillLevels["farming"][i], disabled=True)],
-            [sg.Text("Mining"), sg.Text("Level"), sg.Input(key=farmerSkillLevels["mining"][i], disabled=True)],
-            [sg.Text("Foraging"), sg.Text("Level"), sg.Input(key=farmerSkillLevels["foraging"][i], disabled=True)],
-            [sg.Text("Fishing"), sg.Text("Level"), sg.Input(key=farmerSkillLevels["fishing"][i], disabled=True)],
-            [sg.Text("Combat"), sg.Text("Level"), sg.Input(key=farmerSkillLevels["combat"][i], disabled=True)]
-            #Add more to frame- need to add skills and xp
-            #skill levels are ordered in xml as farming, mining, combat, foraging, fishing, luck
-            #skill exp points are ordered in farming/foraging, fishing, farming/foraging, mining, combat, luck(?)
-            # TODO: Add pixel art in front of each skill
+            [sg.Text("Farmer Name:", p=(5, (3, 8))), sg.Input(key=farmerNames[i], disabled=True, p=(0, (3, 8)))],
+            [sg.Text("Farming", p=((5, 0), 3)), sg.Image("icons/farming-icon.png", zoom=2, p=((1, 5), 3)), sg.Text("Level:"), sg.Input(key=farmerSkillLevels["farming"][i], disabled=True, p=((0, 5), 3), size=4), sg.Text("Experience:"), sg.Input(key=farmerSkillExperience["farming"][i])],
+            [sg.Text("Mining", p=((5, 0), 3)), sg.Image("icons/mining-icon.png", zoom=2, p=((1, 5), 3)), sg.Text("Level:"), sg.Input(key=farmerSkillLevels["mining"][i], disabled=True, p=((0, 5), 3), size=4), sg.Text("Experience:")],
+            [sg.Text("Foraging", p=((5, 0), 3)), sg.Image("icons/foraging-icon.png", p=((1, 5), 3)), sg.Text("Level:"), sg.Input(key=farmerSkillLevels["foraging"][i], disabled=True, p=((0, 5), 3), size=4), sg.Text("Experience:")],
+            [sg.Text("Fishing", p=((5, 0), 3)), sg.Image("icons/fishing-icon.png", p=((1, 5), 3)), sg.Text("Level:"), sg.Input(key=farmerSkillLevels["fishing"][i], disabled=True, p=((0, 5), 3), size=4), sg.Text("Experience:")],
+            [sg.Text("Combat", p=((5, 0), 3)), sg.Image("icons/combat-icon.png", p=((1, 5), 3)), sg.Text("Level:"), sg.Input(key=farmerSkillLevels["combat"][i], disabled=True, p=((0, 5), 3), size=4), sg.Text("Experience:")]
+            #skill exp points are ordered in farming, fishing, foraging, mining, combat, luck(?)
         ]
         title = f"Farmer {i+1} Profile"
         if i == 0:
             title += " (World host)"
-        farmers_tab_layout.append([sg.Frame(title, frame_layout, key=Keys._FarmerFrames[i], pad=(5, (3, 12)), expand_x=True, visible=False)])
+        farmers_tab_layout.append([sg.Frame(title, frame_layout, key=Keys._FarmersTabFrames[i], pad=(5, (3, 12)), expand_x=True, visible=False)])
 
 def scrollableColumnWrapper(layout):
     return [[sg.Column(layout, scrollable=True, vertical_scroll_only=True, expand_x=True, expand_y=True)]]
@@ -50,7 +48,7 @@ load_tab_layout = [
 farmers_tab_layout = [
     [sg.Text("Change Farmer Data", font=("Times New Roman", 16))],
 ]
-generateFarmersFrames(farmers_tab_layout)
+generateFarmersTabFrames(farmers_tab_layout)
 
 save_tab_layout = [
     [sg.Button("Save Changes")]
@@ -60,7 +58,7 @@ about_tab_layout = [
     [sg.Text("About the editor:", text_color="black", font=("Times New Roman", 30), pad=(5, (3, 10)))],
     [sg.Text("This application is a minimalist stardew valley save editor for windows. The code is fully open source and can be found", p=((5, 0), 3), text_color="black", font=("Arial", 12)), sg.Text("here.", tooltip=_Links["github"], p=(1, 3), enable_events=True, key=f"URL {_Links["github"]}", text_color="dark gray", font=("Arial", 12, "underline"))],
     [sg.Text("For detailed docs and explanations on each tab's fields, click", p=((5, 0), 3), text_color="black", font=("Arial", 12)), sg.Text("here.", tooltip=_Links["docs"], p=(1, 3), enable_events=True, key=f"URL {_Links["docs"]}", text_color="dark gray", font=("Arial", 12, "underline"))],
-    [sg.Text("Warning: There is no input validation on any of the modifiable fields, so in order to avoid crashing due to bad save data, avoid inputting bad values. For example, for fields which should take a number, do not input and alphabetical characters.", p=((5, 0), (3, 22)), text_color="black", font=("Arial", 12))],
+    [sg.Text(textwrap.fill("Warning: There is no input validation on any of the modifiable fields, so in order to avoid crashing due to bad save data, avoid inputting bad values. For example, for fields which should take a number, do not input and alphabetical characters. You can find more details on constraints on values for each field on the docs.", 170), p=((5, 0), (3, 22)), text_color="black", font=("Arial", 12))],
     [createAboutTabHeader("Load Tab")],
     [createAboutTabDescription(
         "Load your save file here. Always make sure to save your current changes before loading a new file. The editor does not check for unsaved changes. If you load a new file before saving, you will lose your changes.",
