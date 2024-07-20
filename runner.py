@@ -4,7 +4,6 @@ import functions.program_lock as program_lock
 import functions.log_functions as log_functions
 from functions.functions import get_current_time, init_directories
 from functions.event_handling import handle_event
-from components.constants import Keys
 
 init_directories()
 
@@ -17,7 +16,7 @@ try:
     from components.ui_layout import layout
 
     # Create the Window
-    window = sg.Window('Hello World!', layout, use_ttk_buttons=True, size=(1280, 720))
+    window = sg.Window('Hello World!', layout, use_ttk_buttons=True, size=(1280, 720), icon="icons/app-icon.ico")
 except Exception as e:
     program_lock.clean_up(e)
 

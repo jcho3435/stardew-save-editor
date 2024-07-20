@@ -1,4 +1,4 @@
-import os, re
+import os, re, webbrowser
 import PySimpleGUI as sg
 from functions.functions import get_current_time, create_backup, has_save_files
 from functions.ui_functions import set_visibility, load_save_data
@@ -19,7 +19,7 @@ def _Folder_Selection_Event(window: sg.Window, values) -> str:
             return error_log
         
         event_string += create_backup(folderpath)
-        window[Keys._ValidateFolder].update(value="Save folder loaded.", text_color="black")
+        window[Keys._ValidateFolder].update(value="Save folder loaded. Backup created in backups folder", text_color="black")
         window[Keys._SaveWarning].update("Make sure to save all changes before loading a new save or closing the window.")
 
         window[Keys._FolderBrowser].update(disabled=True, button_color="gray")
@@ -34,7 +34,7 @@ def _Folder_Selection_Event(window: sg.Window, values) -> str:
 
 def _Save_Changes_Event(window: sg.Window, values: dict) -> str:
     event_string = ""
-    event_string += save_functions.save_farmer_data_to_tree(window, values)
+    event_string += save_functions.save_farmers_tab_data_to_tree(values)
 
     character_data, world_data = get_xml_roots()
 
@@ -78,8 +78,16 @@ def _Save_Changes_Event(window: sg.Window, values: dict) -> str:
 
     return event_string
 
+def _Url_Event(event):
+    url = event.split(' ')[1]
+    webbrowser.open(url)
+
+    return f"[{get_current_time()}] Opened page {url} in web browser.\n\n"
+
 def handle_event(window: sg.Window, event: str, values: dict) -> str:
     if event == Keys._FolderInput:
         return _Folder_Selection_Event(window, values)
     elif event == "Save Changes":
         return _Save_Changes_Event(window, values)
+    elif event.startswith("URL "):
+        return _Url_Event(event)
