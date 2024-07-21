@@ -1,8 +1,56 @@
-<h2>Farmers Tab</h3><br>
+<head>
+    <link rel="stylesheet" href="../styles.css">
+</head>
+
+<h2>Farmers Tab</h3>
 <p>
     Change profile information for all players who have joined your world. This tab currently supports changing of each farmer's name, skill levels, and skill experience points.<br>
-    Be careful when changing skill level and experience points! Reasons... -- ?<br>
-    <a href="https://stardewvalleywiki.com/Skills">Here</a> is a reference for experience points to levels tho.
+    <br>
 </p>
 
+<table>
+    <thead>
+        <th></th>
+        <th>Input value type</th>
+        <th>Value constraints</th>
+        <th>Other notes</th>
+    </thead>
+    <tbody>
+        <tr>
+            <td><b>Farmer Name</b></td>
+            <td>Alphanumeric characters</td>
+            <td>Avoid using special characters that may have special meaning in XML. For example, do not make your famer's name "&lt;/name&gt;".</td>
+            <td>-</td>
+        </tr>
+        <tr>
+            <td><b>Skill Level</b></td>
+            <td>Integer (non-decimal numeric)</td>
+            <td>Avoid setting your skill's level too high. The natural max skill level is 10.</td>
+            <td class="other-notes">
+                <ul>
+                    <li>You <em>can</em> safely set your skill level higher than 10, but if you set it too high, Stardew Valley may not be able to handle calculations and crash. For reference, if you set your fishing level to 100 then go fishing, Stardew Valley will likely crash.</li>
+                    <li>Be sure to understand how skill levels interact with skill experience.</li> 
+                </ul>
+            </td>
+        </tr>
+        <tr>
+            <td><b>Skill Experience</b></td>
+            <td>Integer (non-decimal numeric)</td>
+            <td>-</td>
+            <td class="other-notes">
+                <ul>
+                    <li>
+                        Changing your skill experience will not affect your skill level. For example, if your mining skill is level 1 with 100 xp, and you set the xp to 15000 (level 10), even after loading your world, your mining level will still be level 1. Your skill will only level up if you gain xp in game, 
+                        going from below the xp threshold for a level, to above. So if you set your xp to 15000 and gain 20 xp in game, you will still have level 1 mining with 15020 xp. If you set your xp to 14990 and then gain 20 xp, your mining skill will jump from level 1 to level 10 with 15010 xp.
+                    </li>
+                    <li>
+                        This is important to understand for when you change your skill levels, because it works in the other direction as well. If your character has 90 xp (skill level 0) and you set the skill to level 10 then load the game, your skill will be level 10. But if you gain 20xp for that skill, bringing the xp from 90 to 110, passing the level 1 threshold,
+                        your skill level will be changed from 10 to 1. Whenever you change your skill level, make sure you also change the skill's experience to an appropriate value. You can find the exact xp thresholds for each level on the <a href="https://stardewvalleywiki.com/Skills">Stardew Valley Wiki</a>.
+                    </li>
+                </ul>
+            </td>
+        </tr>
+    </tbody>
+</table>
+<br>
 <a href="../home.html">Go back</a>

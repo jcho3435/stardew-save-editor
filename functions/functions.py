@@ -1,6 +1,4 @@
-import os, datetime, shutil
-import PySimpleGUI as sg
-from lxml import etree
+import os, datetime, shutil, sys
 
 def init_directories():
     if not os.path.isdir("backups"):
@@ -45,3 +43,9 @@ def has_save_files(folderpath) -> bool:
         return False, f"[{get_current_time}] One or more save files are missing. Looking for files '{basename}' and 'SaveGameInfo'.\n\n", f"One or more save files are missing. Looking for files '{basename}' and 'SaveGameInfo'."
     
     return True, None, None
+
+def getBasePath():
+    try:
+        return sys._MEIPASS.replace("\\", "/")
+    except Exception:
+        return os.path.abspath(".")

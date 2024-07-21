@@ -1,7 +1,7 @@
 :: Deletes logs older than 14 days
 
 @echo off
-SET "directory=..\logs"
+SET "directory=logs"
 SET "days=14"
 SET "count=0"
 
