@@ -4,21 +4,16 @@ import os
 
 _character_data = None
 _world_data = None
-_xml_loaded = False
 
 def load_xml_roots(folderpath) -> str:
-    global _xml_loaded
-    if _xml_loaded:
-        return f"[{get_current_time()}] Unnecessary call to load_xml_roots(). XML already loaded.\n\n"
-    
     event_string = ""
 
     basename = os.path.basename(folderpath)
     character_save_file = os.path.join(folderpath, "SaveGameInfo")
     world_save_file = os.path.join(folderpath, basename)
 
-    character_save_file = "save_data2/SaveGameInfo" # TODO: MODIFY THIS TO BE THE CORRECT FOLDER LATER
-    world_save_file = "save_data2/MoreRice_363478863"
+    # character_save_file = "save_data2/SaveGameInfo" # TODO: MODIFY THIS TO BE THE CORRECT FOLDER LATER
+    # world_save_file = "save_data2/MoreRice_363478863"
 
     with open(character_save_file, "rb") as f: 
         data = f.read()

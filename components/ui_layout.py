@@ -25,6 +25,9 @@ def generateFarmersTabFrames(farmers_tab_layout: list):
         farmers_tab_layout.append([sg.Frame(title, frame_layout, key=Keys._FarmersTabFrames[i], pad=(5, (3, 12)), expand_x=True, visible=False)])
 
 def scrollableColumnWrapper(layout):
+    """
+    Wraps a layout with a scrollable column element
+    """
     return [[sg.Column(layout, scrollable=True, vertical_scroll_only=True, expand_x=True, expand_y=True)]]
 
 def createAboutTabHeader(text):
@@ -52,6 +55,11 @@ farmers_tab_layout = [
 ]
 generateFarmersTabFrames(farmers_tab_layout)
 
+friendship_tab_layout = [
+    [sg.Text("Change Friendship Data", font=("Times New Roman", 16))],
+    [sg.Text("Select farmer:"), sg.Combo("Placeholder", size=32, enable_events=True, key=Keys._FriendshipTabFarmerCombo)]
+]
+
 save_tab_layout = [
     [sg.Button("Save Changes")]
 ]
@@ -74,11 +82,12 @@ about_tab_layout = [
 
 layout = [
     [sg.TabGroup([[
-        sg.Tab("Load", load_tab_layout), 
+        sg.Tab(Keys._LoadTab, load_tab_layout), 
         sg.Tab(Keys._FarmersTab, scrollableColumnWrapper(farmers_tab_layout), visible=False),
+        sg.Tab(Keys._FriendshipTab, scrollableColumnWrapper(friendship_tab_layout), visible=False),
         sg.Tab(Keys._SaveTab, save_tab_layout, visible=False),
 
 
         sg.Tab(Keys._AboutTab, scrollableColumnWrapper(about_tab_layout))
-        ]], expand_x=True, expand_y=True)]
+        ]], expand_x=True, expand_y=True, enable_events=True, key=Keys._TabGroup)]
 ]

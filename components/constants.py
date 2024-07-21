@@ -27,6 +27,7 @@ class Keys:
     _ValidateFolder = "-ValidateFolder-"
     _SaveWarning = "-SaveWarning-"
     _FarmersTabFrames = [f"-FarmersTabFrame{i}-" for i in range(_MAXPLAYERS)]
+    _FriendshipTabFarmerCombo = "-FriendshipTabFarmerCombo-"
 
     # Editable values ----------------------------------------------------------
     _FarmerNames = [f"-FarmerName{i}-" for i in range(_MAXPLAYERS)]
@@ -46,10 +47,14 @@ class Keys:
     }
 
     #Tabs ----------------------------------------------------------------------
+    _LoadTab = "Load"
     _FarmersTab = "Farmers"
+    _FriendshipTab = "Friendship"
     _SaveTab = "Save"
     _AboutTab = "About"
-    _EditorTabs = [_FarmersTab, _SaveTab] #used for setting visibility after load event
+    _EditorTabs = [_FarmersTab, _SaveTab, _FriendshipTab] #used for setting visibility after load event
+    _AllTabs = _EditorTabs + [_LoadTab, _AboutTab]
+    _TabGroup = "-TabGroup-"
     
 
 class CharacterSavePaths:
@@ -60,7 +65,7 @@ class CharacterSavePaths:
         "fishing": "/Farmer/fishingLevel[1]", 
         "combat": "/Farmer/combatLevel[1]"
         }
-
+    _FriendshipData = "Farmer/friendshipData[1]"
 
 class WorldSavePaths:
     _Farmer = "/SaveGame/player"

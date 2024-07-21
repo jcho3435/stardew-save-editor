@@ -43,8 +43,8 @@ def _Save_Changes_Event(window: sg.Window, values: dict) -> str:
     character_save_file = os.path.join(folderpath, "SaveGameInfo")
     world_save_file = os.path.join(folderpath, basename)
 
-    character_save_file = "save_data2/SaveGameInfo" #TODO: CHANGE THIS SHIT TO NOT BE HARDCODED
-    world_save_file = "save_data2/MoreRice_363478863"
+    # character_save_file = "save_data2/SaveGameInfo" #TODO: CHANGE THIS SHIT TO NOT BE HARDCODED
+    # world_save_file = "save_data2/MoreRice_363478863"
 
     with open(character_save_file, 'wb') as file:
         #WRITE BOM CHARACTERS
@@ -91,3 +91,5 @@ def handle_event(window: sg.Window, event: str, values: dict) -> str:
         return _Save_Changes_Event(window, values)
     elif event.startswith("URL "):
         return _Url_Event(event)
+    elif event == Keys._TabGroup:
+        return f"[{get_current_time}] Switched to {values[event]} tab.\n\n"

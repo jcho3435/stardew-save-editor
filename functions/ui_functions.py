@@ -61,7 +61,8 @@ def _load_profile_data(window: sg.Window) -> str:
 
 def load_save_data(window: sg.Window, folderpath: str) -> str:
     event_string = ""
-    
+    set_visibility(window, Keys._FarmersTabFrames, False)
+
     # load xml
     event_string += load_xml_roots(folderpath)
     
