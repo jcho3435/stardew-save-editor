@@ -1,5 +1,5 @@
 import PySimpleGUI as sg
-from components.constants import Keys, _Links, _BASEPATH
+from components.constants import Keys, _Links, _BASEPATH, _AllFriendableNPCs
 import textwrap
 
 # helpers --------------------------------------------------------------------------------
@@ -57,8 +57,11 @@ generateFarmersTabFrames(farmers_tab_layout)
 
 friendship_tab_layout = [
     [sg.Text("Change Friendship Data", font=("Times New Roman", 16))],
-    [sg.Text("Select farmer:"), sg.Combo("Placeholder", size=32, enable_events=True, key=Keys._FriendshipTabFarmerCombo)]
+    [sg.Text("Select farmer:"), sg.Combo([], size=32, enable_events=True, key=Keys._FriendshipTabFarmerCombo, readonly=True)],
+    [sg.Text("")]
 ]
+friendship_tab_npcs = [[sg.Text(f"{npc}:", p=((5, 0), 8), visible=False, key=Keys._NPCFriendshipLabels[npc]), sg.Input(key=Keys._NPCFriendshipPoints[npc], visible=False, disabled=True, p=((0, 5), 8))] for npc in sorted(_AllFriendableNPCs)]
+friendship_tab_layout += friendship_tab_npcs
 
 save_tab_layout = [
     [sg.Button("Save Changes")]

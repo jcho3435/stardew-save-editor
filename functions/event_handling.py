@@ -84,6 +84,10 @@ def _Url_Event(event):
 
     return f"[{get_current_time()}] Opened page {url} in web browser.\n\n"
 
+def _Handle_Friendship_Tab_Combo_Box_Selection(window: sg.Window, values: dict):
+
+    return ""
+
 def _Switch_To_Friendship_Tab_Event(window: sg.Window, values: dict):
     old_val = values[Keys._FriendshipTabFarmerCombo]
     default_index = ""
@@ -101,7 +105,9 @@ def _Switch_To_Friendship_Tab_Event(window: sg.Window, values: dict):
 
     window[Keys._FriendshipTabFarmerCombo].update(values=farmers_names, set_to_index=(int(default_index)-1)) #Change from 1 indexed for user to 0 indexed by python
 
-    return f"[{get_current_time()}] Friendship tab combo box filled with most up to date entries for farmer names.\n\n" #TODO: THIS
+    event_string = _Handle_Friendship_Tab_Combo_Box_Selection(window, values)
+
+    return event_string + f"[{get_current_time()}] Friendship tab combo box filled with most up to date entries for farmer names.\n\n" #TODO: THIS
     #needs to fill the combo box with the right names
 
 def handle_event(window: sg.Window, event: str, values: dict) -> str:
@@ -111,6 +117,8 @@ def handle_event(window: sg.Window, event: str, values: dict) -> str:
         return _Save_Changes_Event(window, values)
     elif event.startswith("URL "):
         return _Url_Event(event)
+    elif event == Keys._FriendshipTabFarmerCombo:
+        return _Handle_Friendship_Tab_Combo_Box_Selection(window, values)
     elif event == Keys._TabGroup:
         event_string = f"[{get_current_time()}] Switched to {values[event]} tab.\n\n"
         if values[event] == Keys._FriendshipTab:

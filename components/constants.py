@@ -21,13 +21,23 @@ _SkillNameToXMLExperienceIndexMap = {
     "luck": 6 # luck is unused by stardew
 }
 
+_AllFriendableNPCs = [
+    "Harvey", "Leah", "Linus", "Penny", "Pierre", "Abigail", "Alex", "Clint", "Demetrius", "Emily", "Evelyn", "Gus", "Kent", "Lewis", "Marnie", "Maru", "Pam", "Robin", "Sandy", "Caroline",
+    "Dwarf", "Elliott", "Haley", "Jas", "Krobus", "Leo", "Sam", "Sebastian", "Shane", "Vincent", "Willy", "Wizard", "George", "Jodi"
+]
+
 class Keys:
+    '''
+    Contains keys for window elements
+    '''
     _FolderInput = "-FolderSelection-"
     _FolderBrowser = "-FolderBrowserButton-"
     _ValidateFolder = "-ValidateFolder-"
     _SaveWarning = "-SaveWarning-"
     _FarmersTabFrames = [f"-FarmersTabFrame{i}-" for i in range(_MAXPLAYERS)]
+    _FriendshipTabFrames = [f"-FriendshipTabFrame{i}-" for i in range(_MAXPLAYERS)]
     _FriendshipTabFarmerCombo = "-FriendshipTabFarmerCombo-"
+    _NPCFriendshipLabels = {npc: f"-{npc}Label-" for npc in sorted(_AllFriendableNPCs)}
 
     # Editable values ----------------------------------------------------------
     _FarmerNames = [f"-FarmerName{i}-" for i in range(_MAXPLAYERS)]
@@ -45,6 +55,8 @@ class Keys:
         "fishing": [f"-FarmerFishingXP{i}-" for i in range(_MAXPLAYERS)],
         "combat": [f"-FarmerCombatXP{i}-" for i in range(_MAXPLAYERS)]
     }
+
+    _NPCFriendshipPoints = {npc: f"-{npc}Friendship-" for npc in _AllFriendableNPCs}
 
     #Tabs ----------------------------------------------------------------------
     _LoadTab = "Load"
