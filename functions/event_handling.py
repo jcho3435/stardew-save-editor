@@ -43,8 +43,8 @@ def _Save_Changes_Event(window: sg.Window, values: dict) -> str:
     character_save_file = os.path.join(folderpath, "SaveGameInfo")
     world_save_file = os.path.join(folderpath, basename)
 
-    # character_save_file = "save_data2/SaveGameInfo" #TODO: CHANGE THIS SHIT TO NOT BE HARDCODED
-    # world_save_file = "save_data2/MoreRice_363478863"
+    character_save_file = "save_data2/SaveGameInfo" #TODO: CHANGE THIS SHIT TO NOT BE HARDCODED
+    world_save_file = "save_data2/MoreRice_363478863"
 
     with open(character_save_file, 'wb') as file:
         #WRITE BOM CHARACTERS
@@ -84,6 +84,26 @@ def _Url_Event(event):
 
     return f"[{get_current_time()}] Opened page {url} in web browser.\n\n"
 
+def _Switch_To_Friendship_Tab_Event(window: sg.Window, values: dict):
+    old_val = values[Keys._FriendshipTabFarmerCombo]
+    default_index = ""
+    if old_val != "":
+        default_index = old_val[-2]
+    else:
+        default_index = "1"
+
+    farmers_names = []
+    index = 0
+    for key in Keys._FarmersTabFrames:
+        if window[key].visible:
+            farmers_names.append(f"{values[Keys._FarmerNames[index]]} (Farmer {index + 1})")
+        index += 1
+
+    window[Keys._FriendshipTabFarmerCombo].update(values=farmers_names, set_to_index=(int(default_index)-1)) #Change from 1 indexed for user to 0 indexed by python
+
+    return f"[{get_current_time()}] Friendship tab combo box filled with most up to date entries for farmer names.\n\n" #TODO: THIS
+    #needs to fill the combo box with the right names
+
 def handle_event(window: sg.Window, event: str, values: dict) -> str:
     if event == Keys._FolderInput:
         return _Folder_Selection_Event(window, values)
@@ -92,4 +112,7 @@ def handle_event(window: sg.Window, event: str, values: dict) -> str:
     elif event.startswith("URL "):
         return _Url_Event(event)
     elif event == Keys._TabGroup:
-        return f"[{get_current_time}] Switched to {values[event]} tab.\n\n"
+        event_string = f"[{get_current_time}] Switched to {values[event]} tab.\n\n"
+        if values[event] == Keys._FriendshipTab:
+            event_string += _Switch_To_Friendship_Tab_Event(window, values)
+        return event_string

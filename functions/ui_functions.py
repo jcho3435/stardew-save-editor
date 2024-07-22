@@ -40,6 +40,20 @@ def enable_and_fill_farmer_frame(window: sg.Window, index: int, farmer: etree._E
 
     window[Keys._FarmersTabFrames[index]].update(visible=True)
 
+def _reset_profile_tab_ui(window: sg.Window):
+    for key in Keys._FarmerNames:
+        window[key].update(value="", disabled=True)
+
+    for keys in Keys._FarmerSkillLevels.values():
+        for key in keys:
+            window[key].update(value="", disabled=True)
+    
+    for keys in Keys._FarmerSkillExperience.values():
+        for key in keys:
+            window[key].update(value="", disabled=True)
+
+    set_visibility(window, Keys._FarmersTabFrames, False)
+
 #loading save data
 def _load_profile_data(window: sg.Window) -> str:
     event_string = ""
@@ -61,7 +75,7 @@ def _load_profile_data(window: sg.Window) -> str:
 
 def load_save_data(window: sg.Window, folderpath: str) -> str:
     event_string = ""
-    set_visibility(window, Keys._FarmersTabFrames, False)
+    _reset_profile_tab_ui(window)
 
     # load xml
     event_string += load_xml_roots(folderpath)
