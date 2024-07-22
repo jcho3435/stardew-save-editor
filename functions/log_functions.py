@@ -1,7 +1,8 @@
 import datetime
 import traceback
+from functions.functions import get_current_time
 
-def log_exceptions(e: Exception, starttime):
+def log_exceptions(e: Exception, starttime) -> str:
     time = datetime.datetime.now()
     file_name = f"y{time.year}_m{time.month}_d{time.day}_h{time.hour}_m{time.minute}_s{time.second}_ms{time.microsecond//1000}_{type(e).__name__}.log"
     f = open(f"logs\\{file_name}", "w")
@@ -13,6 +14,13 @@ def log_exceptions(e: Exception, starttime):
     f.write(f"Stack trace: {e.__traceback__}\n")
     f.write(f"{traceback.format_tb(e.__traceback__)}".replace("\\n", "\n"))
     f.close()
+
+    event_log = f"[{get_current_time()}] An exception has occurred!\n"
+    event_log += f"{' '*11}Exception type: {type(e).__name__}\n"
+    event_log += f"{' '*11}Exception message: {e}\n"
+    event_log += f"{' '*11}See error log \"logs/{file_name}\" for more details.\n\n"
+
+    return event_log
 
 def log_events(events: str, starttime: datetime.datetime):
     closetime = datetime.datetime.now()

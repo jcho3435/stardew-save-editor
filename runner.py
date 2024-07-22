@@ -43,7 +43,7 @@ try:
 
     window.close()
 except Exception as e:
-    log_functions.log_exceptions(e, time)
+    event_string += log_functions.log_exceptions(e, time)
 finally:
     log_functions.log_events(event_string, time)
     program_lock.clean_up()

@@ -112,7 +112,7 @@ def handle_event(window: sg.Window, event: str, values: dict) -> str:
     elif event.startswith("URL "):
         return _Url_Event(event)
     elif event == Keys._TabGroup:
-        event_string = f"[{get_current_time}] Switched to {values[event]} tab.\n\n"
+        event_string = f"[{get_current_time()}] Switched to {values[event]} tab.\n\n"
         if values[event] == Keys._FriendshipTab:
             event_string += _Switch_To_Friendship_Tab_Event(window, values)
         return event_string
