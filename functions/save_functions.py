@@ -2,7 +2,7 @@ from components.constants import Keys, WorldSavePaths
 from lxml import etree
 from functions.get_and_load_xml import get_xml_roots
 from functions.functions import get_current_time
-import components.constants as constants
+import components.constants as constants, components.vars as vars
 
 def save_name_to_tree(farmer: etree._Element, name: str):
     farmer.xpath("./name[1]")[0].text = name.strip()
@@ -12,7 +12,7 @@ def save_skill_levels_and_xp_to_tree(farmer: etree._Element, values: dict, index
         farmer.xpath(f"./{skill}Level[1]")[0].text = values[keys[index]].strip()
 
     for skill, keys in Keys._FarmerSkillExperience.items():
-        farmer.xpath(f"./experiencePoints/int[{constants._SkillNameToXMLExperienceIndexMap[skill]}]")[0].text = values[keys[index]].strip()
+        farmer.xpath(f"./experiencePoints/int[{vars._SkillNameToXMLExperienceIndexMap[skill]}]")[0].text = values[keys[index]].strip()
 
 def save_farmers_tab_data_to_tree(values: dict) -> str:
     event_string = ""

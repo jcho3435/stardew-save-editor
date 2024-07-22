@@ -2,24 +2,6 @@ import os
 from functions.functions import getBasePath
 
 _MAXPLAYERS = 8
-_BASEPATH = getBasePath()
-
-_SaveFolderRE = r"^.*_[0-9]+$"
-_XML_DECLARATION = "<?xml version=\"1.0\" encoding=\"utf-8\"?>"
-_Links = {
-    "github": "https://github.com/jcho3435/stardew-save-editor",
-    "docs": "file:///" + os.path.abspath(f"{_BASEPATH}/docs/home.html").replace("\\", "/").replace(" ", "%20")
-}
-
-# This is for finding using xpath, which is 1 indexed
-_SkillNameToXMLExperienceIndexMap = {
-    "farming": 1,
-    "fishing": 2,
-    "foraging": 3,
-    "mining": 4,
-    "combat": 5,
-    "luck": 6 # luck is unused by stardew
-}
 
 _AllFriendableNPCs = [
     "Harvey", "Leah", "Linus", "Penny", "Pierre", "Abigail", "Alex", "Clint", "Demetrius", "Emily", "Evelyn", "Gus", "Kent", "Lewis", "Marnie", "Maru", "Pam", "Robin", "Sandy", "Caroline",
@@ -82,3 +64,6 @@ class CharacterSavePaths:
 class WorldSavePaths:
     _Farmer = "/SaveGame/player"
     _Farmhands = "/SaveGame/farmhands/Farmer"
+
+    _FarmerFriendshipData = "/SaveGame/player/friendshipData[1]"
+    _FarmhandRelativeFriendshipData = "./friendshipData[1]"

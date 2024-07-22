@@ -3,7 +3,7 @@ import PySimpleGUI as sg
 from functions.functions import get_current_time, create_backup, has_save_files
 from functions.ui_functions import set_visibility, load_save_data
 from functions.get_and_load_xml import get_xml_roots
-import components.constants as constants
+import components.constants as constants, components.vars as vars
 from components.constants import Keys
 import functions.save_functions as save_functions
 from lxml import etree
@@ -12,7 +12,7 @@ def _Folder_Selection_Event(window: sg.Window, values) -> str:
     event_string = ""
     folderpath = values[Keys._FolderInput]
     foldername = os.path.basename(folderpath)
-    if re.match(constants._SaveFolderRE, foldername): # Valid folder name 
+    if re.match(vars._SaveFolderRE, foldername): # Valid folder name 
         valid, error_log, friendly_text = has_save_files(folderpath)
         if not valid:
             window[Keys._ValidateFolder].update(value=friendly_text, text_color="red")
@@ -51,7 +51,7 @@ def _Save_Changes_Event(window: sg.Window, values: dict) -> str:
         file.write(b'\xef\xbb\xbf')
 
         #write xml declaration
-        file.write(constants._XML_DECLARATION.encode("utf-8"))
+        file.write(vars._XML_DECLARATION.encode("utf-8"))
 
         # Serialize XML tree to bytes and write to file
         character_save_string = etree.tostring(character_data, encoding='utf-8', xml_declaration=False)
@@ -64,7 +64,7 @@ def _Save_Changes_Event(window: sg.Window, values: dict) -> str:
         file.write(b'\xef\xbb\xbf')
 
         #write xml declaration
-        file.write(constants._XML_DECLARATION.encode("utf-8"))
+        file.write(vars._XML_DECLARATION.encode("utf-8"))
         
         # Serialize XML tree to bytes and write to file
         world_save_string = etree.tostring(world_data, encoding='utf-8', xml_declaration=False)

@@ -1,5 +1,6 @@
 import PySimpleGUI as sg
-from components.constants import Keys, _Links, _BASEPATH, _AllFriendableNPCs
+from components.constants import Keys, _AllFriendableNPCs
+from components.vars import _Links, _BASEPATH
 import textwrap
 
 # helpers --------------------------------------------------------------------------------
