@@ -62,7 +62,7 @@ class CharacterSavePaths:
         "fishing": "/Farmer/fishingLevel[1]", 
         "combat": "/Farmer/combatLevel[1]"
         }
-    _FriendshipData = "Farmer/friendshipData[1]"
+    _FriendshipData = "/Farmer/friendshipData[1]"
 
 class WorldSavePaths:
     _Farmer = "/SaveGame/player"

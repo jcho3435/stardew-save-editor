@@ -35,6 +35,7 @@ def _Folder_Selection_Event(window: sg.Window, values) -> str:
 def _Save_Changes_Event(window: sg.Window, values: dict) -> str:
     event_string = ""
     event_string += save_functions.save_farmers_tab_data_to_tree(values)
+    event_string += save_functions.save_friendship_tab_data_to_tree()
 
     character_data, world_data = get_xml_roots()
 
@@ -137,7 +138,7 @@ def _Switch_To_Friendship_Tab_Event(window: sg.Window, values: dict):
 
     vars._Set_Friendship_Tab_Old_Combo_Ind(i)
 
-    return event_string + f"[{get_current_time()}] Friendship tab combo box filled with most up to date entries for farmer names.\n\n" #TODO: THIS
+    return event_string + f"[{get_current_time()}] Friendship tab combo box filled with most recent entries for farmer names.\n\n"
 
 def handle_event(window: sg.Window, event: str, values: dict) -> str:
     if event == Keys._FolderInput:

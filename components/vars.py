@@ -23,7 +23,6 @@ _SkillNameToXMLExperienceIndexMap = {
 
 _FriendshipData: list[dict[str: str]]
 def _Get_Friendship_data():
-    print(_FriendshipData)
     return _FriendshipData
 
 _FriendshipTabOldComboInd: int

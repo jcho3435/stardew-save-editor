@@ -4,6 +4,8 @@ from functions.get_and_load_xml import get_xml_roots
 from functions.functions import get_current_time
 import components.constants as constants, components.vars as vars
 
+
+# - - - - - - - - - - - - - - - - - Save Farmers Tab Data  - - - - - - - - - - - - - - - - - 
 def save_name_to_tree(farmer: etree._Element, name: str):
     farmer.xpath("./name[1]")[0].text = name.strip()
 
@@ -47,3 +49,44 @@ def save_farmers_tab_data_to_tree(values: dict) -> str:
         event_string += f"[{get_current_time()}] Farmer tab farmhand changes saved to world xml tree.\n\n"
 
     return event_string
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+# - - - - - - - - - - - - - - - - Save Friendship Tab Data  - - - - - - - - - - - - - - - - - 
+
+def save_friendship_points_to_tree(farmer: etree._Element, index: int):
+    friendshipData = vars._Get_Friendship_data()
+    data = friendshipData[index]
+
+    npc_items: list[etree._Element] = farmer.xpath("./friendshipData[1]/item")
+    for item in npc_items:
+        npc = item.xpath("./key/string[1]")[0].text
+        item.xpath("./value/Friendship/Points[1]")[0].text = data[npc] #reassignment
+
+def save_friendship_tab_data_to_tree() -> str:
+    event_string = ""
+    character_data, world_data = get_xml_roots()
+
+    # Save host data
+    # Change in character save file
+    save_friendship_points_to_tree(character_data, 0)
+    event_string += f"[{get_current_time()}] Friendship tab host farmer changes saved to character xml tree.\n"
+
+    # Change in world save file
+    world_save_host = world_data.xpath(WorldSavePaths._Farmer)[0]
+    save_friendship_points_to_tree(world_save_host, 0)
+    event_string += f"[{get_current_time()}] Friendship tab host farmer changes saved to world xml tree.\n"
+
+    #Save farmhand data
+    farmhands = world_data.xpath(WorldSavePaths._Farmhands)
+    index = 1
+    for farmer in farmhands:
+        save_friendship_points_to_tree(farmer, index)
+        index += 1
+
+    if index != 1:
+        event_string += f"[{get_current_time()}] Farmer tab farmhand changes saved to world xml tree.\n\n"
+
+    return event_string
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
