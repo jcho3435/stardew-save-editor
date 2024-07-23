@@ -22,14 +22,11 @@ _SkillNameToXMLExperienceIndexMap = {
 }
 
 _FriendshipData: list[dict[str: str]]
-def _Init_Friendship_Data():
-    global _FriendshipData
-    _FriendshipData = [{}, {}, {}, {}, {}, {}, {}, {}]
-
 def _Get_Friendship_data():
+    print(_FriendshipData)
     return _FriendshipData
 
-_FriendshipTabOldComboInd: int = -1
+_FriendshipTabOldComboInd: int
 def _Set_Friendship_Tab_Old_Combo_Ind(i: int):
     global _FriendshipTabOldComboInd
     _FriendshipTabOldComboInd = i
@@ -37,10 +34,17 @@ def _Set_Friendship_Tab_Old_Combo_Ind(i: int):
 def _Get_Friendship_Tab_Old_Combo_Ind():
     return _FriendshipTabOldComboInd
 
-_CurrTab: str = Keys._LoadTab
 def _Set_Curr_Tab(tab: str):
     global _CurrTab
     _CurrTab = tab
 
 def _Get_Curr_Tab():
     return _CurrTab
+
+def _Init_Friendship_Vars():
+    global _FriendshipData
+    _FriendshipData = [{}, {}, {}, {}, {}, {}, {}, {}]
+    global _FriendshipTabOldComboInd
+    _FriendshipTabOldComboInd = -1
+    global _CurrTab
+    _CurrTab = Keys._LoadTab

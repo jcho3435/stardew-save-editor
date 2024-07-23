@@ -108,7 +108,7 @@ def _Handle_Friendship_Tab_Display_Selection(window: sg.Window, values: dict):
         locked = [npc for npc in allnpcs if npc not in npcs]
 
         for npc in locked:
-            window[Keys._NPCFriendshipPoints[npc]].update("This NPC is not unlocked")
+            window[Keys._NPCFriendshipPoints[npc]].update("NPC Locked")
 
         vars._Set_Friendship_Tab_Old_Combo_Ind(index)
 

@@ -8,7 +8,7 @@ import components.constants as constants, components.vars as vars
 from functions.functions import get_current_time
 from functions.get_and_load_xml import load_xml_roots, get_xml_roots
 from lxml import etree
-from components.vars import _Init_Friendship_Data, _Get_Friendship_data
+from components.vars import _Init_Friendship_Vars, _Get_Friendship_data
 
 def hide_rows(window: sg.Window, keys: list | str):
     if type(keys) == str:
@@ -72,6 +72,11 @@ def _reset_profile_tab_ui(window: sg.Window):
 
     set_visibility(window, Keys._FarmersTabFrames, False)
 
+def _reset_friendship_tab_ui(window: sg.Window):
+    window[Keys._FriendshipTabFarmerCombo].update(values=[], set_to_index=0) #Only this call is necessary, but the others are there for redundancy
+    for npc, key in Keys._NPCFriendshipPoints.items():
+        window[key].update(value="", disabled=True)
+
 #loading save data
 def _load_profile_data(window: sg.Window) -> str:
     character_save, world_save = get_xml_roots()
@@ -108,7 +113,9 @@ def _load_friendship_data():
 def load_save_data(window: sg.Window, folderpath: str) -> str:
     event_string = ""
     _reset_profile_tab_ui(window)
-    _Init_Friendship_Data()
+    _reset_friendship_tab_ui(window)
+    _Init_Friendship_Vars()
+
 
     # load xml
     event_string += load_xml_roots(folderpath)

@@ -19,7 +19,6 @@ class Keys:
     _FarmersTabFrames = [f"-FarmersTabFrame{i}-" for i in range(_MAXPLAYERS)]
     _FriendshipTabFrames = [f"-FriendshipTabFrame{i}-" for i in range(_MAXPLAYERS)]
     _FriendshipTabFarmerCombo = "-FriendshipTabFarmerCombo-"
-    _NPCFriendshipLabels = {npc: f"-{npc}Label-" for npc in sorted(_AllFriendableNPCs)}
 
     # Editable values ----------------------------------------------------------
     _FarmerNames = [f"-FarmerName{i}-" for i in range(_MAXPLAYERS)]
