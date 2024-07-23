@@ -1,5 +1,6 @@
 import os
 from functions.functions import getBasePath
+from components.constants import Keys
 
 _BASEPATH = getBasePath()
 
@@ -27,3 +28,19 @@ def _Init_Friendship_Data():
 
 def _Get_Friendship_data():
     return _FriendshipData
+
+_FriendshipTabOldComboInd: int = -1
+def _Set_Friendship_Tab_Old_Combo_Ind(i: int):
+    global _FriendshipTabOldComboInd
+    _FriendshipTabOldComboInd = i
+
+def _Get_Friendship_Tab_Old_Combo_Ind():
+    return _FriendshipTabOldComboInd
+
+_CurrTab: str = Keys._LoadTab
+def _Set_Curr_Tab(tab: str):
+    global _CurrTab
+    _CurrTab = tab
+
+def _Get_Curr_Tab():
+    return _CurrTab

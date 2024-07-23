@@ -50,6 +50,10 @@ class Keys:
     _AllTabs = _EditorTabs + [_LoadTab, _AboutTab]
     _TabGroup = "-TabGroup-"
     
+    #Columns -------------------------------------------------------------------
+    _FarmersTabColumn = "-FarmersTabColumn-"
+    _FriendshipTabColumn = "-FriendshipTabColumn-"
+    _AboutTabColumn = "-AboutTabColumn-"
 
 class CharacterSavePaths:
     _FarmerSkillLevels = {

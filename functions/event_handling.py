@@ -1,4 +1,4 @@
-import os, re, webbrowser
+import os, re, webbrowser, time
 import PySimpleGUI as sg
 from functions.functions import get_current_time, create_backup, has_save_files
 from functions.ui_functions import set_visibility, load_save_data
@@ -84,9 +84,35 @@ def _Url_Event(event):
 
     return f"[{get_current_time()}] Opened page {url} in web browser.\n\n"
 
-def _Handle_Friendship_Tab_Combo_Box_Selection(window: sg.Window, values: dict):
+def update_friendship_data_dict(values: dict):
+    oldIndex = vars._Get_Friendship_Tab_Old_Combo_Ind()
+    data = vars._FriendshipData[oldIndex]
 
-    return ""
+    for npc in data.keys():
+        data[npc] = values[f"-{npc}Friendship-"]
+
+def _Handle_Friendship_Tab_Display_Selection(window: sg.Window, values: dict):
+    # Display the friendship data
+    farmers: list[str] = window[Keys._FriendshipTabFarmerCombo].Values
+    index = farmers.index(values[Keys._FriendshipTabFarmerCombo])
+
+    if index != vars._Get_Friendship_Tab_Old_Combo_Ind():
+        update_friendship_data_dict(values)
+        friendshipData = vars._Get_Friendship_data()[index]
+
+        for npc, points in friendshipData.items():
+            window[Keys._NPCFriendshipPoints[npc]].update(points, disabled=False)
+
+        npcs = friendshipData.keys()
+        allnpcs = constants._AllFriendableNPCs
+        locked = [npc for npc in allnpcs if npc not in npcs]
+
+        for npc in locked:
+            window[Keys._NPCFriendshipPoints[npc]].update("This NPC is not unlocked")
+
+        vars._Set_Friendship_Tab_Old_Combo_Ind(index)
+
+    return f"[{get_current_time()}] Displaying friendship data for {values[Keys._FriendshipTabFarmerCombo]}.\n\n"
 
 def _Switch_To_Friendship_Tab_Event(window: sg.Window, values: dict):
     old_val = values[Keys._FriendshipTabFarmerCombo]
@@ -103,12 +129,15 @@ def _Switch_To_Friendship_Tab_Event(window: sg.Window, values: dict):
             farmers_names.append(f"{values[Keys._FarmerNames[index]]} (Farmer {index + 1})")
         index += 1
 
-    window[Keys._FriendshipTabFarmerCombo].update(values=farmers_names, set_to_index=(int(default_index)-1)) #Change from 1 indexed for user to 0 indexed by python
+    i = int(default_index)-1
+    window[Keys._FriendshipTabFarmerCombo].update(values=farmers_names, set_to_index=i) #Change from 1 indexed for user to 0 indexed by python
+    values[Keys._FriendshipTabFarmerCombo] = farmers_names[i]
 
-    event_string = _Handle_Friendship_Tab_Combo_Box_Selection(window, values)
+    event_string = _Handle_Friendship_Tab_Display_Selection(window, values)
+
+    vars._Set_Friendship_Tab_Old_Combo_Ind(i)
 
     return event_string + f"[{get_current_time()}] Friendship tab combo box filled with most up to date entries for farmer names.\n\n" #TODO: THIS
-    #needs to fill the combo box with the right names
 
 def handle_event(window: sg.Window, event: str, values: dict) -> str:
     if event == Keys._FolderInput:
@@ -118,9 +147,13 @@ def handle_event(window: sg.Window, event: str, values: dict) -> str:
     elif event.startswith("URL "):
         return _Url_Event(event)
     elif event == Keys._FriendshipTabFarmerCombo:
-        return _Handle_Friendship_Tab_Combo_Box_Selection(window, values)
+        return _Handle_Friendship_Tab_Display_Selection(window, values)
     elif event == Keys._TabGroup:
         event_string = f"[{get_current_time()}] Switched to {values[event]} tab.\n\n"
         if values[event] == Keys._FriendshipTab:
             event_string += _Switch_To_Friendship_Tab_Event(window, values)
+        else:
+            if vars._Get_Curr_Tab() == Keys._FriendshipTab:
+                update_friendship_data_dict(values)
+        vars._Set_Curr_Tab(values[event])
         return event_string

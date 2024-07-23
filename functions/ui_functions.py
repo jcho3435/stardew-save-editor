@@ -86,6 +86,7 @@ def _load_profile_data(window: sg.Window) -> str:
         enable_and_fill_farmer_frame(window, index, farmer)
         index += 1
 
+    window[Keys._FarmersTabColumn].contents_changed()
     return f"[{get_current_time()}] Farmers profile data loaded.\n\n"
 
 #load friendship data into global list
