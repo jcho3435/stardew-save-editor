@@ -1,5 +1,6 @@
 import PySimpleGUI as sg
-from components.constants import Keys, _Links, _BASEPATH
+from components.constants import Keys, _AllFriendableNPCs
+from components.vars import _Links, _BASEPATH
 import textwrap
 
 # helpers --------------------------------------------------------------------------------
@@ -24,8 +25,11 @@ def generateFarmersTabFrames(farmers_tab_layout: list):
             title += " (World host)"
         farmers_tab_layout.append([sg.Frame(title, frame_layout, key=Keys._FarmersTabFrames[i], pad=(5, (3, 12)), expand_x=True, visible=False)])
 
-def scrollableColumnWrapper(layout):
-    return [[sg.Column(layout, scrollable=True, vertical_scroll_only=True, expand_x=True, expand_y=True)]]
+def scrollableColumnWrapper(layout, key):
+    """
+    Wraps a layout with a scrollable column element
+    """
+    return [[sg.Column(layout, scrollable=True, vertical_scroll_only=True, expand_x=True, expand_y=True, key=key)]]
 
 def createAboutTabHeader(text):
     return sg.Text(text, font=("Times New Roman", 16, "underline"), text_color="black", pad=5)
@@ -52,6 +56,13 @@ farmers_tab_layout = [
 ]
 generateFarmersTabFrames(farmers_tab_layout)
 
+friendship_tab_layout = [
+    [sg.Text("Change Friendship Data", font=("Times New Roman", 16))],
+    [sg.Text("Select farmer:", pad=(5, (3, 20))), sg.Combo([], size=32, enable_events=True, key=Keys._FriendshipTabFarmerCombo, readonly=True, pad=(5, (3, 20)))]
+]
+friendship_tab_npcs = [[sg.Image(f"{_BASEPATH}/icons/npcs/{npc}.png", subsample=2), sg.Text(f"{npc}:", p=(5, 8)), sg.Input(key=Keys._NPCFriendshipPoints[npc], disabled=True, p=((0, 5), 8), size=18, disabled_readonly_background_color="#cfcfcf")] for npc in sorted(_AllFriendableNPCs)]
+friendship_tab_layout += friendship_tab_npcs
+
 save_tab_layout = [
     [sg.Button("Save Changes")]
 ]
@@ -74,11 +85,12 @@ about_tab_layout = [
 
 layout = [
     [sg.TabGroup([[
-        sg.Tab("Load", load_tab_layout), 
-        sg.Tab(Keys._FarmersTab, scrollableColumnWrapper(farmers_tab_layout), visible=False),
+        sg.Tab(Keys._LoadTab, load_tab_layout), 
+        sg.Tab(Keys._FarmersTab, scrollableColumnWrapper(farmers_tab_layout, Keys._FarmersTabColumn), visible=False),
+        sg.Tab(Keys._FriendshipTab, scrollableColumnWrapper(friendship_tab_layout, Keys._FriendshipTabColumn), visible=False),
         sg.Tab(Keys._SaveTab, save_tab_layout, visible=False),
 
 
-        sg.Tab(Keys._AboutTab, scrollableColumnWrapper(about_tab_layout))
-        ]], expand_x=True, expand_y=True)]
+        sg.Tab(Keys._AboutTab, scrollableColumnWrapper(about_tab_layout, Keys._AboutTabColumn))
+        ]], expand_x=True, expand_y=True, enable_events=True, key=Keys._TabGroup)]
 ]

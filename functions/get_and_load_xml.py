@@ -4,13 +4,8 @@ import os
 
 _character_data = None
 _world_data = None
-_xml_loaded = False
 
 def load_xml_roots(folderpath) -> str:
-    global _xml_loaded
-    if _xml_loaded:
-        return f"[{get_current_time()}] Unnecessary call to load_xml_roots(). XML already loaded.\n\n"
-    
     event_string = ""
 
     basename = os.path.basename(folderpath)

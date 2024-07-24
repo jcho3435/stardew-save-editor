@@ -2,31 +2,23 @@ import os
 from functions.functions import getBasePath
 
 _MAXPLAYERS = 8
-_BASEPATH = getBasePath()
 
-_SaveFolderRE = r"^.*_[0-9]+$"
-_XML_DECLARATION = "<?xml version=\"1.0\" encoding=\"utf-8\"?>"
-_Links = {
-    "github": "https://github.com/jcho3435/stardew-save-editor",
-    "docs": "file:///" + os.path.abspath(f"{_BASEPATH}/docs/home.html").replace("\\", "/").replace(" ", "%20")
-}
-
-# This is for finding using xpath, which is 1 indexed
-_SkillNameToXMLExperienceIndexMap = {
-    "farming": 1,
-    "fishing": 2,
-    "foraging": 3,
-    "mining": 4,
-    "combat": 5,
-    "luck": 6 # luck is unused by stardew
-}
+_AllFriendableNPCs = [
+    "Harvey", "Leah", "Linus", "Penny", "Pierre", "Abigail", "Alex", "Clint", "Demetrius", "Emily", "Evelyn", "Gus", "Kent", "Lewis", "Marnie", "Maru", "Pam", "Robin", "Sandy", "Caroline",
+    "Dwarf", "Elliott", "Haley", "Jas", "Krobus", "Leo", "Sam", "Sebastian", "Shane", "Vincent", "Willy", "Wizard", "George", "Jodi"
+]
 
 class Keys:
+    '''
+    Contains keys for window elements
+    '''
     _FolderInput = "-FolderSelection-"
     _FolderBrowser = "-FolderBrowserButton-"
     _ValidateFolder = "-ValidateFolder-"
     _SaveWarning = "-SaveWarning-"
     _FarmersTabFrames = [f"-FarmersTabFrame{i}-" for i in range(_MAXPLAYERS)]
+    _FriendshipTabFrames = [f"-FriendshipTabFrame{i}-" for i in range(_MAXPLAYERS)]
+    _FriendshipTabFarmerCombo = "-FriendshipTabFarmerCombo-"
 
     # Editable values ----------------------------------------------------------
     _FarmerNames = [f"-FarmerName{i}-" for i in range(_MAXPLAYERS)]
@@ -45,12 +37,22 @@ class Keys:
         "combat": [f"-FarmerCombatXP{i}-" for i in range(_MAXPLAYERS)]
     }
 
+    _NPCFriendshipPoints = {npc: f"-{npc}Friendship-" for npc in _AllFriendableNPCs}
+
     #Tabs ----------------------------------------------------------------------
+    _LoadTab = "Load"
     _FarmersTab = "Farmers"
+    _FriendshipTab = "Friendship"
     _SaveTab = "Save"
     _AboutTab = "About"
-    _EditorTabs = [_FarmersTab, _SaveTab] #used for setting visibility after load event
+    _EditorTabs = [_FarmersTab, _SaveTab, _FriendshipTab] #used for setting visibility after load event
+    _AllTabs = _EditorTabs + [_LoadTab, _AboutTab]
+    _TabGroup = "-TabGroup-"
     
+    #Columns -------------------------------------------------------------------
+    _FarmersTabColumn = "-FarmersTabColumn-"
+    _FriendshipTabColumn = "-FriendshipTabColumn-"
+    _AboutTabColumn = "-AboutTabColumn-"
 
 class CharacterSavePaths:
     _FarmerSkillLevels = {
@@ -60,8 +62,11 @@ class CharacterSavePaths:
         "fishing": "/Farmer/fishingLevel[1]", 
         "combat": "/Farmer/combatLevel[1]"
         }
-
+    _FriendshipData = "/Farmer/friendshipData[1]"
 
 class WorldSavePaths:
     _Farmer = "/SaveGame/player"
     _Farmhands = "/SaveGame/farmhands/Farmer"
+
+    _FarmerFriendshipData = "/SaveGame/player/friendshipData[1]"
+    _FarmhandRelativeFriendshipData = "./friendshipData[1]"
