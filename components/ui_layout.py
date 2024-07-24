@@ -60,7 +60,7 @@ friendship_tab_layout = [
     [sg.Text("Change Friendship Data", font=("Times New Roman", 16))],
     [sg.Text("Select farmer:", pad=(5, (3, 20))), sg.Combo([], size=32, enable_events=True, key=Keys._FriendshipTabFarmerCombo, readonly=True, pad=(5, (3, 20)))]
 ]
-friendship_tab_npcs = [[sg.Text(f"{npc}:", p=((5, 0), 8)), sg.Input(key=Keys._NPCFriendshipPoints[npc], disabled=True, p=((0, 5), 8), size=18, disabled_readonly_background_color="#cfcfcf")] for npc in sorted(_AllFriendableNPCs)]
+friendship_tab_npcs = [[sg.Image(f"{_BASEPATH}/icons/npcs/{npc}.png", subsample=2), sg.Text(f"{npc}:", p=(5, 8)), sg.Input(key=Keys._NPCFriendshipPoints[npc], disabled=True, p=((0, 5), 8), size=18, disabled_readonly_background_color="#cfcfcf")] for npc in sorted(_AllFriendableNPCs)]
 friendship_tab_layout += friendship_tab_npcs
 
 save_tab_layout = [
