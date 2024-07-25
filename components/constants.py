@@ -19,6 +19,9 @@ class Keys:
     _FarmersTabFrames = [f"-FarmersTabFrame{i}-" for i in range(_MAXPLAYERS)]
     _FriendshipTabFrames = [f"-FriendshipTabFrame{i}-" for i in range(_MAXPLAYERS)]
     _FriendshipTabFarmerCombo = "-FriendshipTabFarmerCombo-"
+    _BackupsTabFramePrefix = "BackupFrame"
+    _BackupsTabListboxPrefix = "BackupsListbox"
+    _DeleteAllBackupsPrefix = "DELETE_ALL_BACKUP"
 
     # Editable values ----------------------------------------------------------
     _FarmerNames = [f"-FarmerName{i}-" for i in range(_MAXPLAYERS)]
@@ -44,6 +47,7 @@ class Keys:
     _FarmersTab = "Farmers"
     _FriendshipTab = "Friendship"
     _SaveTab = "Save"
+    _BackupsTab = "Backup Manager"
     _AboutTab = "About"
     _EditorTabs = [_FarmersTab, _SaveTab, _FriendshipTab] #used for setting visibility after load event
     _AllTabs = _EditorTabs + [_LoadTab, _AboutTab]
@@ -52,6 +56,7 @@ class Keys:
     #Columns -------------------------------------------------------------------
     _FarmersTabColumn = "-FarmersTabColumn-"
     _FriendshipTabColumn = "-FriendshipTabColumn-"
+    _BackupsTabColumn = "-BackupsTabColumn-"
     _AboutTabColumn = "-AboutTabColumn-"
 
 class CharacterSavePaths:

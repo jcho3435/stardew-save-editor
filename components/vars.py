@@ -33,6 +33,7 @@ def _Set_Friendship_Tab_Old_Combo_Ind(i: int):
 def _Get_Friendship_Tab_Old_Combo_Ind():
     return _FriendshipTabOldComboInd
 
+_CurrTab: str
 def _Set_Curr_Tab(tab: str):
     global _CurrTab
     _CurrTab = tab
@@ -47,3 +48,11 @@ def _Init_Friendship_Vars():
     _FriendshipTabOldComboInd = -1
     global _CurrTab
     _CurrTab = Keys._LoadTab
+
+_Backups: list[str]
+def _Set_Backups_List(backups: list[str]):
+    global _Backups
+    _Backups = backups
+
+def _Get_Backups_List():
+    return _Backups

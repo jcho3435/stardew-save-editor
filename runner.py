@@ -5,8 +5,10 @@ import functions.log_functions as log_functions
 from functions.functions import get_current_time, init_directories
 from functions.event_handling import handle_event
 from components.constants import Keys
+import components.vars as vars
 
 init_directories()
+vars._Set_Curr_Tab(Keys._LoadTab)
 
 if program_lock.is_running():
     program_lock.log_closed_run()
@@ -48,5 +50,5 @@ finally:
     log_functions.log_events(event_string, time)
     program_lock.clean_up()
 
-if window.NumOpenWindows > 0:
+if window.was_closed() > 0:
     window.close()

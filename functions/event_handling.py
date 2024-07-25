@@ -1,4 +1,4 @@
-import os, re, webbrowser, time
+import os, re, webbrowser
 import PySimpleGUI as sg
 from functions.functions import get_current_time, create_backup, has_save_files
 from functions.ui_functions import set_visibility, load_save_data
@@ -7,6 +7,7 @@ import components.constants as constants, components.vars as vars
 from components.constants import Keys
 import functions.save_functions as save_functions
 from lxml import etree
+import functions.backups_functions as backups_functions
 
 def _Folder_Selection_Event(window: sg.Window, values) -> str:
     event_string = ""
@@ -85,7 +86,7 @@ def _Url_Event(event):
 
     return f"[{get_current_time()}] Opened page {url} in web browser.\n\n"
 
-def update_friendship_data_dict(values: dict):
+def update_friendship_data_dict(values: dict): # Move this function elsewhere?
     oldIndex = vars._Get_Friendship_Tab_Old_Combo_Ind()
     data = vars._FriendshipData[oldIndex]
 
@@ -140,6 +141,17 @@ def _Switch_To_Friendship_Tab_Event(window: sg.Window, values: dict):
 
     return event_string + f"[{get_current_time()}] Friendship tab combo box filled with most recent entries for farmer names.\n\n"
 
+def _Handle_Delete_Backup_Event(window: sg.Window, values: dict, event: str) -> str:
+    event_string = ""
+    if event == "Delete All Backups":
+        event_string += backups_functions._Delete_All_Backups_Event()
+    elif event == "Delete Selected":
+        return ""
+    elif event.startswith(f"{Keys._DeleteAllBackupsPrefix}:"):
+        return ""
+    
+    return event_string
+
 def handle_event(window: sg.Window, event: str, values: dict) -> str:
     if event == Keys._FolderInput:
         return _Folder_Selection_Event(window, values)
@@ -158,3 +170,5 @@ def handle_event(window: sg.Window, event: str, values: dict) -> str:
                 update_friendship_data_dict(values)
         vars._Set_Curr_Tab(values[event])
         return event_string
+    elif event == "Delete Selected" or event == "Delete All Backups" or event.startswith(f"{Keys._DeleteAllBackupsPrefix}:"):
+        return _Handle_Delete_Backup_Event(window, values, event)
