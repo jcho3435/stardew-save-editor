@@ -49,10 +49,14 @@ def _Init_Friendship_Vars():
     global _CurrTab
     _CurrTab = Keys._LoadTab
 
-_Backups: list[str]
-def _Set_Backups_List(backups: list[str]):
+_Backups: dict[str: bool]
+def _Set_Backups_Dict(backups: dict[str: bool]):
+    '''
+    Backups is a dictionary where the keys contain all of the backups which have dedicated frames on the backups tab, and the values are bools which indicate whether or not a given frame is active.
+    This is needed because elements cannot be completely removed from a layout. They can only be hidden.
+    '''
     global _Backups
     _Backups = backups
 
-def _Get_Backups_List():
+def _Get_Backups_Dict() -> dict[str: bool]:
     return _Backups

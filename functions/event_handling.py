@@ -1,6 +1,6 @@
 import os, re, webbrowser
 import PySimpleGUI as sg
-from functions.functions import get_current_time, create_backup, has_save_files
+from functions.functions import get_current_time, has_save_files
 from functions.ui_functions import set_visibility, load_save_data
 from functions.get_and_load_xml import get_xml_roots
 import components.constants as constants, components.vars as vars
@@ -19,7 +19,7 @@ def _Folder_Selection_Event(window: sg.Window, values) -> str:
             window[Keys._ValidateFolder].update(value=friendly_text, text_color="red")
             return error_log
         
-        event_string += create_backup(folderpath)
+        event_string += backups_functions.create_backup(window, folderpath)
         window[Keys._ValidateFolder].update(value="Save folder loaded. Backup created in backups folder", text_color="black")
         window[Keys._SaveWarning].update("Make sure to save all changes before loading a new save or closing the window.")
 
@@ -144,7 +144,7 @@ def _Switch_To_Friendship_Tab_Event(window: sg.Window, values: dict):
 def _Handle_Delete_Backup_Event(window: sg.Window, values: dict, event: str) -> str:
     event_string = ""
     if event == "Delete All Backups":
-        event_string += backups_functions._Delete_All_Backups_Event()
+        event_string += backups_functions._Delete_All_Backups_Event(window)
     elif event == "Delete Selected":
         return ""
     elif event.startswith(f"{Keys._DeleteAllBackupsPrefix}:"):

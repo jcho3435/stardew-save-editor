@@ -1,6 +1,3 @@
-import os
-from functions.functions import getBasePath
-
 _MAXPLAYERS = 8
 
 _AllFriendableNPCs = [
@@ -57,6 +54,7 @@ class Keys:
     _FarmersTabColumn = "-FarmersTabColumn-"
     _FriendshipTabColumn = "-FriendshipTabColumn-"
     _BackupsTabColumn = "-BackupsTabColumn-"
+    _BackupsTabFramesColumn = "-BackupsTabFramesColumn-"
     _AboutTabColumn = "-AboutTabColumn-"
 
 class CharacterSavePaths:

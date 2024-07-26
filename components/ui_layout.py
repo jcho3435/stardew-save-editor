@@ -1,6 +1,6 @@
 import PySimpleGUI as sg
 from components.constants import Keys, _AllFriendableNPCs
-from components.vars import _Links, _BASEPATH, _Set_Backups_List
+from components.vars import _Links, _BASEPATH, _Set_Backups_Dict
 import textwrap
 
 # helpers --------------------------------------------------------------------------------
@@ -35,20 +35,26 @@ def createBackupFrame(backup_name: str, choices: list[str]) -> sg.Frame:
 
     return sg.Frame(backup_name, frame_layout, pad=(5, (3, 12)), expand_x=True, key=f"{Keys._BackupsTabFramePrefix}:{backup_name}")
 
-def generateBackupTabFrames(backups_tab_layout: list):
+def generateBackupTabFrames(backups_tab_layout: list, frame_column_key: str):
     '''
     Initial generation of all backups. Each world gets its own frame. Stores the name of all backups in global variable _Backups
     '''
     import os
-    backups = []
+    backups = {}
+    col_layout = []
 
     for folder in os.listdir("backups"):
         backup_name = "_".join(folder.split("_")[0:-1])
-        backups.append(backup_name)
-        choices = os.listdir(f"backups/{folder}")
-        backups_tab_layout.append([createBackupFrame(backup_name, choices)])
+        backups[backup_name] = True
+        choices = sorted(os.listdir(f"backups/{folder}"), reverse=True)
+        if choices == []:
+            os.rmdir(f"backups/{folder}")
+        else:
+            col_layout.append([createBackupFrame(backup_name, choices)])
+
+    backups_tab_layout.append([sg.Column(col_layout, key=frame_column_key), sg.Push()]) # This additional column is needed to contain the frames that are hidden/unhidden so that they do not shift sideways
     
-    _Set_Backups_List(backups)
+    _Set_Backups_Dict(backups)
 
 def createAboutTabHeader(text):
     return sg.Text(text, font=("Times New Roman", 16, "underline"), text_color="black", pad=5)
@@ -71,7 +77,7 @@ def scrollableColumnWrapper(layout, key):
 load_tab_layout = [ # LOAD
         [sg.Push(), sg.Text("Stardew Valley Save Editor!", font=("Times New Roman", 30), text_color="Black"), sg.Push()],
         [sg.Text("Folder:", size=5), sg.Input(expand_x=True, key=Keys._FolderInput, enable_events=True, disabled=True), sg.FolderBrowse("Select Save Folder", key=Keys._FolderBrowser)],
-        [sg.Text("Note: By default, save folders are located at C:\\Users\\[USER]\\AppData\\Roaming\\StardewValley\\Saves\\[SaveName]_#########", text_color="black", justification="center", expand_x=True)],
+        [sg.Text("", size=4), sg.Text("Note: By default, save folders are located at C:\\Users\\[USER]\\AppData\\Roaming\\StardewValley\\Saves\\[SaveName]_#########", text_color="black")],
         [sg.Text("", size=4), sg.Text("", key=Keys._ValidateFolder)],
         [sg.Text("", size=4), sg.Text("", key=Keys._SaveWarning, text_color="black")]
     ]
@@ -93,10 +99,11 @@ save_tab_layout = [ # SAVE
 ]
 
 backups_tab_layout = [ # BACKUPS
+    [sg.Text("Backups Manager", font=("Times New Roman", 16))],
     [sg.Button("Delete All Backups", button_color="red", p=(5, 3, 12)), sg.Button("Delete Selected", p=(5, 3, 12))],
     [sg.Text("Note: You can scroll to see more options in each listbox. There is no scrollbar due to a bug with PySimpleGUI.")]
 ]
-generateBackupTabFrames(backups_tab_layout)
+generateBackupTabFrames(backups_tab_layout, Keys._BackupsTabFramesColumn)
 
 about_tab_layout = [ # ABOUT
     [sg.Text("About the editor:", text_color="black", font=("Times New Roman", 30), pad=(5, (3, 10)))],
