@@ -22,7 +22,7 @@ try:
     from components.ui_layout import layout
 
     # Create the Window
-    window = sg.Window('Stardew Valley Save Editor', layout, use_ttk_buttons=True, size=(1280, 720), icon="icons/app-icon.ico", finalize=True)
+    window = sg.Window('Stardew Valley Save Editor', layout, use_ttk_buttons=True, icon="icons/app-icon.ico", resizable=True, finalize=True)
 except Exception as e:
     program_lock.clean_up(e)
 

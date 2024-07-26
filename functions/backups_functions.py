@@ -1,14 +1,10 @@
 from functions.functions import get_current_time
 import PySimpleGUI as sg
-import os, shutil, datetime
+import os, shutil, datetime, time as t
 import elevate
 import components.vars as vars
 from components.constants import Keys
 from components.ui_layout import createBackupFrame
-
-def backups_column_contents_changed(window: sg.Window):
-    # window[Keys._BackupsTabFramesColumn].contents_changed()
-    window[Keys._BackupsTabColumn].contents_changed()
 
 def create_backup(window: sg.Window, folderpath: str) -> str:
     name = os.path.basename(folderpath)
@@ -36,16 +32,16 @@ def create_backup(window: sg.Window, folderpath: str) -> str:
         if backups[name]: #Backup frame exists and is active
              vals: list = window[f"{Keys._BackupsTabListboxPrefix}:{name}"].Values
              window[f"{Keys._BackupsTabListboxPrefix}:{name}"].update(values=vals + [backup_name])
-        else: #Backup frame exists but is not active - this means the listbox is empty and the frame is invisible
+        else: #Backup frame exists but is not active - this means the listbox is empty and the frame is invisible/hidden
             window[f"{Keys._BackupsTabFramePrefix}:{name}"].update(visible=True)
             window[f"{Keys._BackupsTabFramePrefix}:{name}"].unhide_row()
             window[f"{Keys._BackupsTabListboxPrefix}:{name}"].update(values=[backup_name])
             backups[name] = True
-            backups_column_contents_changed(window)
+            window[Keys._BackupsTabColumn].contents_changed()
     else: #Backup frame does not exist - create new frame
         window.extend_layout(window[Keys._BackupsTabFramesColumn], [[createBackupFrame(name, [backup_name])]])
         backups[name] = True
-        backups_column_contents_changed(window)
+        window[Keys._BackupsTabColumn].contents_changed()
 
     event_string += f"[{get_current_time()}] [BACKUPS] Backups manager tab updated.\n\n"
     return event_string
@@ -74,7 +70,7 @@ def _Delete_All_Backups_Event(window: sg.Window) -> str:
             window[f"{Keys._BackupsTabFramePrefix}:{backup}"].hide_row()
             backups[backup] = False 
 
-        backups_column_contents_changed(window)
+        window[Keys._BackupsTabColumn].contents_changed()
         event_string += f"[{get_current_time()}] [UI] Backups tab updated to reflect deleted backups.\n\n"
     else:
         event_string += f"[{get_current_time()}] [BACKUPS] User rejected deletion of all backups.\n\n"
@@ -102,7 +98,7 @@ def _Delete_All_Specific_World_Backups(window: sg.Window, world: str):
         backups = vars._Get_Backups_Dict()
         backups[world] = False
 
-        backups_column_contents_changed(window)
+        window[Keys._BackupsTabColumn].contents_changed()
         event_string += f"[{get_current_time()}] [UI] Backups tab updated to reflect deleted backups.\n\n"
     else:
         event_string += f"[{get_current_time()}] [BACKUPS] User rejected deletion of all backups for {world}.\n\n"

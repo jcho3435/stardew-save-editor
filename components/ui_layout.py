@@ -104,6 +104,7 @@ backups_tab_layout = [ # BACKUPS
     [sg.Text("Note: You can scroll to see more options in each listbox. There is no scrollbar due to a bug with PySimpleGUI.")]
 ]
 generateBackupTabFrames(backups_tab_layout, Keys._BackupsTabFramesColumn)
+backups_tab_layout.append([sg.Sizer(1280, 250)])
 
 about_tab_layout = [ # ABOUT
     [sg.Text("About the editor:", text_color="black", font=("Times New Roman", 30), pad=(5, (3, 10)))],
