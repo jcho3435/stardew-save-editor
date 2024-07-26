@@ -27,14 +27,14 @@ def save_farmers_tab_data_to_tree(values: dict) -> str:
     save_name_to_tree(character_data, farmerName)
     save_skill_levels_and_xp_to_tree(character_data, values, 0)
 
-    event_string += f"[{get_current_time()}] Farmer tab host farmer changes saved to character xml tree.\n"
+    event_string += f"[{get_current_time()}] [SAVE] Farmer tab host farmer changes saved to character xml tree.\n"
 
     #Change in world saves
     worldsave_farmer = world_data.xpath(WorldSavePaths._Farmer)[0] #This is the <player> tag for the host player
     save_name_to_tree(worldsave_farmer, farmerName)
     save_skill_levels_and_xp_to_tree(worldsave_farmer, values, 0)
 
-    event_string += f"[{get_current_time()}] Farmer tab host farmer changes saved to world xml tree.\n"
+    event_string += f"[{get_current_time()}] [SAVE] Farmer tab host farmer changes saved to world xml tree.\n"
     
 
     # Save farmhand data
@@ -46,7 +46,7 @@ def save_farmers_tab_data_to_tree(values: dict) -> str:
         index += 1
 
     if index != 1:
-        event_string += f"[{get_current_time()}] Farmer tab farmhand changes saved to world xml tree.\n\n"
+        event_string += f"[{get_current_time()}] [SAVE] Farmer tab farmhand changes saved to world xml tree.\n\n"
 
     return event_string
 
@@ -70,12 +70,12 @@ def save_friendship_tab_data_to_tree() -> str:
     # Save host data
     # Change in character save file
     save_friendship_points_to_tree(character_data, 0)
-    event_string += f"[{get_current_time()}] Friendship tab host farmer changes saved to character xml tree.\n"
+    event_string += f"[{get_current_time()}] [SAVE] Friendship tab host farmer changes saved to character xml tree.\n"
 
     # Change in world save file
     world_save_host = world_data.xpath(WorldSavePaths._Farmer)[0]
     save_friendship_points_to_tree(world_save_host, 0)
-    event_string += f"[{get_current_time()}] Friendship tab host farmer changes saved to world xml tree.\n"
+    event_string += f"[{get_current_time()}] [SAVE] Friendship tab host farmer changes saved to world xml tree.\n"
 
     #Save farmhand data
     farmhands = world_data.xpath(WorldSavePaths._Farmhands)
@@ -85,7 +85,7 @@ def save_friendship_tab_data_to_tree() -> str:
         index += 1
 
     if index != 1:
-        event_string += f"[{get_current_time()}] Farmer tab farmhand changes saved to world xml tree.\n\n"
+        event_string += f"[{get_current_time()}] [SAVE] Farmer tab farmhand changes saved to world xml tree.\n\n"
 
     return event_string
 

@@ -34,8 +34,8 @@ try:
     while True:
         event, values = window.read()
     
-        event_string += f"[{get_current_time()}] Event: {event}\n[{get_current_time()}] Values: {values}\n\n"
-        print(f"[{get_current_time()}] Event: {event}\n[{get_current_time()}] Values: {values}\n\n") # TODO: DELETE THIS LINE WHEN DONE DEBUGGING/TESTING
+        event_string += f"[{get_current_time()}] [INTERNAL] Event: {event}\n{' '*22}Values: {values}\n\n"
+        print(f"Event: {event}\nValues: {values}\n\n") # TODO: DELETE THIS LINE WHEN DONE DEBUGGING/TESTING
 
         # if user closes window, exit
         if event == sg.WIN_CLOSED:

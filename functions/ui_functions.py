@@ -92,10 +92,10 @@ def _load_profile_data(window: sg.Window) -> str:
         index += 1
 
     window[Keys._FarmersTabColumn].contents_changed()
-    return f"[{get_current_time()}] Farmers profile data loaded.\n\n"
+    return f"[{get_current_time()}] [LOAD] Farmers profile data loaded.\n\n"
 
 #load friendship data into global list
-def _load_friendship_data():
+def _load_friendship_data() -> str:
     character_save, world_save = get_xml_roots()
 
     #load host farmer friendship data
@@ -108,7 +108,7 @@ def _load_friendship_data():
         load_friendship_data_dict(farmer, index)
         index += 1
 
-    return f"[{get_current_time()}] Friendship data loaded into _FriendshipData variable.\n\n"
+    return f"[{get_current_time()}] [LOAD] Friendship data loaded into _FriendshipData variable.\n\n"
 
 def load_save_data(window: sg.Window, folderpath: str) -> str:
     event_string = ""

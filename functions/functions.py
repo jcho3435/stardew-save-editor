@@ -16,11 +16,11 @@ def has_save_files(folderpath) -> bool:
     for file in os.listdir(folderpath):
         fullpath = os.path.join(folderpath, file)
         if not os.path.isfile(fullpath) or file not in expected_files:
-            return False, f"[{get_current_time}] Invalid save folder {folderpath}. {file} should not be in save folder.\n\n", f"Invalid save folder {folderpath}. {file} should not be in save folder."
+            return False, f"[{get_current_time}] [LOAD] Invalid save folder {folderpath}. {file} should not be in save folder.\n\n", f"Invalid save folder {folderpath}. {file} should not be in save folder."
         expected_files.remove(file)
     
     if basename in expected_files or "SaveGameInfo" in expected_files:
-        return False, f"[{get_current_time}] One or more save files are missing. Looking for files '{basename}' and 'SaveGameInfo'.\n\n", f"One or more save files are missing. Looking for files '{basename}' and 'SaveGameInfo'."
+        return False, f"[{get_current_time}] [LOAD] One or more save files are missing. Looking for files '{basename}' and 'SaveGameInfo'.\n\n", f"One or more save files are missing. Looking for files '{basename}' and 'SaveGameInfo'."
     
     return True, None, None
 

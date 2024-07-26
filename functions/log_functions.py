@@ -15,10 +15,10 @@ def log_exceptions(e: Exception, starttime) -> str:
     f.write(f"{traceback.format_tb(e.__traceback__)}".replace("\\n", "\n"))
     f.close()
 
-    event_log = f"[{get_current_time()}] An exception has occurred!\n"
-    event_log += f"{' '*11}Exception type: {type(e).__name__}\n"
-    event_log += f"{' '*11}Exception message: {e}\n"
-    event_log += f"{' '*11}See error log \"logs/{file_name}\" for more details.\n\n"
+    event_log = f"[{get_current_time()}] [ERROR] An exception has occurred!\n"
+    event_log += f"{' '*19}Exception type: {type(e).__name__}\n"
+    event_log += f"{' '*19}Exception message: {e}\n"
+    event_log += f"{' '*19}See error log \"logs/{file_name}\" for more details.\n\n"
 
     return event_log
 

@@ -25,7 +25,7 @@ def load_xml_roots(folderpath) -> str:
     global _character_data
     _character_data = etree.fromstring(data)
 
-    event_string += f"[{get_current_time()}] Finished reading character data into tree format.\n"
+    event_string += f"[{get_current_time()}] [LOAD] Finished reading character data from save file into tree format.\n"
 
     with open(world_save_file, "rb") as f: 
         data = f.read()
@@ -37,7 +37,7 @@ def load_xml_roots(folderpath) -> str:
     global _world_data
     _world_data = etree.fromstring(data)
 
-    event_string += f"[{get_current_time()}] Finished reading world data into tree format.\n\n"
+    event_string += f"[{get_current_time()}] [LOAD] Finished reading world data from save file into tree format.\n\n"
 
     _xml_loaded = True
 
