@@ -6,6 +6,10 @@ import components.vars as vars
 from components.constants import Keys
 from components.ui_layout import createBackupFrame
 
+def backups_column_contents_changed(window: sg.Window):
+    # window[Keys._BackupsTabFramesColumn].contents_changed()
+    window[Keys._BackupsTabColumn].contents_changed()
+
 def create_backup(window: sg.Window, folderpath: str) -> str:
     name = os.path.basename(folderpath)
     time = datetime.datetime.now()
@@ -37,9 +41,11 @@ def create_backup(window: sg.Window, folderpath: str) -> str:
             window[f"{Keys._BackupsTabFramePrefix}:{name}"].unhide_row()
             window[f"{Keys._BackupsTabListboxPrefix}:{name}"].update(values=[backup_name])
             backups[name] = True
+            backups_column_contents_changed(window)
     else: #Backup frame does not exist - create new frame
         window.extend_layout(window[Keys._BackupsTabFramesColumn], [[createBackupFrame(name, [backup_name])]])
         backups[name] = True
+        backups_column_contents_changed(window)
 
     event_string += f"[{get_current_time()}] [BACKUPS] Backups manager tab updated.\n\n"
     return event_string
@@ -67,6 +73,8 @@ def _Delete_All_Backups_Event(window: sg.Window) -> str:
             window[f"{Keys._BackupsTabFramePrefix}:{backup}"].update(visible=False)
             window[f"{Keys._BackupsTabFramePrefix}:{backup}"].hide_row()
             backups[backup] = False 
+
+        backups_column_contents_changed(window)
         event_string += f"[{get_current_time()}] [UI] Backups tab updated to reflect deleted backups.\n\n"
     else:
         event_string += f"[{get_current_time()}] [BACKUPS] User rejected deletion of all backups.\n\n"
@@ -75,7 +83,7 @@ def _Delete_All_Backups_Event(window: sg.Window) -> str:
 
 def _Delete_All_Specific_World_Backups(window: sg.Window, world: str):
     event_string = f"[{get_current_time()}] [BACKUPS] Generating popup for deletion of all backups for {world}.\n"
-    response = sg.popup_yes_no("Are you sure you want to PERMANENTLY delete all backups?", "WARNING: This action cannot be undone.", title="Delete all backups?")
+    response = sg.popup_yes_no(f"Are you sure you want to PERMANENTLY delete all backups for {world}?", "WARNING: This action cannot be undone.", title=f"Delete all {world} backups?")
 
     if response == "Yes":
         try:
@@ -94,6 +102,7 @@ def _Delete_All_Specific_World_Backups(window: sg.Window, world: str):
         backups = vars._Get_Backups_Dict()
         backups[world] = False
 
+        backups_column_contents_changed(window)
         event_string += f"[{get_current_time()}] [UI] Backups tab updated to reflect deleted backups.\n\n"
     else:
         event_string += f"[{get_current_time()}] [BACKUPS] User rejected deletion of all backups for {world}.\n\n"

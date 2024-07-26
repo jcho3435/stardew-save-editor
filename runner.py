@@ -7,12 +7,15 @@ from functions.event_handling import handle_event
 from components.constants import Keys
 import components.vars as vars
 
+#Initialize backups and log directories if they do not already exist
 init_directories()
-vars._Set_Curr_Tab(Keys._LoadTab)
 
+# Program lock allows only one instance of the program to be running at a time. Lock file created in tmp/
 if program_lock.is_running():
     program_lock.log_closed_run()
     sys.exit(123)
+
+vars._Set_Curr_Tab(Keys._LoadTab)
 
 window = None
 try:
@@ -50,5 +53,5 @@ finally:
     log_functions.log_events(event_string, time)
     program_lock.clean_up()
 
-if window.was_closed() > 0:
+if not window.was_closed():
     window.close()
