@@ -59,12 +59,19 @@ def generateBackupTabFrames(backups_tab_layout: list, frame_column_key: str):
 def createAboutTabHeader(text):
     return sg.Text(text, font=("Times New Roman", 16, "underline"), text_color="black", pad=5)
 
-def createAboutTabDescription(*args):
+def createAboutTabDescription(*args, **kwargs):
     text = ""
     for arg in args:
         text += textwrap.fill(arg, 170)
         text += "\n\n"
     #TODO: consider trimming the ending \n\n
+    if "blist" in kwargs:
+        text = text.strip("\n")
+        text += "\n"
+        for item in kwargs["blist"]:
+            text += f"  • {item}\n"
+        text += "\n"
+
     return sg.Text(text, font=("Arial", 12), text_color="black", expand_x=True)
 
 def scrollableColumnWrapper(layout, key):
@@ -116,7 +123,8 @@ about_tab_layout = [ # ABOUT
         )],
     [createAboutTabHeader("Farmers Tab")],
     [createAboutTabDescription(
-        "Change profile information for all players who have joined your world. This tab currently supports changing of each farmer's name, skill levels, and skill experience points."
+        "Change profile information for all players who have joined your world. This tab currently supports changing of each farmer's:",
+        blist=["Name", "Skill levels", "Skill experience points"]
     )]
 ]
 
