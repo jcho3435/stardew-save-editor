@@ -31,6 +31,10 @@ def set_visibility(window: sg.Window, keys: list | str, isVisible: bool):
         for key in keys:
             window[key].update(visible = isVisible)
 
+def col_contents_changed(window: sg.Window, key: str):
+    window.refresh()
+    window[key].contents_changed()
+
 def enable_and_fill_farmer_frame(window: sg.Window, index: int, farmer: etree._Element):
     farmerName = farmer.xpath("./name[1]")[0].text
     window[Keys._FarmerNames[index]].update(farmerName, disabled=False)
@@ -91,7 +95,7 @@ def _load_profile_data(window: sg.Window) -> str:
         enable_and_fill_farmer_frame(window, index, farmer)
         index += 1
 
-    window[Keys._FarmersTabColumn].contents_changed()
+    col_contents_changed(window, Keys._FarmersTabColumn)
     return f"[{get_current_time()}] [LOAD] Farmers profile data loaded.\n\n"
 
 #load friendship data into global list

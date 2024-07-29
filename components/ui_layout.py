@@ -30,7 +30,7 @@ def createBackupFrame(backup_name: str, choices: list[str]) -> sg.Frame:
     Creates frame elements for backups
     '''
     frame_layout = [
-        [sg.Listbox(choices, size=(40, 12), select_mode=sg.LISTBOX_SELECT_MODE_MULTIPLE, key=f"{Keys._BackupsTabListboxPrefix}:{backup_name}", no_scrollbar=True), sg.Button("Delete All", button_color="red", key=f"{Keys._DeleteAllBackupsPrefix}:{backup_name}")],
+        [sg.Listbox(choices, size=(40, 12), select_mode=sg.LISTBOX_SELECT_MODE_MULTIPLE, key=f"{Keys._BackupsTabListboxPrefix}:{backup_name}"), sg.Button("Delete All", button_color="red", key=f"{Keys._DeleteAllBackupsPrefix}:{backup_name}")],
     ]
 
     return sg.Frame(backup_name, frame_layout, pad=(5, (3, 12)), expand_x=True, key=f"{Keys._BackupsTabFramePrefix}:{backup_name}")
@@ -100,11 +100,9 @@ save_tab_layout = [ # SAVE
 
 backups_tab_layout = [ # BACKUPS
     [sg.Text("Backups Manager", font=("Times New Roman", 16))],
-    [sg.Button("Delete All Backups", button_color="red", p=(5, 3, 12)), sg.Button("Delete Selected", p=(5, 3, 12))],
-    [sg.Text("Note: You can scroll to see more options in each listbox. There is no scrollbar due to a bug with PySimpleGUI.")]
+    [sg.Button("Delete All Backups", button_color="red", p=(5, 3, 12)), sg.Button("Delete Selected", p=(5, 3, 12))]
 ]
 generateBackupTabFrames(backups_tab_layout, Keys._BackupsTabFramesColumn)
-backups_tab_layout.append([sg.Sizer(1280, 250)])
 
 about_tab_layout = [ # ABOUT
     [sg.Text("About the editor:", text_color="black", font=("Times New Roman", 30), pad=(5, (3, 10)))],

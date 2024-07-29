@@ -142,16 +142,14 @@ def _Switch_To_Friendship_Tab_Event(window: sg.Window, values: dict):
     return event_string + f"[{get_current_time()}] [UI] Friendship tab combo box filled with most recent entries for farmer names.\n\n"
 
 def _Handle_Delete_Backup_Event(window: sg.Window, values: dict, event: str) -> str:
-    event_string = ""
     if event == "Delete All Backups":
-        event_string += backups_functions._Delete_All_Backups_Event(window)
+        return backups_functions._Delete_All_Backups_Event(window)
     elif event == "Delete Selected":
-        return ""
+        return backups_functions._Delete_Selected_Backups_Event(window, values)
     elif event.startswith(f"{Keys._DeleteAllBackupsPrefix}:"):
         world = event.split(":")[-1]
         return backups_functions._Delete_All_Specific_World_Backups(window, world)
-    
-    return event_string
+   
 
 def handle_event(window: sg.Window, event: str, values: dict) -> str:
     if event == Keys._FolderInput:
