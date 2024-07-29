@@ -5,19 +5,24 @@ import functions.log_functions as log_functions
 from functions.functions import get_current_time, init_directories
 from functions.event_handling import handle_event
 from components.constants import Keys
+import components.vars as vars
 
+#Initialize backups and log directories if they do not already exist
 init_directories()
 
+# Program lock allows only one instance of the program to be running at a time. Lock file created in tmp/
 if program_lock.is_running():
     program_lock.log_closed_run()
     sys.exit(123)
+
+vars._Set_Curr_Tab(Keys._LoadTab)
 
 window = None
 try:
     from components.ui_layout import layout
 
     # Create the Window
-    window = sg.Window('Stardew Valley Save Editor', layout, use_ttk_buttons=True, size=(1280, 720), icon="icons/app-icon.ico")
+    window = sg.Window('Stardew Valley Save Editor', layout, use_ttk_buttons=True, icon="icons/app-icon.ico", resizable=True, finalize=True)
 except Exception as e:
     program_lock.clean_up(e)
 
@@ -32,8 +37,8 @@ try:
     while True:
         event, values = window.read()
     
-        event_string += f"[{get_current_time()}] Event: {event}\n[{get_current_time()}] Values: {values}\n\n"
-        print(f"[{get_current_time()}] Event: {event}\n[{get_current_time()}] Values: {values}\n\n") # TODO: DELETE THIS LINE WHEN DONE DEBUGGING/TESTING
+        event_string += f"[{get_current_time()}] [INTERNAL] Event: {event}\n{' '*22}Values: {values}\n\n"
+        print(f"Event: {event}\nValues: {values}\n\n") # TODO: DELETE THIS LINE WHEN DONE DEBUGGING/TESTING
 
         # if user closes window, exit
         if event == sg.WIN_CLOSED:
@@ -48,5 +53,5 @@ finally:
     log_functions.log_events(event_string, time)
     program_lock.clean_up()
 
-if window.NumOpenWindows > 0:
+if not window.was_closed():
     window.close()
