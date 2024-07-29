@@ -13,6 +13,7 @@ init_directories()
 # Program lock allows only one instance of the program to be running at a time. Lock file created in tmp/
 if program_lock.is_running():
     program_lock.log_closed_run()
+    sg.popup("The program was automatically closed due to an instance already being run.\nIf this is a mistake, delete 'tmp/program.lock' then run the program again.", title="Duplicate Run Detected")
     sys.exit(123)
 
 vars._Set_Curr_Tab(Keys._LoadTab)
