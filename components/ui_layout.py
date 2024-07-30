@@ -115,7 +115,7 @@ about_tab_layout = [ # ABOUT
     [sg.Text("About the editor:", text_color="black", font=("Times New Roman", 30), pad=(5, (3, 10)))],
     [sg.Text("This application is a minimalist stardew valley save editor for windows. The code is fully open source and can be found", p=((5, 0), 3), text_color="black", font=("Arial", 12)), sg.Text("here.", tooltip=_Links["github"], p=(1, 3), enable_events=True, key=f"URL {_Links["github"]}", text_color="dark gray", font=("Arial", 12, "underline"))],
     [sg.Text("This page gives a basic overview of the editor's tabs. For more detailed docs and explanations on each of the tabs' fields, click", p=((5, 0), 3), text_color="black", font=("Arial", 12)), sg.Text("here.", tooltip=_Links["docs"], p=(1, 3), enable_events=True, key=f"URL {_Links["docs"]}", text_color="dark gray", font=("Arial", 12, "underline"))],
-    [sg.Text(textwrap.fill("Warning: There is no input validation on any of the modifiable fields, so in order to avoid crashing due to bad save data, avoid inputting bad values. For example, for fields which should take a number, do not input any alphabetical characters. You can find more details on constraints on values for each field on the docs.", 170), p=((5, 0), (3, 22)), text_color="black", font=("Arial", 12))],
+    [sg.Text(textwrap.fill("Warning: There is no input validation on any of the modifiable fields, so in order to avoid Stardew Valley crashing due to bad save data, avoid inputting bad values. For example, for fields which should take a number, do not input any alphabetical characters. You can find more details on constraints on values for each field on the docs.", 170), p=((5, 0), (3, 22)), text_color="black", font=("Arial", 12))],
     [createAboutTabHeader("Load Tab")],
     [createAboutTabDescription(
         "Load your save file here. Always make sure to save your current changes before loading a new file. The editor does not check for unsaved changes. If you load a new file before saving, you will lose your changes.",
@@ -127,7 +127,7 @@ about_tab_layout = [ # ABOUT
         blist=["Name", "Skill levels", "Skill experience points"],
     )],
     [createAboutTabHeader("Friendship Tab")],
-    [createAboutTabDescription("Change friendship points with npcs for all players who have joined your world. Use the dropdown menu to swap between farmers. Changed friendship points will be remembered when switching between players.")],
+    [createAboutTabDescription("Change friendship points with NPCs for all players who have joined your world. Use the dropdown menu to swap between farmers. Changed friendship points will be remembered when switching between players.")],
     [createAboutTabHeader("Save Tab")],
     [createAboutTabDescription("Save your changes. After loading a game save, changes must be saved before you can load a new game save.")],
     [createAboutTabHeader("Backups Tab")],
