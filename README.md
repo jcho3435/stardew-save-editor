@@ -5,10 +5,10 @@ This editor is for windows because I don't want to think about other operating s
 <br>
 Version info:<br>
 <br>
-Python version: 3.12.4
-Platform: Windows
-Port: PySimpleGUI
-tkinter version: 8.6.13
+Python version: 3.12.4<br>
+Platform: Windows<br>
+Port: PySimpleGUI<br>
+tkinter version: 8.6.13<br>
 PySimpleGUI version: 5.0.6.12<br>
 
 
