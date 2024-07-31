@@ -16,3 +16,7 @@ All error logs and event logs are located in `logs/`<br>
 Logs can be cleaned by running `clean_logs.bat`, located in scripts/
 
 Construct app using `scripts/build_app.sh`.<br>
+
+## License
+
+This project is licensed under the Creative Commons Attribution-NonCommercial 4.0 International (CC BY-NC 4.0). See the [LICENSE](LICENSE) file for details.
