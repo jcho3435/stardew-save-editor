@@ -14,4 +14,5 @@ mv dist/ $name/
 rm -r build
 rm $name.spec
 
+# zip command on windows requires this package https://gnuwin32.sourceforge.net/packages/zip.htm
 zip -r $name.zip $name/ 
