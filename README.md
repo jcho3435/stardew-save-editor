@@ -27,7 +27,7 @@ Construct app using `scripts/build_app.sh`.<br>
 ## Download:
 Click on <a href="https://github.com/jcho3435/stardew-save-editor/releases">releases</a> to find a version to download.
 
-When downloading, you will likely see a warning saying that the app's publisher is unknown. You may also see that warning when attempting to run the app. Click run anyway to run the app.<br>
+When running the app, you will likely get a popup from Windows Defender SmartScreen. To get around the popup, click <u>More Info</u>, then click <u>run anyway</u><br>
 This popup appears because I do not have a digital certificate for this app (they are very expensive and outside my budget).
 
 ## License
