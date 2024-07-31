@@ -10,3 +10,8 @@ pyinstaller -wF -i "icons/app-icon.ico" -n "$name" --add-data "icons:icons" --ad
 cp scripts/clean_logs.bat dist/
 
 mv dist/ $name/
+
+rm -r build
+rm $name.spec
+
+zip -r $name.zip $name/ 

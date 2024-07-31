@@ -1,14 +1,16 @@
+from functions.functions import get_current_time, init_directories
+
+#Initialize backups and log directories if they do not already exist
+# it is necessary for the directories to be initialized before the imports
+init_directories()
+
 import PySimpleGUI as sg
 import sys, datetime
 import functions.program_lock as program_lock
 import functions.log_functions as log_functions
-from functions.functions import get_current_time, init_directories
 from functions.event_handling import handle_event
 from components.constants import Keys
 import components.vars as vars
-
-#Initialize backups and log directories if they do not already exist
-init_directories()
 
 # Program lock allows only one instance of the program to be running at a time. Lock file created in tmp/
 if program_lock.is_running():
