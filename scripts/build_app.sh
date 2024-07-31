@@ -10,3 +10,9 @@ pyinstaller -wF -i "icons/app-icon.ico" -n "$name" --add-data "icons:icons" --ad
 cp scripts/clean_logs.bat dist/
 
 mv dist/ $name/
+
+rm -r build
+rm $name.spec
+
+# zip command on windows requires this package https://gnuwin32.sourceforge.net/packages/zip.htm
+zip -r $name.zip $name/ 
