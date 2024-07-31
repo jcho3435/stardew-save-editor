@@ -3,7 +3,6 @@
 This editor is for windows because I don't want to think about other operating systems.<br>
 <br>
 Version info:<br>
-<br>
 Python version: 3.12.4<br>
 Platform: Windows<br>
 Port: PySimpleGUI<br>
