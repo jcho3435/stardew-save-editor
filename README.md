@@ -30,6 +30,9 @@ Click on <a href="https://github.com/jcho3435/stardew-save-editor/releases">rele
 When running the app, you will likely get a popup from Windows Defender SmartScreen. To get around the popup, click <u>More Info</u>, then click <u>run anyway</u><br>
 This popup appears because I do not have a digital certificate for this app (they are very expensive and outside my budget).
 
+When you first run the app, you will get a PySimpleGUI window asking you for a license. You will need to create an account, so follow the link provided and create a free hobbyist account in order to get a license.<br>
+This is also needed because I don't want to spend $100/year on the PySimpleGUI commercial license when I do not intend to make money off of my work.
+
 ## License
 
 This project is licensed under the Creative Commons Attribution-NonCommercial 4.0 International (CC BY-NC 4.0). See the [LICENSE](LICENSE) file for details.
