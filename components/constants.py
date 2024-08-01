@@ -45,16 +45,18 @@ class Keys:
     _LoadTab = "Load"
     _FarmersTab = "Farmers"
     _FriendshipTab = "Friendship"
+    _WorldTab = "World"
     _SaveTab = "Save"
     _BackupsTab = "Backup Manager"
     _AboutTab = "About"
-    _EditorTabs = [_FarmersTab, _SaveTab, _FriendshipTab] #used for setting visibility after load event
+    _EditorTabs = [_FarmersTab, _SaveTab, _FriendshipTab, _WorldTab] #used for setting visibility after load event
     _AllTabs = _EditorTabs + [_LoadTab, _AboutTab]
     _TabGroup = "-TabGroup-"
     
     #Columns -------------------------------------------------------------------
     _FarmersTabColumn = "-FarmersTabColumn-"
     _FriendshipTabColumn = "-FriendshipTabColumn-"
+    _WorldTabColumn = "-WorldTabColumn-"
     _BackupsTabColumn = "-BackupsTabColumn-"
     _BackupsTabFramesColumn = "-BackupsTabFramesColumn-"
     _AboutTabColumn = "-AboutTabColumn-"

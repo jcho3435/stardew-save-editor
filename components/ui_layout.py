@@ -56,6 +56,9 @@ def generateBackupTabFrames(backups_tab_layout: list, frame_column_key: str):
     
     _Set_Backups_Dict(backups)
 
+def createTabHeader(text):
+    return sg.Text(text, font=("Times New Roman", 16), pad=(5, (3, 10)))
+
 def createAboutTabHeader(text):
     return sg.Text(text, font=("Times New Roman", 16, "underline"), text_color="black", pad=5)
 
@@ -90,23 +93,28 @@ load_tab_layout = [ # LOAD
     ]
 
 farmers_tab_layout = [ # FARMERS
-    [sg.Text("Change Farmer Data", font=("Times New Roman", 16))],
+    [createTabHeader("Change Farmer Data")],
 ]
 generateFarmersTabFrames(farmers_tab_layout)
 
 friendship_tab_layout = [ # FRIENDSHIP
-    [sg.Text("Change Friendship Data", font=("Times New Roman", 16))],
+    [createTabHeader("Change Friendship Data")],
     [sg.Text("Select farmer:", pad=(5, (3, 20))), sg.Combo([], size=32, enable_events=True, key=Keys._FriendshipTabFarmerCombo, readonly=True, pad=(5, (3, 20)))]
 ]
 friendship_tab_npcs = [[sg.Image(f"{_BASEPATH}/icons/npcs/{npc}.png", subsample=2), sg.Text(f"{npc}:", p=(5, 8)), sg.Input(key=Keys._NPCFriendshipPoints[npc], disabled=True, p=((0, 5), 8), size=18, disabled_readonly_background_color="#cfcfcf")] for npc in sorted(_AllFriendableNPCs)]
 friendship_tab_layout += friendship_tab_npcs
 
+world_tab_layout = [ # WORLD
+    [createTabHeader("Change World Data")]
+]
+
 save_tab_layout = [ # SAVE
+    [createTabHeader("Save Changes")],
     [sg.Button("Save Changes")]
 ]
 
 backups_tab_layout = [ # BACKUPS
-    [sg.Text("Backups Manager", font=("Times New Roman", 16))],
+    [createTabHeader("Backups Manager")],
     [sg.Button("Delete All Backups", button_color="red", p=(5, 3, 12)), sg.Button("Delete Selected", p=(5, 3, 12))]
 ]
 generateBackupTabFrames(backups_tab_layout, Keys._BackupsTabFramesColumn)
@@ -135,7 +143,7 @@ about_tab_layout = [ # ABOUT
         "The backups manager currently only supports deleting backups. It is unlikely that it will ever support loading backups.",
         "The backups manager allows for deleting all backups, deleting all backups of a specific farm, and deleting selected backups, which are selected in the list boxes on the page."
     )],
-    
+
     [createAboutTabHeader("Version Info")],
     [sg.Text(f"Stardew Save Editor Version: {_CURRENTVERSION}\nPython version: 3.12.4\nPlatform: Windows\nPort: PySimpleGUI\ntkinter version: 8.6.13\nPySimpleGUI version: 5.0.6.12", font=("Arial", 12), text_color="black", expand_x=True)]
 ]
@@ -145,6 +153,7 @@ layout = [
         sg.Tab(Keys._LoadTab, load_tab_layout), 
         sg.Tab(Keys._FarmersTab, scrollableColumnWrapper(farmers_tab_layout, Keys._FarmersTabColumn), visible=False),
         sg.Tab(Keys._FriendshipTab, scrollableColumnWrapper(friendship_tab_layout, Keys._FriendshipTabColumn), visible=False),
+        sg.Tab(Keys._WorldTab, scrollableColumnWrapper(world_tab_layout, Keys._WorldTabColumn), visible=False),
         sg.Tab(Keys._SaveTab, save_tab_layout, visible=False),
 
         sg.Tab(Keys._BackupsTab, scrollableColumnWrapper(backups_tab_layout, Keys._BackupsTabColumn)),
