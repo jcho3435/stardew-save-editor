@@ -135,6 +135,7 @@ about_tab_layout = [ # ABOUT
         "The backups manager currently only supports deleting backups. It is unlikely that it will ever support loading backups.",
         "The backups manager allows for deleting all backups, deleting all backups of a specific farm, and deleting selected backups, which are selected in the list boxes on the page."
     )],
+    
     [createAboutTabHeader("Version Info")],
     [sg.Text(f"Stardew Save Editor Version: {_CURRENTVERSION}\nPython version: 3.12.4\nPlatform: Windows\nPort: PySimpleGUI\ntkinter version: 8.6.13\nPySimpleGUI version: 5.0.6.12", font=("Arial", 12), text_color="black", expand_x=True)]
 ]
