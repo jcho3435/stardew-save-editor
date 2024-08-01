@@ -1,5 +1,7 @@
 _MAXPLAYERS = 8
 
+_CURRENTVERSION = "v0.2-prerelease" #TODO: Change this on every version
+
 _AllFriendableNPCs = [
     "Harvey", "Leah", "Linus", "Penny", "Pierre", "Abigail", "Alex", "Clint", "Demetrius", "Emily", "Evelyn", "Gus", "Kent", "Lewis", "Marnie", "Maru", "Pam", "Robin", "Sandy", "Caroline",
     "Dwarf", "Elliott", "Haley", "Jas", "Krobus", "Leo", "Sam", "Sebastian", "Shane", "Vincent", "Willy", "Wizard", "George", "Jodi"
