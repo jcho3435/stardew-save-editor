@@ -1,21 +1,25 @@
-name: Move Issue to To Do Column
+name: Move New Issues to To Do Column
 
 on:
-  project_card:
-    types: [created]
+  issues:
+    types: [opened]
 
 jobs:
   move_to_todo:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Move issue to To Do column
+      - name: Move new issue to To Do column
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PROJECT_NAME: "Your Project Name"
+          COLUMN_NAME: "To Do"
         run: |
-          if [ "${{ github.event.project_card.content_url }}" != "" ]; then
-            PROJECT_URL="https://api.github.com/projects/columns"
-            COLUMN_ID=$(curl -s -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" $PROJECT_URL | jq '.[] | select(.name == "To Do").id')
-            ISSUE_URL="${{ github.event.project_card.content_url }}"
-            curl -s -X POST -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" -H "Accept: application/vnd.github.v3+json" $PROJECT_URL/cards -d "{\"column_id\": $COLUMN_ID, \"content_url\": \"$ISSUE_URL\"}"
+          ISSUE_URL="${{ github.event.issue.url }}"
+          PROJECT_ID=$(curl -s -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" "https://api.github.com/repos/${{ github.repository }}/projects" | jq -r ".[] | select(.name == \"${{ env.PROJECT_NAME }}\").id")
+          COLUMN_ID=$(curl -s -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" "https://api.github.com/projects/${PROJECT_ID}/columns" | jq -r ".[] | select(.name == \"${{ env.COLUMN_NAME }}\").id")
+          if [ -n "$COLUMN_ID" ]; then
+            curl -s -X POST -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" -H "Accept: application/vnd.github.v3+json" "https://api.github.com/projects/columns/${COLUMN_ID}/cards" -d "{\"content_url\": \"${ISSUE_URL}\"}"
+          else
+            echo "Column '${{ env.COLUMN_NAME }}' not found in project '${{ env.PROJECT_NAME }}'"
           fi
