@@ -12,8 +12,8 @@ def load_xml_roots(folderpath) -> str:
     character_save_file = os.path.join(folderpath, "SaveGameInfo")
     world_save_file = os.path.join(folderpath, basename)
 
-    character_save_file = "save_data2/SaveGameInfo" # TODO: MODIFY THIS TO BE THE CORRECT FOLDER LATER
-    world_save_file = "save_data2/MoreRice_363478863"
+    # character_save_file = "save_data2/SaveGameInfo" # TODO: MODIFY THIS TO BE THE CORRECT FOLDER LATER
+    # world_save_file = "save_data2/MoreRice_363478863"
 
     with open(character_save_file, "rb") as f: 
         data = f.read()
