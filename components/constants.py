@@ -1,3 +1,5 @@
+from enum import Enum
+
 _MAXPLAYERS = 8
 
 _CURRENTVERSION = "v0.2-prerelease" #TODO: Change this on every version
@@ -40,6 +42,9 @@ class Keys:
     }
 
     _NPCFriendshipPoints = {npc: f"-{npc}Friendship-" for npc in _AllFriendableNPCs}
+    _WorldDayOfMonth = "-WorldDayOfMonth-"
+    _WorldSeason = "-WorldSeason-"
+    _WorldYear = "-WorldYear-"
 
     #Tabs ----------------------------------------------------------------------
     _LoadTab = "Load"
@@ -77,3 +82,9 @@ class WorldSavePaths:
 
     _FarmerFriendshipData = "/SaveGame/player/friendshipData[1]"
     _FarmhandRelativeFriendshipData = "./friendshipData[1]"
+
+class Seasons(Enum):
+    spring = 0
+    summer = 1
+    fall = 2
+    winter = 3

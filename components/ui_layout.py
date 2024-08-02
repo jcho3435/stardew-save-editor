@@ -1,5 +1,5 @@
 import PySimpleGUI as sg
-from components.constants import Keys, _AllFriendableNPCs, _CURRENTVERSION
+from components.constants import Keys, _AllFriendableNPCs, _CURRENTVERSION, Seasons
 from components.vars import _Links, _BASEPATH, _Set_Backups_Dict
 import textwrap
 
@@ -105,7 +105,8 @@ friendship_tab_npcs = [[sg.Image(f"{_BASEPATH}/icons/npcs/{npc}.png", subsample=
 friendship_tab_layout += friendship_tab_npcs
 
 world_tab_layout = [ # WORLD
-    [createTabHeader("Change World Data")]
+    [createTabHeader("Change World Data")],
+    [sg.Image(f"{_BASEPATH}/icons/calendar-icon.png", subsample=2), sg.Text("Day:"), sg.Input(key=Keys._WorldDayOfMonth, size=4, p=((0, 5), 3)), sg.Text("Season:"), sg.Combo([season.name.capitalize() for season in Seasons], key=Keys._WorldSeason, size=10, p=((0, 5), 3), readonly=True), sg.Text("Year:"), sg.Input(key=Keys._WorldYear, size=6, p=((0, 5), 3))]
 ]
 
 save_tab_layout = [ # SAVE
@@ -141,7 +142,7 @@ about_tab_layout = [ # ABOUT
     [createAboutTabHeader("Backups Tab")],
     [createAboutTabDescription(
         "The backups manager currently only supports deleting backups. It is unlikely that it will ever support loading backups.",
-        "The backups manager allows for deleting all backups, deleting all backups of a specific farm, and deleting selected backups, which are selected in the list boxes on the page."
+        "The backups manager allows for deleting all backups, deleting all backups of a specific farm, and deleting selected backups, which are selected in the list boxes on the backup manager tab."
     )],
 
     [createAboutTabHeader("Version Info")],

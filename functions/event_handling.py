@@ -1,8 +1,9 @@
 import os, re, webbrowser
 import PySimpleGUI as sg
 from functions.functions import get_current_time, has_save_files
-from functions.ui_functions import set_visibility, load_save_data
+from functions.ui_functions import set_visibility
 from functions.get_and_load_xml import get_xml_roots
+from functions.load_data import load_save_data
 import components.constants as constants, components.vars as vars
 from components.constants import Keys
 import functions.save_functions as save_functions
@@ -98,11 +99,11 @@ def _Handle_Friendship_Tab_Display_Selection(window: sg.Window, values: dict):
     farmers: list[str] = window[Keys._FriendshipTabFarmerCombo].Values
     index = farmers.index(values[Keys._FriendshipTabFarmerCombo])
 
-    if index != vars._Get_Friendship_Tab_Old_Combo_Ind():
-        update_friendship_data_dict(values)
+    if index != vars._Get_Friendship_Tab_Old_Combo_Ind(): # only execute if the farmer was changed
+        update_friendship_data_dict(values) # Update old farmer selection's data in dictionary
         friendshipData = vars._Get_Friendship_data()[index]
 
-        for npc, points in friendshipData.items():
+        for npc, points in friendshipData.items(): # display new farmer selection's data
             window[Keys._NPCFriendshipPoints[npc]].update(points, disabled=False)
 
         npcs = friendshipData.keys()
@@ -139,7 +140,7 @@ def _Switch_To_Friendship_Tab_Event(window: sg.Window, values: dict):
 
     vars._Set_Friendship_Tab_Old_Combo_Ind(i)
 
-    return event_string + f"[{get_current_time()}] [UI] Friendship tab combo box filled with most recent entries for farmer names.\n\n"
+    return f"[{get_current_time()}] [UI] Friendship tab combo box filled with most recent entries for farmer names.\n\n" + event_string
 
 def _Handle_Delete_Backup_Event(window: sg.Window, values: dict, event: str) -> str:
     if event == "Delete All Backups":
