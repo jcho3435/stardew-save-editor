@@ -52,6 +52,7 @@ class Keys:
     _FriendshipTab = "Friendship"
     _WorldTab = "World"
     _SaveTab = "Save"
+    _SpacerTab = "                 "
     _BackupsTab = "Backup Manager"
     _AboutTab = "About"
     _EditorTabs = [_FarmersTab, _SaveTab, _FriendshipTab, _WorldTab] #used for setting visibility after load event
@@ -76,12 +77,23 @@ class CharacterSavePaths:
         }
     _FriendshipData = "/Farmer/friendshipData[1]"
 
+    _SeasonForSaveGame = "/Farmer/seasonForSaveGame[1]"
+    _DayOfMonthForSaveGame = "/Farmer/dayOfMonthForSaveGame[1]"
+    _YearForSaveGame = "/Farmer/yearForSaveGame[1]"
+
 class WorldSavePaths:
     _Farmer = "/SaveGame/player"
     _Farmhands = "/SaveGame/farmhands/Farmer"
 
     _FarmerFriendshipData = "/SaveGame/player/friendshipData[1]"
-    _FarmhandRelativeFriendshipData = "./friendshipData[1]"
+    _FarmhandRelativeFriendshipData = "./friendshipData[1]" # Relative to Farmer tag
+
+    _CurrentSeason = "/SaveGame/currentSeason[1]"
+    _CurrentDayOfMonth = "/SaveGame/dayOfMonth[1]"
+    _CurrentYear = "/SaveGame/year[1]"
+    _FarmerRelativeSeasonForSaveGame = "./seasonForSaveGame"
+    _FarmerRelativeDayOfMonthForSaveGame = "./dayOfMonthForSaveGame"
+    _FarmerRelativeYearForSaveGame = "./yearForSaveGame"
 
 class Seasons(Enum):
     spring = 0

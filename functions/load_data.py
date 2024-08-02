@@ -91,8 +91,14 @@ def _load_friendship_tab_data() -> str:
     return f"[{get_current_time()}] [LOAD] Friendship data loaded into _FriendshipData variable.\n\n"
 
 def _load_and_fill_world_tab_data(window: sg.Window) -> str:
-    
-    return ""
+    character_save, world_save = get_xml_roots() # Since the actual in game day, year, and season are stored in world save, we pull data from that file
+
+    day, season, year = world_save.xpath(WorldSavePaths._CurrentDayOfMonth)[0].text, world_save.xpath(WorldSavePaths._CurrentSeason)[0].text, world_save.xpath(WorldSavePaths._CurrentYear)[0].text
+    window[Keys._WorldDayOfMonth].update(value=day)
+    window[Keys._WorldSeason].update(value=season.capitalize())
+    window[Keys._WorldYear].update(value=year)
+
+    return f"[{get_current_time()}] [LOAD] World tab data loaded.\n\n"
 
 def load_save_data(window: sg.Window, folderpath: str) -> str:
     event_string = ""
@@ -106,6 +112,6 @@ def load_save_data(window: sg.Window, folderpath: str) -> str:
     
     event_string += _load_and_fill_profile_tab_data(window)
     event_string += _load_friendship_tab_data() # This function only needs to update/load the dictionaries. The actual loading of content onto the tab occurs on change to friendship tab event and combobox update event. This is only done this way because we use a combo box on that tab to swap between farmer profiles, AND the combo box is updated with the most recent values for farmers' names every time we swap to friendship tab.
-    event_string += _load_and_fill_world_tab_data()
+    event_string += _load_and_fill_world_tab_data(window)
 
     return event_string
