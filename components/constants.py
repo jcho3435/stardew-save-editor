@@ -96,7 +96,7 @@ class WorldSavePaths:
     _FarmerRelativeYearForSaveGame = "./yearForSaveGame"
 
 class Seasons(Enum):
-    spring = 0
-    summer = 1
-    fall = 2
-    winter = 3
+    spring = "0"
+    summer = "1"
+    fall = "2"
+    winter = "3"

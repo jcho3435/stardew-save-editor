@@ -39,7 +39,8 @@ def _Folder_Selection_Event(window: sg.Window, values) -> str:
 def _Save_Changes_Event(window: sg.Window, values: dict) -> str:
     event_string = ""
     event_string += save_functions.save_farmers_tab_data_to_tree(values)
-    event_string += save_functions.save_friendship_tab_data_to_tree()
+    event_string += save_functions.save_friendship_tab_data_to_tree() # Friendship data is saved out of the global dictionary which always holds friendship data, so we don't need to pass in values
+    event_string += save_functions.save_world_tab_data_to_tree(values)
 
     character_data, world_data = get_xml_roots()
 
@@ -48,8 +49,8 @@ def _Save_Changes_Event(window: sg.Window, values: dict) -> str:
     character_save_file = os.path.join(folderpath, "SaveGameInfo")
     world_save_file = os.path.join(folderpath, basename)
 
-    character_save_file = "save_data2/SaveGameInfo" #TODO: CHANGE THIS SHIT TO NOT BE HARDCODED
-    world_save_file = "save_data2/MoreRice_363478863"
+    # character_save_file = "save_data2/SaveGameInfo" #TODO: CHANGE THIS SHIT TO NOT BE HARDCODED
+    # world_save_file = "save_data2/MoreRice_363478863"
 
     with open(character_save_file, 'wb') as file:
         #WRITE BOM CHARACTERS
