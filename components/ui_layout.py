@@ -157,7 +157,7 @@ layout = [
         sg.Tab(Keys._WorldTab, scrollableColumnWrapper(world_tab_layout, Keys._WorldTabColumn), visible=False),
         sg.Tab(Keys._SaveTab, save_tab_layout, visible=False),
 
-        sg.Tab(Keys._SpacerTab, [[]], disabled=True),
+        sg.Tab(Keys._SpacerTab, [[]], disabled=True, visible=False),
         sg.Tab(Keys._BackupsTab, scrollableColumnWrapper(backups_tab_layout, Keys._BackupsTabColumn)),
         sg.Tab(Keys._AboutTab, scrollableColumnWrapper(about_tab_layout, Keys._AboutTabColumn))
     ]], expand_x=True, expand_y=True, enable_events=True, key=Keys._TabGroup)]

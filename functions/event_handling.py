@@ -25,8 +25,10 @@ def _Folder_Selection_Event(window: sg.Window, values) -> str:
         window[Keys._SaveWarning].update("Make sure to save all changes before loading a new save or closing the window.")
 
         window[Keys._FolderBrowser].update(disabled=True, button_color="gray")
+
         event_string += load_save_data(window, folderpath)
         set_visibility(window, Keys._EditorTabs, True)
+        window[Keys._SpacerTab].update(visible=True, disabled=True)
         window[Keys._FarmersTab].select()
     else:                                           # Invalid folder name
         window[Keys._ValidateFolder].update(value="Invalid folder selected.", text_color="red")
