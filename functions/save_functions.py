@@ -1,11 +1,12 @@
-from components.constants import Keys, WorldSavePaths
+from components.constants import Keys, WorldSavePaths, Seasons
 from lxml import etree
 from functions.get_and_load_xml import get_xml_roots
 from functions.functions import get_current_time
 import components.constants as constants, components.vars as vars
 
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -#
 
-# - - - - - - - - - - - - - - - - - Save Farmers Tab Data  - - - - - - - - - - - - - - - - - 
+# - - - - - - - - - - - - - - - - - Save Farmers Tab Data  - - - - - - - - - - - - - - - - - #
 def save_name_to_tree(farmer: etree._Element, name: str):
     farmer.xpath("./name[1]")[0].text = name.strip()
 
@@ -50,9 +51,9 @@ def save_farmers_tab_data_to_tree(values: dict) -> str:
 
     return event_string
 
-# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - #
 
-# - - - - - - - - - - - - - - - - Save Friendship Tab Data  - - - - - - - - - - - - - - - - - 
+# - - - - - - - - - - - - - - - - Save Friendship Tab Data  - - - - - - - - - - - - - - - - - #
 
 def save_friendship_points_to_tree(farmer: etree._Element, index: int):
     friendshipData = vars._Get_Friendship_data()
@@ -89,4 +90,48 @@ def save_friendship_tab_data_to_tree() -> str:
 
     return event_string
 
-# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - #
+
+# - - - - - - - - - - - - - - - - - Save World Tab Data  - - - - - - - - - - - - - - - - - -  #
+def save_world_date_to_tree(values: dict):
+    # Date data must be saved in:
+    # - world save <year>, <dayOfMonth>, <currentSeason> (actual in game day/year/season)
+    # - character save <___ForSaveGame> tags
+    # - world save <___ForSaveGame> tags for both host and all farmhands
+
+    def save_date_to_ForSaveGame_tags(farmer: etree._Element, day, season, year):
+        farmer.xpath(WorldSavePaths._FarmerRelativeDayOfMonthForSaveGame)[0].text = day # This works for character save farmer as well
+        farmer.xpath(WorldSavePaths._FarmerRelativeSeasonForSaveGame)[0].text = season
+        farmer.xpath(WorldSavePaths._FarmerRelativeYearForSaveGame)[0].text = year
+    
+    day = values[Keys._WorldDayOfMonth]
+    season = values[Keys._WorldSeason].lower()
+    year = values[Keys._WorldYear]
+    seasonInd = Seasons[season].value
+
+    character_data, world_data = get_xml_roots()
+
+    # Save _ForSaveGame tags for character save
+    save_date_to_ForSaveGame_tags(character_data, day, seasonInd, year)
+
+    # Save _ForSaveGame tags for host in world save
+    host = world_data.xpath(WorldSavePaths._Farmer)[0]
+    save_date_to_ForSaveGame_tags(host, day, seasonInd, year)
+
+    # Save _ForSaveGame tags for farmhands in world save
+    farmhands = world_data.xpath(WorldSavePaths._Farmhands)
+    for farmer in farmhands:
+        save_date_to_ForSaveGame_tags(farmer, day, seasonInd, year)
+
+    # Save to <year>, <dayOfMonth>, <currentSeason>
+    world_data.xpath(WorldSavePaths._CurrentDayOfMonth)[0].text = day
+    world_data.xpath(WorldSavePaths._CurrentSeason)[0].text = season
+    world_data.xpath(WorldSavePaths._CurrentYear)[0].text = year
+
+def save_world_tab_data_to_tree(values: dict) -> str:
+    event_string = ""
+
+    save_world_date_to_tree(values)
+    event_string += f"[{get_current_time()}] [SAVE] World tab date changes saved to xml trees.\n\n"
+
+    return event_string
