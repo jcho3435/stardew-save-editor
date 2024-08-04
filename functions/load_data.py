@@ -5,7 +5,7 @@ Holds definitions for functions for loading data and filling the UI with loaded 
 import PySimpleGUI as sg
 from components.constants import Keys, WorldSavePaths, WeatherPatterns
 import components.constants as constants, components.vars as vars
-from functions.functions import get_current_time
+from functions.functions import get_current_time, strToBool
 from functions.get_and_load_xml import load_xml_roots, get_xml_roots
 from lxml import etree
 from components.vars import _Init_Friendship_Vars, _Get_Friendship_data
@@ -73,7 +73,7 @@ def _load_and_fill_profile_tab_data(window: sg.Window) -> str:
         index += 1
 
     col_contents_changed(window, Keys._FarmersTabColumn)
-    return f"[{get_current_time()}] [LOAD] Farmers profile data loaded.\n\n"
+    return f"[{get_current_time()}] [LOAD] Farmers profile data loaded.\n"
 
 #load friendship data into global list
 def _load_friendship_tab_data() -> str:
@@ -89,7 +89,7 @@ def _load_friendship_tab_data() -> str:
         load_friendship_data_dict(farmer, index)
         index += 1
 
-    return f"[{get_current_time()}] [LOAD] Friendship data loaded into _FriendshipData variable.\n\n"
+    return f"[{get_current_time()}] [LOAD] Friendship data loaded into _FriendshipData variable.\n"
 
 def _load_and_fill_world_tab_data(window: sg.Window) -> str:
     character_save, world_save = get_xml_roots() # Since the actual in game day, year, and season are stored in world save, we pull data from that file
@@ -98,9 +98,6 @@ def _load_and_fill_world_tab_data(window: sg.Window) -> str:
     window[Keys._WorldDayOfMonth].update(value=day)
     window[Keys._WorldSeason].update(value=season.capitalize())
     window[Keys._WorldYear].update(value=year)
-
-    def strToBool(s: str) -> bool:
-        return s.lower() == "true"
     
     weather = {tag: strToBool(world_save.xpath(f"./{tag}[1]")[0].text) for tag in constants._WeatherTags} # Pulls out the 4 bools for weather tags
     choices: list[str] = window[Keys._WorldWeather].Values
