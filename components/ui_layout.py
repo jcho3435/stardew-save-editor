@@ -101,8 +101,8 @@ friendship_tab_layout = [ # FRIENDSHIP
     [createTabHeader("Change Friendship Data")],
     [sg.Text("Select farmer:", pad=(5, (3, 20))), sg.Combo([], size=32, enable_events=True, key=Keys._FriendshipTabFarmerCombo, readonly=True, pad=(5, (3, 20)))]
 ]
-friendship_tab_npcs = [[sg.Image(f"{_BASEPATH}/icons/npcs/{npc}.png", subsample=2), sg.Text(f"{npc}:", p=(5, 8)), sg.Input(key=Keys._NPCFriendshipPoints[npc], disabled=True, p=((0, 5), 8), size=18, disabled_readonly_background_color="#cfcfcf")] for npc in sorted(_AllFriendableNPCs)]
-friendship_tab_layout += friendship_tab_npcs
+friendship_tab_npcs = [[sg.Sizer(350, 0)]] + [[sg.Image(f"{_BASEPATH}/icons/npcs/{npc}.png", subsample=2), sg.Text(f"{npc}:", p=(5, 8)), sg.Input(key=Keys._NPCFriendshipPoints[npc], disabled=True, p=((0, 5), 8), size=18, disabled_readonly_background_color="#cfcfcf")] for npc in sorted(_AllFriendableNPCs)]
+friendship_tab_layout += [[sg.Frame("Friendship Points", friendship_tab_npcs, expand_x=True, expand_y=True)]]
 
 world_tab_layout = [ # WORLD
     [createTabHeader("Change World Data")],
@@ -137,6 +137,12 @@ about_tab_layout = [ # ABOUT
     )],
     [createAboutTabHeader("Friendship Tab")],
     [createAboutTabDescription("Change friendship points with NPCs for all players who have joined your world. Use the dropdown menu to swap between farmers. Changed friendship points will be remembered when switching between players.")],
+    [createAboutTabHeader("World Tab")],
+    [createAboutTabDescription(
+        "Change information associated with the world and not associated directly with individual players. Currently supports changing:",
+        blist=["Date (day, season, year)", "Weather"]
+        )],
+    
     [createAboutTabHeader("Save Tab")],
     [createAboutTabDescription("Save your changes. After loading a game save, changes must be saved before you can load a new game save.")],
     [createAboutTabHeader("Backups Tab")],

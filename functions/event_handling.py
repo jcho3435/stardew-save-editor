@@ -49,8 +49,8 @@ def _Save_Changes_Event(window: sg.Window, values: dict) -> str:
     character_save_file = os.path.join(folderpath, "SaveGameInfo")
     world_save_file = os.path.join(folderpath, basename)
 
-    # character_save_file = "save_data2/SaveGameInfo" #TODO: CHANGE THIS SHIT TO NOT BE HARDCODED
-    # world_save_file = "save_data2/MoreRice_363478863"
+    character_save_file = "save_data2/SaveGameInfo" #TODO: CHANGE THIS SHIT TO NOT BE HARDCODED
+    world_save_file = "save_data2/MoreRice_363478863"
 
     with open(character_save_file, 'wb') as file:
         #WRITE BOM CHARACTERS
