@@ -10,6 +10,7 @@ from functions.get_and_load_xml import load_xml_roots, get_xml_roots
 from lxml import etree
 from components.vars import _Init_Friendship_Vars, _Get_Friendship_data
 from functions.ui_functions import set_visibility, col_contents_changed
+import functions.event_handling as event_handling
 
 def enable_and_fill_farmer_frame(window: sg.Window, index: int, farmer: etree._Element):
     farmerName = farmer.xpath("./name[1]")[0].text
@@ -108,11 +109,13 @@ def _load_and_fill_world_tab_data(window: sg.Window) -> str:
         if weather == pattern.value:
             ind = choices.index(pattern.name)
             window[Keys._WorldWeather].update(set_to_index=ind)
+            event_handling.update_weather_icon(window, {Keys._WorldWeather: pattern.name}) # Kinda unclean solution but this works
             match_found = True
             break
     
     if not match_found:
         window[Keys._WorldWeather].update(set_to_index=0)
+    
 
     return f"[{get_current_time()}] [LOAD] World tab data loaded.\n\n"
 

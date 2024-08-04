@@ -154,8 +154,10 @@ def _Handle_Delete_Backup_Event(window: sg.Window, values: dict, event: str) -> 
         world = event.split(":")[-1]
         return backups_functions._Delete_All_Specific_World_Backups(window, world)
    
-def update_weather_icon(window: sg.Window, values: dict):
-    pass
+def update_weather_icon(window: sg.Window, values: dict) -> None:
+    weather = values[Keys._WorldWeather]
+    window[Keys._WorldTabWeatherImage].update(filename=f"{vars._BASEPATH}/icons/weather/{weather}.png")
+    window.refresh()
 
 def handle_event(window: sg.Window, event: str, values: dict) -> str:
     if event == Keys._FolderInput:
