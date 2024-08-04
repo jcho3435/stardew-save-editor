@@ -154,24 +154,35 @@ def _Handle_Delete_Backup_Event(window: sg.Window, values: dict, event: str) -> 
         world = event.split(":")[-1]
         return backups_functions._Delete_All_Specific_World_Backups(window, world)
    
+def update_weather_icon(window: sg.Window, values: dict):
+    pass
 
 def handle_event(window: sg.Window, event: str, values: dict) -> str:
     if event == Keys._FolderInput:
         return _Folder_Selection_Event(window, values)
+    
     elif event == "Save Changes":
         return _Save_Changes_Event(window, values)
+    
     elif event.startswith("URL "):
         return _Url_Event(event)
+    
     elif event == Keys._FriendshipTabFarmerCombo:
         return _Handle_Friendship_Tab_Display_Selection(window, values)
+    
     elif event == Keys._TabGroup:
         event_string = f"[{get_current_time()}] [UI] Switched to {values[event]} tab.\n\n"
         if values[event] == Keys._FriendshipTab:
-            event_string += _Switch_To_Friendship_Tab_Event(window, values)
+            event_string += _Switch_To_Friendship_Tab_Event(window, values) # Needs to update farmer names in combo box
         else:
-            if vars._Get_Curr_Tab() == Keys._FriendshipTab:
+            if vars._Get_Curr_Tab() == Keys._FriendshipTab: # Switching away from friendship tab, need to update friendship data dict
                 update_friendship_data_dict(values)
         vars._Set_Curr_Tab(values[event])
         return event_string
+    
     elif event == "Delete Selected" or event == "Delete All Backups" or event.startswith(f"{Keys._DeleteAllBackupsPrefix}:"):
         return _Handle_Delete_Backup_Event(window, values, event)
+    
+    elif event == Keys._WorldWeather:
+        update_weather_icon(window, values)
+        return ""

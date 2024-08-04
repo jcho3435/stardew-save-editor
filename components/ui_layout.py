@@ -1,5 +1,5 @@
 import PySimpleGUI as sg
-from components.constants import Keys, _AllFriendableNPCs, _CURRENTVERSION, Seasons
+from components.constants import Keys, _AllFriendableNPCs, _CURRENTVERSION, Seasons, WeatherPatterns
 from components.vars import _Links, _BASEPATH, _Set_Backups_Dict
 import textwrap
 
@@ -106,7 +106,9 @@ friendship_tab_layout += [[sg.Frame("Friendship Points", friendship_tab_npcs, ex
 
 world_tab_layout = [ # WORLD
     [createTabHeader("Change World Data")],
-    [sg.Image(f"{_BASEPATH}/icons/calendar-icon.png", subsample=2), sg.Text("Day:"), sg.Input(key=Keys._WorldDayOfMonth, size=4, p=((0, 5), 3)), sg.Text("Season:"), sg.Combo([season.name.capitalize() for season in Seasons], key=Keys._WorldSeason, size=10, p=((0, 5), 3), readonly=True), sg.Text("Year:"), sg.Input(key=Keys._WorldYear, size=6, p=((0, 5), 3))]
+    [sg.Image(f"{_BASEPATH}/icons/calendar-icon.png", subsample=2), sg.Text("Day:"), sg.Input(key=Keys._WorldDayOfMonth, size=4, p=((0, 5), 8)), sg.Text("Season:"), sg.Combo([season.name.capitalize() for season in Seasons], key=Keys._WorldSeason, size=10, p=((0, 5), 8), readonly=True), sg.Text("Year:"), sg.Input(key=Keys._WorldYear, size=6, p=((0, 5), 8))],
+    [sg.Text("Note: Currently, this editor does not support setting stormy weather.", p=(5, (8, 3)))],
+    [sg.Text("Weather:", p=(5, (3, 8))), sg.Combo([weather.name for weather in WeatherPatterns], size=12, key=Keys._WorldWeather, p=(0, (3, 8)), readonly=True), sg.Image(None, key=Keys._WorldTabWeatherImage)]
 ]
 
 save_tab_layout = [ # SAVE

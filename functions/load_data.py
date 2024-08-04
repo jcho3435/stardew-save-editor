@@ -3,7 +3,7 @@ Holds definitions for functions for loading data and filling the UI with loaded 
 '''
 
 import PySimpleGUI as sg
-from components.constants import Keys, WorldSavePaths
+from components.constants import Keys, WorldSavePaths, WeatherPatterns
 import components.constants as constants, components.vars as vars
 from functions.functions import get_current_time
 from functions.get_and_load_xml import load_xml_roots, get_xml_roots
@@ -97,6 +97,22 @@ def _load_and_fill_world_tab_data(window: sg.Window) -> str:
     window[Keys._WorldDayOfMonth].update(value=day)
     window[Keys._WorldSeason].update(value=season.capitalize())
     window[Keys._WorldYear].update(value=year)
+
+    def strToBool(s: str) -> bool:
+        return s.lower() == "true"
+    
+    weather = {tag: strToBool(world_save.xpath(f"./{tag}[1]")[0].text) for tag in constants._WeatherTags} # Pulls out the 4 bools for weather tags
+    choices: list[str] = window[Keys._WorldWeather].Values
+    match_found = False
+    for pattern in WeatherPatterns:
+        if weather == pattern.value:
+            ind = choices.index(pattern.name)
+            window[Keys._WorldWeather].update(set_to_index=ind)
+            match_found = True
+            break
+    
+    if not match_found:
+        window[Keys._WorldWeather].update(set_to_index=0)
 
     return f"[{get_current_time()}] [LOAD] World tab data loaded.\n\n"
 
