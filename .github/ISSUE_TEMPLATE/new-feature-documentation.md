@@ -13,3 +13,8 @@ Upon completing each item, place an 'X' between the \[ \] characters
 - [ ] Add documentation to <b>web docs</b>
 - [ ] Add documentation to <b>about tab</b>
 - [ ] Add documentation to <b>github wiki</b>
+
+<br>
+<br>
+<br>
+Link to issue for adding this feature:

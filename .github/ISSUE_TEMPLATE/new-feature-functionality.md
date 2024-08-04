@@ -14,3 +14,9 @@ Once completed, place an 'X' between the \[ \] characters.
 - [ ] Add pre-loading of data
 - [ ] Add saving of data
 - [ ] Manual test (Manually check values in save file, then test by running stardew valley)
+
+<hr>
+<h3>Save file information</h3>
+Provide information on how to modify this data in the save files.
+<br>
+<br>
