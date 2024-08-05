@@ -138,7 +138,10 @@ about_tab_layout = [ # ABOUT
         blist=["Name", "Skill levels", "Skill experience points"],
     )],
     [createAboutTabHeader("Friendship Tab")],
-    [createAboutTabDescription("Change friendship points with NPCs for all players who have joined your world. Use the dropdown menu to swap between farmers. Changed friendship points will be remembered when switching between players.")],
+    [createAboutTabDescription(
+        "Change friendship data with NPCs for all players who have joined your world. Use the dropdown menu to swap between players. Changed friendship data will be remembered when switching between players. Currently supports changing:",
+        blist=["Friendship Points"]
+        )],
     [createAboutTabHeader("World Tab")],
     [createAboutTabDescription(
         "Change information associated with the world and not associated directly with individual players. Currently supports changing:",
