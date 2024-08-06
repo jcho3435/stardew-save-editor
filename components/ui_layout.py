@@ -1,5 +1,5 @@
 import PySimpleGUI as sg
-from components.constants import Keys, _AllFriendableNPCs, _CURRENTVERSION, Seasons
+from components.constants import Keys, _AllFriendableNPCs, _CURRENTVERSION, Seasons, WeatherPatterns
 from components.vars import _Links, _BASEPATH, _Set_Backups_Dict
 import textwrap
 
@@ -101,12 +101,14 @@ friendship_tab_layout = [ # FRIENDSHIP
     [createTabHeader("Change Friendship Data")],
     [sg.Text("Select farmer:", pad=(5, (3, 20))), sg.Combo([], size=32, enable_events=True, key=Keys._FriendshipTabFarmerCombo, readonly=True, pad=(5, (3, 20)))]
 ]
-friendship_tab_npcs = [[sg.Image(f"{_BASEPATH}/icons/npcs/{npc}.png", subsample=2), sg.Text(f"{npc}:", p=(5, 8)), sg.Input(key=Keys._NPCFriendshipPoints[npc], disabled=True, p=((0, 5), 8), size=18, disabled_readonly_background_color="#cfcfcf")] for npc in sorted(_AllFriendableNPCs)]
-friendship_tab_layout += friendship_tab_npcs
+friendship_tab_npcs = [[sg.Sizer(350, 0)]] + [[sg.Image(f"{_BASEPATH}/icons/npcs/{npc}.png", subsample=2), sg.Text(f"{npc}:", p=(5, 8)), sg.Input(key=Keys._NPCFriendshipPoints[npc], disabled=True, p=((0, 5), 8), size=18, disabled_readonly_background_color="#cfcfcf")] for npc in sorted(_AllFriendableNPCs)]
+friendship_tab_layout += [[sg.Frame("Friendship Points", friendship_tab_npcs, expand_x=True, expand_y=True)]]
 
 world_tab_layout = [ # WORLD
     [createTabHeader("Change World Data")],
-    [sg.Image(f"{_BASEPATH}/icons/calendar-icon.png", subsample=2), sg.Text("Day:"), sg.Input(key=Keys._WorldDayOfMonth, size=4, p=((0, 5), 3)), sg.Text("Season:"), sg.Combo([season.name.capitalize() for season in Seasons], key=Keys._WorldSeason, size=10, p=((0, 5), 3), readonly=True), sg.Text("Year:"), sg.Input(key=Keys._WorldYear, size=6, p=((0, 5), 3))]
+    [sg.Image(f"{_BASEPATH}/icons/calendar-icon.png", subsample=2), sg.Text("Day:"), sg.Input(key=Keys._WorldDayOfMonth, size=4, p=((0, 5), 8)), sg.Text("Season:"), sg.Combo([season.name.capitalize() for season in Seasons], key=Keys._WorldSeason, size=10, p=((0, 5), 8), readonly=True), sg.Text("Year:"), sg.Input(key=Keys._WorldYear, size=6, p=((0, 5), 8))],
+    [sg.Text("Note: Currently, this editor does not support setting stormy weather. Selecting stormy weather will set your world to rainy.", p=(5, (8, 3)))],
+    [sg.Text("Weather:", p=(5, (3, 8))), sg.Combo([weather.name for weather in WeatherPatterns], size=12, key=Keys._WorldWeather, p=((0, 3), (3, 8)), readonly=True, enable_events=True), sg.Image(None, key=Keys._WorldTabWeatherImage, p=(5, (0, 8)))]
 ]
 
 save_tab_layout = [ # SAVE
@@ -123,7 +125,7 @@ generateBackupTabFrames(backups_tab_layout, Keys._BackupsTabFramesColumn)
 about_tab_layout = [ # ABOUT
     [sg.Text("About the editor:", text_color="black", font=("Times New Roman", 30), pad=(5, (3, 10)))],
     [sg.Text("This application is a minimalist Stardew Valley save editor for windows. The code is fully open source and can be found", p=((5, 0), 3), text_color="black", font=("Arial", 12)), sg.Text("here.", tooltip=_Links["github"], p=(1, 3), enable_events=True, key=f"URL {_Links["github"]}", text_color="dark gray", font=("Arial", 12, "underline"))],
-    [sg.Text("This page gives a basic overview of the editor's tabs. For more detailed docs and explanations on each of the tabs' fields, click", p=((5, 0), 3), text_color="black", font=("Arial", 12)), sg.Text("here.", tooltip=_Links["docs"], p=(1, 3), enable_events=True, key=f"URL {_Links["docs"]}", text_color="dark gray", font=("Arial", 12, "underline"))],
+    [sg.Text("This page gives a basic overview of the editor's tabs. For more detailed docs and explanations on each of the tabs' fields, view the web based docs", p=((5, 0), 3), text_color="black", font=("Arial", 12)), sg.Text("here,", tooltip=_Links["docs"], p=(0, 3), enable_events=True, key=f"URL {_Links["docs"]}", text_color="dark gray", font=("Arial", 12, "underline")), sg.Text("or view the GitHub wiki", p=(1, 3), text_color="black", font=("Arial", 12)), sg.Text("here.", tooltip=_Links["github wiki"], p=((0, 5), 3), enable_events=True, key=f"URL {_Links["github wiki"]}", text_color="dark gray", font=("Arial", 12, "underline"))],
     [sg.Text(textwrap.fill("Warning: There is no input validation on any of the modifiable fields, so in order to avoid Stardew Valley crashing due to bad save data, avoid inputting bad values. For example, for fields which should take a number, do not input any alphabetical characters. You can find more details on constraints on values for each field on the docs.", 170), p=((5, 0), (3, 22)), text_color="black", font=("Arial", 12))],
     [createAboutTabHeader("Load Tab")],
     [createAboutTabDescription(
@@ -136,7 +138,16 @@ about_tab_layout = [ # ABOUT
         blist=["Name", "Skill levels", "Skill experience points"],
     )],
     [createAboutTabHeader("Friendship Tab")],
-    [createAboutTabDescription("Change friendship points with NPCs for all players who have joined your world. Use the dropdown menu to swap between farmers. Changed friendship points will be remembered when switching between players.")],
+    [createAboutTabDescription(
+        "Change friendship data with NPCs for all players who have joined your world. Use the dropdown menu to swap between players. Changed friendship data will be remembered when switching between players. Currently supports changing:",
+        blist=["Friendship Points"]
+        )],
+    [createAboutTabHeader("World Tab")],
+    [createAboutTabDescription(
+        "Change information associated with the world and not associated directly with individual players. Currently supports changing:",
+        blist=["Date (day, season, year)", "Weather"]
+        )],
+    
     [createAboutTabHeader("Save Tab")],
     [createAboutTabDescription("Save your changes. After loading a game save, changes must be saved before you can load a new game save.")],
     [createAboutTabHeader("Backups Tab")],

@@ -29,3 +29,6 @@ def getBasePath():
         return sys._MEIPASS.replace("\\", "/")
     except Exception:
         return os.path.abspath(".")
+    
+def strToBool(s: str) -> bool:
+    return s.lower() == "true"

@@ -1,0 +1,55 @@
+<head>
+    <link rel="stylesheet" href="../styles.css">
+</head>
+
+<h2>World Tab</h2>
+
+<p>
+    Change information associated with the world and not associated directly with individual players. Currently supports changing of game day, season, year, and weather.
+    <br>
+</p>
+
+<table>
+    <thead>
+        <th></th>
+        <th>Input value type</th>
+        <th>Value constraints</th>
+        <th>Other notes</th>
+    </thead>
+    <tbody>
+        <tr>
+            <td><b>Day</b></td>
+            <td>Integer (non-decimal numeric)</td>
+            <td>Must be a value between 1 and 28 inclusive</a>.</td>
+            <td>-</td>
+        </tr>
+        <tr>
+            <td><b>Season</b></td>
+            <td>Dropdown selection</td>
+            <td>-</td>
+            <td>-</td>
+        </tr>
+        <tr>
+            <td><b>Year</b></td>
+            <td>Integer (non-decimal numeric)</td>
+            <td>Must be a value greater than or equal to 1. No known upper contraint.</td>
+            <td>-</td>
+        </tr>
+        <tr>
+            <td><b>Weather</b></td>
+            <td>Dropdown selection</td>
+            <td>-</td>
+            <td class="other-notes">
+                <ul>
+                    <li>Windy weather is purely aesthetic. Setting windy weather will not generate debris on your farm</li>
+                    <li>Typically, you cannot have snow if it is not winter, and you cannot have rain during the winter. Using the editor, you should be able to set snow or rain outside of their expected seasons without issue.</li>
+                    <li>Setting weather through the editor allows you to bypass days with forced weather. Find info on forced weather on the <a href="https://stardewvalleywiki.com/Modding:Weather_data#Forced_weather">Stardew Valley Wiki</a>.</li>
+                    <li>Currently, stormy weather is not supported. For the time being, setting stormy weather does the same thing as setting rainy weather.</li>
+                </ul>
+            </td>
+        </tr>
+    </tbody>
+</table>
+<br>
+
+<a href="../home.html">Go back</a>

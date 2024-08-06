@@ -8,7 +8,8 @@ _SaveFolderRE = r"^.*_[0-9]+$"
 _XML_DECLARATION = "<?xml version=\"1.0\" encoding=\"utf-8\"?>"
 _Links = {
     "github": "https://github.com/jcho3435/stardew-save-editor",
-    "docs": "file:///" + os.path.abspath(f"{_BASEPATH}/docs/home.html").replace("\\", "/").replace(" ", "%20")
+    "docs": "file:///" + os.path.abspath(f"{_BASEPATH}/docs/home.html").replace("\\", "/").replace(" ", "%20"),
+    "github wiki": "https://github.com/jcho3435/stardew-save-editor/wiki"
 }
 
 # This is for finding using xpath, which is 1 indexed

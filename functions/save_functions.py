@@ -1,4 +1,4 @@
-from components.constants import Keys, WorldSavePaths, Seasons
+from components.constants import Keys, WorldSavePaths, Seasons, WeatherPatterns
 from lxml import etree
 from functions.get_and_load_xml import get_xml_roots
 from functions.functions import get_current_time
@@ -128,10 +128,19 @@ def save_world_date_to_tree(values: dict):
     world_data.xpath(WorldSavePaths._CurrentSeason)[0].text = season
     world_data.xpath(WorldSavePaths._CurrentYear)[0].text = year
 
+def save_weather_to_tree(values):
+    character_data, world_data = get_xml_roots()
+
+    weather = values[Keys._WorldWeather]
+    tagsDict = WeatherPatterns[weather].value
+    for tag, val in tagsDict.items():
+        world_data.xpath(f"./{tag}[1]")[0].text = f"{val}".lower()
+
 def save_world_tab_data_to_tree(values: dict) -> str:
     event_string = ""
 
     save_world_date_to_tree(values)
-    event_string += f"[{get_current_time()}] [SAVE] World tab date changes saved to xml trees.\n\n"
+    save_weather_to_tree(values)
+    event_string += f"[{get_current_time()}] [SAVE] World tab date and weather changes saved to xml trees.\n\n"
 
     return event_string

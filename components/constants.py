@@ -23,6 +23,7 @@ class Keys:
     _BackupsTabFramePrefix = "BackupFrame"
     _BackupsTabListboxPrefix = "BackupsListbox"
     _DeleteAllBackupsPrefix = "DELETE_ALL_BACKUP"
+    _WorldTabWeatherImage = "-WorldTabWeatherImage-"
 
     # Editable values ----------------------------------------------------------
     _FarmerNames = [f"-FarmerName{i}-" for i in range(_MAXPLAYERS)]
@@ -45,6 +46,7 @@ class Keys:
     _WorldDayOfMonth = "-WorldDayOfMonth-"
     _WorldSeason = "-WorldSeason-"
     _WorldYear = "-WorldYear-"
+    _WorldWeather = "-WorldWeather-"
 
     #Tabs ----------------------------------------------------------------------
     _LoadTab = "Load"
@@ -100,3 +102,11 @@ class Seasons(Enum):
     summer = "1"
     fall = "2"
     winter = "3"
+
+_WeatherTags = ["isRaining", "isDebrisWeather", "isLightning", "isSnowing"]
+class WeatherPatterns(Enum):
+    Sunny = {"isRaining": False, "isDebrisWeather": False, "isLightning": False, "isSnowing": False}
+    Windy = {"isRaining": False, "isDebrisWeather": True, "isLightning": False, "isSnowing": False}
+    Rainy = {"isRaining": True, "isDebrisWeather": False, "isLightning": False, "isSnowing": False}
+    Stormy = {"isRaining": True, "isDebrisWeather": False, "isLightning": True, "isSnowing": False} # Does not work
+    Snowy = {"isRaining": False, "isDebrisWeather": False, "isLightning": False, "isSnowing": True}
