@@ -3,6 +3,8 @@ from components.constants import Keys, _AllFriendableNPCs, _CURRENTVERSION, Seas
 from components.vars import _Links, _BASEPATH, _Set_Backups_Dict
 import textwrap
 
+sg.theme("Light Blue 1")
+
 # helpers --------------------------------------------------------------------------------
 def generateFarmersTabFrames(farmers_tab_layout: list):
     '''
@@ -83,6 +85,9 @@ def scrollableColumnWrapper(layout, key):
     """
     return [[sg.Column(layout, scrollable=True, vertical_scroll_only=True, expand_x=True, expand_y=True, key=key)]]
 
+def hyperlink(text: str, url: str, pad: int | tuple[int, int] | tuple[int, tuple[int, int]] | tuple[tuple[int, int], int] | tuple[tuple[int, int], tuple[int, int]]):
+    return sg.Text(text, tooltip=url, p=pad, enable_events=True, key=f"URL {url}", text_color="blue4", font=("Arial", 12, "underline"))
+
 # Layouts ---------------------------------------------------------------------------------
 load_tab_layout = [ # LOAD
         [sg.Push(), sg.Text("Stardew Valley Save Editor!", font=("Times New Roman", 30), text_color="Black"), sg.Push()],
@@ -124,8 +129,8 @@ generateBackupTabFrames(backups_tab_layout, Keys._BackupsTabFramesColumn)
 
 about_tab_layout = [ # ABOUT
     [sg.Text("About the editor:", text_color="black", font=("Times New Roman", 30), pad=(5, (3, 10)))],
-    [sg.Text("This application is a minimalist Stardew Valley save editor for windows. The code is fully open source and can be found", p=((5, 0), 3), text_color="black", font=("Arial", 12)), sg.Text("here.", tooltip=_Links["github"], p=(1, 3), enable_events=True, key=f"URL {_Links["github"]}", text_color="dark gray", font=("Arial", 12, "underline"))],
-    [sg.Text("This page gives a basic overview of the editor's tabs. For more detailed docs and explanations on each of the tabs' fields, view the web based docs", p=((5, 0), 3), text_color="black", font=("Arial", 12)), sg.Text("here,", tooltip=_Links["docs"], p=(0, 3), enable_events=True, key=f"URL {_Links["docs"]}", text_color="dark gray", font=("Arial", 12, "underline")), sg.Text("or view the GitHub wiki", p=(1, 3), text_color="black", font=("Arial", 12)), sg.Text("here.", tooltip=_Links["github wiki"], p=((0, 5), 3), enable_events=True, key=f"URL {_Links["github wiki"]}", text_color="dark gray", font=("Arial", 12, "underline"))],
+    [sg.Text("This application is a minimalist Stardew Valley save editor for windows. The code is fully open source and can be found", p=((5, 0), 3), text_color="black", font=("Arial", 12)), hyperlink("here.", _Links["github"], pad=(1, 3))],
+    [sg.Text("This page gives a basic overview of the editor's tabs. For more detailed docs and explanations on each of the tabs' fields, view the web based docs", p=((5, 0), 3), text_color="black", font=("Arial", 12)), hyperlink("here,", _Links["docs"], pad=(0, 3)), sg.Text("or view the GitHub wiki", p=(1, 3), text_color="black", font=("Arial", 12)), hyperlink("here.", _Links["github wiki"], pad=((0, 5), 3))],
     [sg.Text(textwrap.fill("Warning: There is no input validation on any of the modifiable fields, so in order to avoid Stardew Valley crashing due to bad save data, avoid inputting bad values. For example, for fields which should take a number, do not input any alphabetical characters. You can find more details on constraints on values for each field on the docs.", 170), p=((5, 0), (3, 22)), text_color="black", font=("Arial", 12))],
     [createAboutTabHeader("Load Tab")],
     [createAboutTabDescription(
@@ -168,7 +173,7 @@ layout = [
         sg.Tab(Keys._WorldTab, scrollableColumnWrapper(world_tab_layout, Keys._WorldTabColumn), visible=False),
         sg.Tab(Keys._SaveTab, save_tab_layout, visible=False),
 
-        sg.Tab(Keys._SpacerTab, [[]], disabled=True, visible=False),
+        sg.Tab("", [[]], key=Keys._SpacerTab, disabled=True, visible=False, image_source="icons/rectangle.png", image_subsample=2), # Decide if there is a better approach https://github.com/PySimpleGUI/PySimpleGUI/issues/6792#issuecomment-2270244378
         sg.Tab(Keys._BackupsTab, scrollableColumnWrapper(backups_tab_layout, Keys._BackupsTabColumn)),
         sg.Tab(Keys._AboutTab, scrollableColumnWrapper(about_tab_layout, Keys._AboutTabColumn))
     ]], expand_x=True, expand_y=True, enable_events=True, key=Keys._TabGroup)]
