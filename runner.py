@@ -26,6 +26,10 @@ try:
 
     # Create the Window
     window = sg.Window('Stardew Valley Save Editor', layout, use_ttk_buttons=True, icon="icons/app-icon.ico", resizable=True, finalize=True)
+
+    for url in vars._Links.values(): 
+        window[f"URL {url}"].set_cursor("hand2")
+
 except Exception as e:
     program_lock.clean_up(e)
 
