@@ -47,6 +47,7 @@ class Keys:
     _WorldSeason = "-WorldSeason-"
     _WorldYear = "-WorldYear-"
     _WorldWeather = "-WorldWeather-"
+    _DailyLuck = "-DailyLuck-"
 
     #Tabs ----------------------------------------------------------------------
     _LoadTab = "Load"

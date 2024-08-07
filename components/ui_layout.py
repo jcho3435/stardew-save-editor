@@ -113,7 +113,8 @@ world_tab_layout = [ # WORLD
     [createTabHeader("Change World Data")],
     [sg.Image(f"{_BASEPATH}/icons/calendar-icon.png", subsample=2), sg.Text("Day:"), sg.Input(key=Keys._WorldDayOfMonth, size=4, p=((0, 5), 8)), sg.Text("Season:"), sg.Combo([season.name.capitalize() for season in Seasons], key=Keys._WorldSeason, size=10, p=((0, 5), 8), readonly=True), sg.Text("Year:"), sg.Input(key=Keys._WorldYear, size=6, p=((0, 5), 8))],
     [sg.Text("Note: Currently, this editor does not support setting stormy weather. Selecting stormy weather will set your world to rainy.", p=(5, (8, 3)))],
-    [sg.Text("Weather:", p=(5, (3, 8))), sg.Combo([weather.name for weather in WeatherPatterns], size=12, key=Keys._WorldWeather, p=((0, 3), (3, 8)), readonly=True, enable_events=True), sg.Image(None, key=Keys._WorldTabWeatherImage, p=(5, (0, 8)))]
+    [sg.Text("Weather:", p=(5, (3, 8))), sg.Combo([weather.name for weather in WeatherPatterns], size=12, key=Keys._WorldWeather, p=((0, 3), (3, 8)), readonly=True, enable_events=True), sg.Image(None, key=Keys._WorldTabWeatherImage, p=(5, (0, 8)))],
+    [sg.Text("Daily luck:", p=(5, (3, 8))), sg.Input(key=Keys._DailyLuck, size=6, p=((0, 5), 8)), sg.Image(f"{_BASEPATH}/icons/luck-icon.png", subsample=2)]
 ]
 
 save_tab_layout = [ # SAVE
