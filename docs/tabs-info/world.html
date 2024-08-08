@@ -5,7 +5,7 @@
 <h2>World Tab</h2>
 
 <p>
-    Change information associated with the world and not associated directly with individual players. Currently supports changing of game day, season, year, and weather.
+    Change information associated with the world and not associated directly with individual players. Currently supports changing of game day, season, year, weather, and daily luck.
     <br>
 </p>
 
@@ -41,10 +41,28 @@
             <td>-</td>
             <td class="other-notes">
                 <ul>
-                    <li>Windy weather is purely aesthetic. Setting windy weather will not generate debris on your farm</li>
+                    <li>Windy weather is purely aesthetic. Setting windy weather will not generate debris on your farm.</li>
                     <li>Typically, you cannot have snow if it is not winter, and you cannot have rain during the winter. Using the editor, you should be able to set snow or rain outside of their expected seasons without issue.</li>
                     <li>Setting weather through the editor allows you to bypass days with forced weather. Find info on forced weather on the <a href="https://stardewvalleywiki.com/Modding:Weather_data#Forced_weather">Stardew Valley Wiki</a>.</li>
                     <li>Currently, stormy weather is not supported. For the time being, setting stormy weather does the same thing as setting rainy weather.</li>
+                </ul>
+            </td>
+        </tr>
+        <tr>
+            <td><b>Daily Luck</b></td>
+            <td>Floating point (decimal numeric)</td>
+            <td>A decimal number between -0.1 and 0.125 inclusive.</td>
+            <td class="other-notes">
+                <ul>
+                    <li>Daily luck can only naturally be a value between -0.1 and 0.125. For more information on daily luck, check the <a href="https://stardewvalleywiki.com/Luck#Daily_Luck">Stardew Valley wiki</a>.</li>
+                    <li>Setting daily luck to a value less than -0.1 or greater than 0.125 is possible, but it comes at the risk of crashing, so it is not recommended. Specific values and scenarios that have been tested:<br>
+                        <ul>
+                            <li>-1.0 luck: No crash when fishing, grabbing artifact spots, or entering Skull Cavern.</li>
+                            <li>1.0 luck: No crash when foraging or grabbing crops. Crash upon entering Skull Cavern.</li>
+                            <li>0.74 luck: Crash upon entering Skull Cavern.</li>
+                            <li>0.2 luck: No crash when fishing, grabbing artifact spots, or entering Skull Cavern</li>
+                        </ul>
+                    </li>
                 </ul>
             </td>
         </tr>
