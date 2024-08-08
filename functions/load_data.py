@@ -12,6 +12,9 @@ from components.vars import _Init_Friendship_Vars, _Get_Friendship_data
 from functions.ui_functions import set_visibility, col_contents_changed
 import functions.event_handling as event_handling
 
+# ------------------------------------------------------------------- #
+#                            Farmer Tab                               #
+# ------------------------------------------------------------------- # 
 def enable_and_fill_farmer_frame(window: sg.Window, index: int, farmer: etree._Element):
     farmerName = farmer.xpath("./name[1]")[0].text
     window[Keys._FarmerNames[index]].update(farmerName, disabled=False)
@@ -25,38 +28,6 @@ def enable_and_fill_farmer_frame(window: sg.Window, index: int, farmer: etree._E
         window[keys[index]].update(skillXp, disabled=False)
 
     window[Keys._FarmersTabFrames[index]].update(visible=True)
-
-def load_friendship_data_dict(farmer: etree._Element, index: int):
-    friendshipData = farmer.xpath("./friendshipData[1]")[0]
-    items: list[etree._Element] = friendshipData.xpath("./item")
-
-    data = {}
-    for item in items:
-        npc = item.xpath("./key/string[1]")[0].text
-        friendship = item.xpath("./value/Friendship/Points[1]")[0].text
-        data[npc] = friendship
-    
-    friendshipDataList = _Get_Friendship_data()
-    friendshipDataList[index] = data
-
-def _reset_profile_tab_ui(window: sg.Window):
-    for key in Keys._FarmerNames:
-        window[key].update(value="", disabled=True)
-
-    for keys in Keys._FarmerSkillLevels.values():
-        for key in keys:
-            window[key].update(value="", disabled=True)
-    
-    for keys in Keys._FarmerSkillExperience.values():
-        for key in keys:
-            window[key].update(value="", disabled=True)
-
-    set_visibility(window, Keys._FarmersTabFrames, False)
-
-def _reset_friendship_tab_ui(window: sg.Window):
-    window[Keys._FriendshipTabFarmerCombo].update(values=[], set_to_index=0) #Only this call is necessary, but the others are there for redundancy
-    for npc, key in Keys._NPCFriendshipPoints.items():
-        window[key].update(value="", disabled=True)
 
 #loading save data
 def _load_and_fill_profile_tab_data(window: sg.Window) -> str:
@@ -75,6 +46,36 @@ def _load_and_fill_profile_tab_data(window: sg.Window) -> str:
     col_contents_changed(window, Keys._FarmersTabColumn)
     return f"[{get_current_time()}] [LOAD] Farmers profile data loaded.\n"
 
+def _reset_profile_tab_ui(window: sg.Window):
+    for key in Keys._FarmerNames:
+        window[key].update(value="", disabled=True)
+
+    for keys in Keys._FarmerSkillLevels.values():
+        for key in keys:
+            window[key].update(value="", disabled=True)
+    
+    for keys in Keys._FarmerSkillExperience.values():
+        for key in keys:
+            window[key].update(value="", disabled=True)
+
+    set_visibility(window, Keys._FarmersTabFrames, False)
+
+# ------------------------------------------------------------------- #
+#                          Friendship Tab                             #
+# ------------------------------------------------------------------- # 
+def load_friendship_data_dict(farmer: etree._Element, index: int):
+    friendshipData = farmer.xpath("./friendshipData[1]")[0]
+    items: list[etree._Element] = friendshipData.xpath("./item")
+
+    data = {}
+    for item in items:
+        npc = item.xpath("./key/string[1]")[0].text
+        friendship = item.xpath("./value/Friendship/Points[1]")[0].text
+        data[npc] = friendship
+    
+    friendshipDataList = _Get_Friendship_data()
+    friendshipDataList[index] = data
+
 #load friendship data into global list
 def _load_friendship_tab_data() -> str:
     character_save, world_save = get_xml_roots()
@@ -91,19 +92,30 @@ def _load_friendship_tab_data() -> str:
 
     return f"[{get_current_time()}] [LOAD] Friendship data loaded into _FriendshipData variable.\n"
 
-def _load_and_fill_world_tab_data(window: sg.Window) -> str:
-    character_save, world_save = get_xml_roots() # Since the actual in game day, year, and season are stored in world save, we pull data from that file
+def _reset_friendship_tab_ui(window: sg.Window):
+    window[Keys._FriendshipTabFarmerCombo].update(values=[], set_to_index=0) #Only this call is necessary, but the others are there for redundancy
+    for npc, key in Keys._NPCFriendshipPoints.items():
+        window[key].update(value="", disabled=True)
 
+# ------------------------------------------------------------------- #
+#                              World Tab                              #
+# ------------------------------------------------------------------- # 
+def _load_and_fill_world_tab_data(window: sg.Window) -> str:
+    character_save, world_save = get_xml_roots() 
+
+    # Since the actual in game day, year, and season are stored in world save, we pull data from that file
+    # Load date
     day, season, year = world_save.xpath(WorldSavePaths._CurrentDayOfMonth)[0].text, world_save.xpath(WorldSavePaths._CurrentSeason)[0].text, world_save.xpath(WorldSavePaths._CurrentYear)[0].text
     window[Keys._WorldDayOfMonth].update(value=day)
     window[Keys._WorldSeason].update(value=season.capitalize())
     window[Keys._WorldYear].update(value=year)
     
-    weather = {tag: strToBool(world_save.xpath(f"./{tag}[1]")[0].text) for tag in constants._WeatherTags} # Pulls out the 4 bools for weather tags
+    # Load weather
+    weather = {tag: strToBool(world_save.xpath(f"./{tag}[1]")[0].text) for tag in constants._WeatherTags} # Pulls out the 4 bools for weather tags from the save file
     choices: list[str] = window[Keys._WorldWeather].Values
     match_found = False
     for pattern in WeatherPatterns:
-        if weather == pattern.value:
+        if weather == pattern.value: # Find a matching weather pattern
             ind = choices.index(pattern.name)
             window[Keys._WorldWeather].update(set_to_index=ind)
             event_handling.update_weather_icon(window, {Keys._WorldWeather: pattern.name}) # Kinda unclean solution but this works
@@ -111,11 +123,18 @@ def _load_and_fill_world_tab_data(window: sg.Window) -> str:
             break
     
     if not match_found:
-        window[Keys._WorldWeather].update(set_to_index=0)
+        window[Keys._WorldWeather].update(set_to_index=0) # default case, no matching pattern found
     
+    # Load luck
+    dailyLuck = world_save.xpath(WorldSavePaths._DailyLuck)[0].text
+    window[Keys._DailyLuck].update(value=dailyLuck)
 
     return f"[{get_current_time()}] [LOAD] World tab data loaded.\n\n"
 
+
+# ------------------------------------------------------------------- #
+#                          Handler Function                           #
+# ------------------------------------------------------------------- # 
 def load_save_data(window: sg.Window, folderpath: str) -> str:
     event_string = ""
     _reset_profile_tab_ui(window)

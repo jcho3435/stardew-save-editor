@@ -4,9 +4,9 @@ from functions.get_and_load_xml import get_xml_roots
 from functions.functions import get_current_time
 import components.constants as constants, components.vars as vars
 
-# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -#
-
-# - - - - - - - - - - - - - - - - - Save Farmers Tab Data  - - - - - - - - - - - - - - - - - #
+# ------------------------------------------------------------------------------ #
+#                            Save Farmers Tab Data                               #
+# ------------------------------------------------------------------------------ # 
 def save_name_to_tree(farmer: etree._Element, name: str):
     farmer.xpath("./name[1]")[0].text = name.strip()
 
@@ -51,9 +51,9 @@ def save_farmers_tab_data_to_tree(values: dict) -> str:
 
     return event_string
 
-# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - #
-
-# - - - - - - - - - - - - - - - - Save Friendship Tab Data  - - - - - - - - - - - - - - - - - #
+# ------------------------------------------------------------------------------ #
+#                           Save Friendship Tab Data                             #
+# ------------------------------------------------------------------------------ # 
 
 def save_friendship_points_to_tree(farmer: etree._Element, index: int):
     friendshipData = vars._Get_Friendship_data()
@@ -90,9 +90,9 @@ def save_friendship_tab_data_to_tree() -> str:
 
     return event_string
 
-# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - #
-
-# - - - - - - - - - - - - - - - - - Save World Tab Data  - - - - - - - - - - - - - - - - - -  #
+# ------------------------------------------------------------------------------ #
+#                             Save World Tab Data                                #
+# ------------------------------------------------------------------------------ # 
 def save_world_date_to_tree(values: dict):
     # Date data must be saved in:
     # - world save <year>, <dayOfMonth>, <currentSeason> (actual in game day/year/season)
@@ -128,7 +128,7 @@ def save_world_date_to_tree(values: dict):
     world_data.xpath(WorldSavePaths._CurrentSeason)[0].text = season
     world_data.xpath(WorldSavePaths._CurrentYear)[0].text = year
 
-def save_weather_to_tree(values):
+def save_weather_and_luck_to_tree(values):
     character_data, world_data = get_xml_roots()
 
     weather = values[Keys._WorldWeather]
@@ -136,11 +136,17 @@ def save_weather_to_tree(values):
     for tag, val in tagsDict.items():
         world_data.xpath(f"./{tag}[1]")[0].text = f"{val}".lower()
 
+    luck = values[Keys._DailyLuck]
+    try:
+        world_data.xpath(WorldSavePaths._DailyLuck)[0].text = str(float(luck))
+    except:
+        world_data.xpath(WorldSavePaths._DailyLuck)[0].text = luck
+
 def save_world_tab_data_to_tree(values: dict) -> str:
     event_string = ""
 
     save_world_date_to_tree(values)
-    save_weather_to_tree(values)
+    save_weather_and_luck_to_tree(values)
     event_string += f"[{get_current_time()}] [SAVE] World tab date and weather changes saved to xml trees.\n\n"
 
     return event_string

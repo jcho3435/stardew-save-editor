@@ -47,6 +47,7 @@ class Keys:
     _WorldSeason = "-WorldSeason-"
     _WorldYear = "-WorldYear-"
     _WorldWeather = "-WorldWeather-"
+    _DailyLuck = "-DailyLuck-"
 
     #Tabs ----------------------------------------------------------------------
     _LoadTab = "Load"
@@ -96,6 +97,8 @@ class WorldSavePaths:
     _FarmerRelativeSeasonForSaveGame = "./seasonForSaveGame"
     _FarmerRelativeDayOfMonthForSaveGame = "./dayOfMonthForSaveGame"
     _FarmerRelativeYearForSaveGame = "./yearForSaveGame"
+
+    _DailyLuck = "/SaveGame/dailyLuck[1]"
 
 class Seasons(Enum):
     spring = "0"
