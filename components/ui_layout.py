@@ -5,7 +5,10 @@ import textwrap
 
 sg.theme("Light Blue 1")
 
-# helpers --------------------------------------------------------------------------------
+
+# ------------------------------------------------------------------- #
+#                               Helpers                               #
+# ------------------------------------------------------------------- # 
 def generateFarmersTabFrames(farmers_tab_layout: list):
     '''
     Generates the frames for each farmer in the farmers tab, then appends it to the farmer tab's layout
@@ -88,7 +91,10 @@ def scrollableColumnWrapper(layout, key):
 def hyperlink(text: str, url: str, pad: int | tuple[int, int] | tuple[int, tuple[int, int]] | tuple[tuple[int, int], int] | tuple[tuple[int, int], tuple[int, int]]):
     return sg.Text(text, tooltip=url, p=pad, enable_events=True, key=f"URL {url}", text_color="blue4", font=("Arial", 12, "underline"))
 
-# Layouts ---------------------------------------------------------------------------------
+
+# ------------------------------------------------------------------- #
+#                               Layouts                               #
+# ------------------------------------------------------------------- # 
 load_tab_layout = [ # LOAD
         [sg.Push(), sg.Text("Stardew Valley Save Editor!", font=("Times New Roman", 30), text_color="Black"), sg.Push()],
         [sg.Text("Folder:", size=5), sg.Input(expand_x=True, key=Keys._FolderInput, enable_events=True, disabled=True), sg.FolderBrowse("Select Save Folder", key=Keys._FolderBrowser)],
@@ -102,6 +108,7 @@ farmers_tab_layout = [ # FARMERS
 ]
 generateFarmersTabFrames(farmers_tab_layout)
 
+
 friendship_tab_layout = [ # FRIENDSHIP
     [createTabHeader("Change Friendship Data")],
     [sg.Text("Select farmer:", pad=(5, (3, 20))), sg.Combo([], size=32, enable_events=True, key=Keys._FriendshipTabFarmerCombo, readonly=True, pad=(5, (3, 20)))]
@@ -109,24 +116,28 @@ friendship_tab_layout = [ # FRIENDSHIP
 friendship_tab_npcs = [[sg.Sizer(350, 0)]] + [[sg.Image(f"{_BASEPATH}/icons/npcs/{npc}.png", subsample=2), sg.Text(f"{npc}:", p=(5, 8)), sg.Input(key=Keys._NPCFriendshipPoints[npc], disabled=True, p=((0, 5), 8), size=18, disabled_readonly_background_color="#cfcfcf")] for npc in sorted(_AllFriendableNPCs)]
 friendship_tab_layout += [[sg.Frame("Friendship Points", friendship_tab_npcs, expand_x=True, expand_y=True)]]
 
+
 world_tab_layout = [ # WORLD
     [createTabHeader("Change World Data")],
     [sg.Image(f"{_BASEPATH}/icons/calendar-icon.png", subsample=2), sg.Text("Day:"), sg.Input(key=Keys._WorldDayOfMonth, size=4, p=((0, 5), 8)), sg.Text("Season:"), sg.Combo([season.name.capitalize() for season in Seasons], key=Keys._WorldSeason, size=10, p=((0, 5), 8), readonly=True), sg.Text("Year:"), sg.Input(key=Keys._WorldYear, size=6, p=((0, 5), 8))],
     [sg.Text("Note: Currently, this editor does not support setting stormy weather. Selecting stormy weather will set your world to rainy.", p=(5, (8, 3)))],
     [sg.Text("Weather:", p=(5, (3, 8))), sg.Combo([weather.name for weather in WeatherPatterns], size=12, key=Keys._WorldWeather, p=((0, 3), (3, 8)), readonly=True, enable_events=True), sg.Image(None, key=Keys._WorldTabWeatherImage, p=(5, (0, 8)))],
-    [sg.Text("Daily luck:", p=(5, (3, 8))), sg.Input(key=Keys._DailyLuck, size=6, p=((0, 5), 8)), sg.Image(f"{_BASEPATH}/icons/luck-icon.png", subsample=2)]
+    [sg.Text("Daily luck:", p=(5, (3, 8))), sg.Input(key=Keys._DailyLuck, size=6, p=((0, 5), (3, 8))), sg.Image(f"{_BASEPATH}/icons/luck-icon.png", subsample=2, p=(5, (0, 3)))]
 ]
+
 
 save_tab_layout = [ # SAVE
     [createTabHeader("Save Changes")],
     [sg.Button("Save Changes")]
 ]
 
+
 backups_tab_layout = [ # BACKUPS
     [createTabHeader("Backups Manager")],
     [sg.Button("Delete All Backups", button_color="red", p=(5, 3, 12)), sg.Button("Delete Selected", p=(5, 3, 12))]
 ]
 generateBackupTabFrames(backups_tab_layout, Keys._BackupsTabFramesColumn)
+
 
 about_tab_layout = [ # ABOUT
     [sg.Text("About the editor:", text_color="black", font=("Times New Roman", 30), pad=(5, (3, 10)))],
@@ -151,7 +162,7 @@ about_tab_layout = [ # ABOUT
     [createAboutTabHeader("World Tab")],
     [createAboutTabDescription(
         "Change information associated with the world and not associated directly with individual players. Currently supports changing:",
-        blist=["Date (day, season, year)", "Weather"]
+        blist=["Date (day, season, year)", "Weather", "Daily Luck"]
         )],
     
     [createAboutTabHeader("Save Tab")],
@@ -165,6 +176,7 @@ about_tab_layout = [ # ABOUT
     [createAboutTabHeader("Version Info")],
     [sg.Text(f"Stardew Save Editor Version: {_CURRENTVERSION}\nPython version: 3.12.4\nPlatform: Windows\nPort: PySimpleGUI\ntkinter version: 8.6.13\nPySimpleGUI version: 5.0.6.12", font=("Arial", 12), text_color="black", expand_x=True)]
 ]
+
 
 layout = [
     [sg.TabGroup([[

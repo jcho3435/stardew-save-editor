@@ -98,6 +98,8 @@ class WorldSavePaths:
     _FarmerRelativeDayOfMonthForSaveGame = "./dayOfMonthForSaveGame"
     _FarmerRelativeYearForSaveGame = "./yearForSaveGame"
 
+    _DailyLuck = "/SaveGame/dailyLuck[1]"
+
 class Seasons(Enum):
     spring = "0"
     summer = "1"
