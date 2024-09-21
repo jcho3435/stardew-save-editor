@@ -186,7 +186,7 @@ layout = [
         sg.Tab(Keys._WorldTab, scrollableColumnWrapper(world_tab_layout, Keys._WorldTabColumn), visible=False),
         sg.Tab(Keys._SaveTab, save_tab_layout, visible=False),
 
-        sg.Tab("", [[]], key=Keys._SpacerTab, disabled=True, visible=False, image_source=f"{_BASEPATH}icons/rectangle.png", image_subsample=2), # Decide if there is a better approach https://github.com/PySimpleGUI/PySimpleGUI/issues/6792#issuecomment-2270244378
+        sg.Tab("", [[]], key=Keys._SpacerTab, disabled=True, visible=False, image_source=f"{_BASEPATH}/icons/rectangle.png", image_subsample=2), # Decide if there is a better approach https://github.com/PySimpleGUI/PySimpleGUI/issues/6792#issuecomment-2270244378
         sg.Tab(Keys._BackupsTab, scrollableColumnWrapper(backups_tab_layout, Keys._BackupsTabColumn)),
         sg.Tab(Keys._AboutTab, scrollableColumnWrapper(about_tab_layout, Keys._AboutTabColumn))
     ]], expand_x=True, expand_y=True, enable_events=True, key=Keys._TabGroup)]
